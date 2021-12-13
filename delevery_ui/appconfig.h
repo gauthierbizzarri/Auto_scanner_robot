@@ -10,7 +10,7 @@ class AppConfig
 private:
     AppConfig();
 public:
-    static QString defaultPath;
+    static const QString defaultPath;
     static AppConfig* fromFile(QString path);
     static AppConfig* fromFile();
     static AppConfig *defaultConfig();
@@ -25,7 +25,5 @@ public:
     QString mqtt_protocolversion;
     int mqtt_keepalive;
 };
-
-QString AppConfig::defaultPath = QCoreApplication::applicationDirPath()+"options.txt";
 
 #endif // APPCONFIG_H

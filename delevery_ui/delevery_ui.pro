@@ -15,9 +15,11 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     mqttmanager.cpp \
+    mqttpayload.cpp \
     orderchecker.cpp \
     robotchecker.cpp \
-    startchecker.cpp
+    startchecker.cpp \
+    uiordermqttpayload.cpp
 
 HEADERS += \
     DataChecker.h \
@@ -29,9 +31,11 @@ HEADERS += \
     loadingzonechecker.h \
     mainwindow.h \
     mqttmanager.h \
+    mqttpayload.h \
     orderchecker.h \
     robotchecker.h \
-    startchecker.h
+    startchecker.h \
+    uiordermqttpayload.h
 
 FORMS += \
     mainwindow.ui

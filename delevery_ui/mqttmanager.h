@@ -1,13 +1,35 @@
 #ifndef MQTTMANAGER_H
 #define MQTTMANAGER_H
 
+#include "mqttpayload.h"
+
 #include <QApplication>
 #include <QMqttClient>
 
 
+class MqttTopic {
+private:
+    MqttTopic(QString t, int qos = 0, bool retained = false)
+    {
+        topic = t;
+        this->qos = qos;
+        this->retained=retained;
+    };
+public:
+    QString topic;
+    bool retained;
+    int qos;
 
-class MQTTManager
+    static MqttTopic allUiOrder;
+    static MqttTopic uiOrder(int uiId){
+        return MqttTopic("field/ui/"+QString::number(uiId)+"/ordre", 2);
+    };
+};
+
+
+class MQTTManager : QObject
 {
+    Q_OBJECT
 private:
     QMqttClient* client;
 
@@ -35,8 +57,12 @@ public:
     MQTTManager* configureKeepAlive(int keepalive);
 
     void configureFromConfigString(QString configString);
-};
 
-QString MQTTManager::defaultProtocol = "mqtt5.0";
+    void connectToHost();
+
+    void subscribe(MqttTopic topic, QObject* handleObject);
+
+    void publish(MqttTopic topic, MqttPayload* payload);
+};
 
 #endif // MQTTMANAGER_H

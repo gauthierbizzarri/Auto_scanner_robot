@@ -3,14 +3,17 @@
 #include "ui_mainwindow.h"
 #include "orderchecker.h"
 #include "StartZones.h"
+#include "uiordermqttpayload.h"
 
 #include <colors.h>
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(MQTTManager* manager, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->manager=manager;
+    manager->connectToHost();
     ui->setupUi(this);
     ui->colorSelector->addItem(" --- selectionner une couleur");
     ui->loadingZoneSelector->addItem(" --- selectionner une zone de largage");
@@ -60,9 +63,31 @@ bool MainWindow::checkOrder()
         return false;
     }
     OrderChecker checker(ui->colorSelector->currentText(), ui->robotSelector->currentText(), ui->loadingZoneSelector->currentText().toInt());
-    //send the message: connect(&checker, SIGNAL(validate()), this, SLOT(sendMessage()));
+    connect(&checker, SIGNAL(validate()), this, SLOT(sendOrder()));
     connect(&checker, SIGNAL(refute(QString, QString)), this, SLOT(fieldInvalid(QString, QString)));
     return checker.check();
+}
+
+void MainWindow::sendOrder()
+{
+    manager->publish(MqttTopic::uiOrder(3), new UiOrderMqttPayload(
+                         ui->colorSelector->currentText(),
+                         ui->loadingZoneSelector->currentText().toInt(),
+                         ui->startSelector->currentText().toInt(),
+                         ui->robotSelector->currentText()));
+}
+
+void MainWindow::recieveMessage(QMqttMessage message)
+{
+    QRegularExpression exp(MqttTopic::allUiOrder.topic.replace("#", "(\\d+)"));
+    QRegularExpressionMatch match = exp.match(message.topic().name());
+    if(match.hasMatch())
+    {
+        for(QString id : match.capturedTexts())
+        {
+            //display id
+        }
+    }
 }
 
 void MainWindow::fieldInvalid(QString field, QString reason)

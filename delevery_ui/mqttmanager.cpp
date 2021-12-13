@@ -2,6 +2,10 @@
 
 #include <QApplication>
 
+MqttTopic MqttTopic::allUiOrder("field/ui/#/ordre", 2);
+
+QString MQTTManager::defaultProtocol = "mqtt5.0";
+
 MQTTManager::MQTTManager(QApplication *app)
 {
     client = new QMqttClient(app);
@@ -105,4 +109,20 @@ void MQTTManager::configureFromConfigString(QString configString)
             }
         }
     }
+}
+
+void MQTTManager::connectToHost()
+{
+    client->connectToHost();
+}
+
+void MQTTManager::subscribe(MqttTopic topic, QObject *handleObject)
+{
+    QMqttSubscription* sub = client->subscribe(topic.topic);
+    connect(sub, SIGNAL(messageReceived(QMqttMessage)), handleObject, SLOT(recieveMessage(QMqttMessage)));
+}
+
+void MQTTManager::publish(MqttTopic topic, MqttPayload *payload)
+{
+    client->publish(topic.topic, payload->toJson(), topic.qos, topic.retained);
 }

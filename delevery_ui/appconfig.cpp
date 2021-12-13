@@ -4,9 +4,10 @@
 #include <QFileInfo>
 #include <QFile>
 
+const QString AppConfig::defaultPath = "/robotdelivery/options.txt";
+
 AppConfig::AppConfig()
 {
-
 }
 
 AppConfig *AppConfig::fromFile(QString path)
