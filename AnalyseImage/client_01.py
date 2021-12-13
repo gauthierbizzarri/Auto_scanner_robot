@@ -175,6 +175,7 @@ def run():
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
+                                return
                             else:
                                 print(f"Failed to send message to topic {topic}")
               
@@ -204,6 +205,7 @@ def run():
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
+                                return
                             else:
                                 print(f"Failed to send message to topic {topic}")
               
@@ -232,6 +234,7 @@ def run():
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
+                                return
                             else:
                                 print(f"Failed to send message to topic {topic}")
 
@@ -261,6 +264,7 @@ def run():
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
+                                return
                             else:
                                 print(f"Failed to send message to topic {topic}")
                 # Program Termination
