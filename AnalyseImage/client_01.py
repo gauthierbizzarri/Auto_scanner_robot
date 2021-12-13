@@ -168,6 +168,15 @@ def run():
                                         (0, 0, 255))
                             response.append(True)
                             response.append("RED")
+                            topic = "field/camera/{}/color".format(id_camera)
+                            data_set = {"robot": data,"color":"red"}
+                            json_dump = json.dumps(data_set)
+                            result = client.publish(topic, json_dump)
+                            status = result[0]
+                            if status == 0:
+                                print(f"Send {json_dump}to topic `{topic}`")
+                            else:
+                                print(f"Failed to send message to topic {topic}")
               
                 # Creating contour to track green color
                 contours, hierarchy = cv2.findContours(green_mask,
@@ -188,6 +197,15 @@ def run():
                                     1.0, (0, 255, 0))
                             response.append(True)
                             response.append("GREEN")
+                            topic = "field/camera/{}/color".format(id_camera)
+                            data_set = {"robot": data, "color": "GREEN"}
+                            json_dump = json.dumps(data_set)
+                            result = client.publish(topic, json_dump)
+                            status = result[0]
+                            if status == 0:
+                                print(f"Send {json_dump}to topic `{topic}`")
+                            else:
+                                print(f"Failed to send message to topic {topic}")
               
                 # Creating contour to track blue color
                 contours, hierarchy = cv2.findContours(blue_mask,
@@ -207,6 +225,15 @@ def run():
                                         1.0, (255, 0, 0))
                             response.append(True)
                             response.append("BLUE")
+                            topic = "field/camera/{}/color".format(id_camera)
+                            data_set = {"robot": data, "color": "blue"}
+                            json_dump = json.dumps(data_set)
+                            result = client.publish(topic, json_dump)
+                            status = result[0]
+                            if status == 0:
+                                print(f"Send {json_dump}to topic `{topic}`")
+                            else:
+                                print(f"Failed to send message to topic {topic}")
 
                 # Creating contour to track yellow color
                 contours, hierarchy = cv2.findContours(yellow_mask,
@@ -227,6 +254,15 @@ def run():
                                         (0, 255, 255))
                             response.append(True)
                             response.append("YELLOW")
+                            topic = "field/camera/{}/color".format(id_camera)
+                            data_set = {"robot": data, "color": "Yellow"}
+                            json_dump = json.dumps(data_set)
+                            result = client.publish(topic, json_dump)
+                            status = result[0]
+                            if status == 0:
+                                print(f"Send {json_dump}to topic `{topic}`")
+                            else:
+                                print(f"Failed to send message to topic {topic}")
                 # Program Termination
                 cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
                 if cv2.waitKey(10) & 0xFF == ord('q'):
