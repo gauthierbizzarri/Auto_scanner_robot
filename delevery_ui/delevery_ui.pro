@@ -9,11 +9,22 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    colorchecker.cpp \
+    loadingzonechecker.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    orderchecker.cpp \
+    robotchecker.cpp
 
 HEADERS += \
-    mainwindow.h
+    DataChecker.h \
+    LoadingZones.h \
+    colorchecker.h \
+    colors.h \
+    loadingzonechecker.h \
+    mainwindow.h \
+    orderchecker.h \
+    robotchecker.h
 
 FORMS += \
     mainwindow.ui

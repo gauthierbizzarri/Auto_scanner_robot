@@ -17,5 +17,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    bool checkOrder();
+    void fieldInvalid(QString field, QString reason);
 };
 #endif // MAINWINDOW_H
