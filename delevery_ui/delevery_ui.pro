@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui mqtt
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,22 +9,29 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    appconfig.cpp \
     colorchecker.cpp \
     loadingzonechecker.cpp \
     main.cpp \
     mainwindow.cpp \
+    mqttmanager.cpp \
     orderchecker.cpp \
-    robotchecker.cpp
+    robotchecker.cpp \
+    startchecker.cpp
 
 HEADERS += \
     DataChecker.h \
     LoadingZones.h \
+    StartZones.h \
+    appconfig.h \
     colorchecker.h \
     colors.h \
     loadingzonechecker.h \
     mainwindow.h \
+    mqttmanager.h \
     orderchecker.h \
-    robotchecker.h
+    robotchecker.h \
+    startchecker.h
 
 FORMS += \
     mainwindow.ui

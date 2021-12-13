@@ -19,7 +19,7 @@ bool LoadingZoneChecker::check()
     }
     if(!found)
     {
-        lastError = "La couleur doit être parmis : ";
+        lastError = "La zone de largage doit être parmis : ";
         Q_FOREACH(int c, loadingZones)
         {
             lastError += QString::number(c)+", ";
