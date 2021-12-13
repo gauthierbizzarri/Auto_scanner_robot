@@ -14,7 +14,7 @@ def display(im, bbox):
     cv2.imshow("Results", im)
 
 def main():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(4)
     time.sleep(2.0)
 
     while True:
@@ -41,4 +41,3 @@ def main():
 
 if __name__=="__main__":
 	main()
-	
