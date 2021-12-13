@@ -10,7 +10,7 @@ from paho.mqtt import client as mqtt_client
 
 broker = 'broker.emqx.io'
 port = 1883
-topic = "python/mqtt"
+topic_QR_ = "python/mqtt"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'emqx'
@@ -33,11 +33,11 @@ def connect_mqtt():
 def publish(client,message_recu):
     message_recu = message_recu
     msg = f"messages: {message_recu}"
-    result = client.publish(topic, msg)
+    result = client.publish(topic_QR_, msg)
     # result: [0, 1]
     status = result[0]
     if status == 0:
-        print(f"Send `{msg}` to topic `{topic}`")
+        print(f"Send `{msg}` to topic `{topic_QR_}`")
     else:
         print(f"Failed to send message to topic {topic}")
 
