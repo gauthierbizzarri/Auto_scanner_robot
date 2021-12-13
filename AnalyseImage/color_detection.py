@@ -1,16 +1,14 @@
 import numpy as np
 import cv2
   
-def color_detect():
-	# Capturing video through webcam
-	webcam = cv2.VideoCapture(4)
+def color_detect(ret, frame):
 	  
 	# Start a while loop
 	while(1):
 	      
 	    # Reading the video from the
 	    # webcam in image frames
-	    _, imageFrame = webcam.read()
+	    _, imageFrame = ret, frame
 	  
 	    # Convert the imageFrame in 
 	    # BGR(RGB color space) to 
@@ -91,7 +89,6 @@ def color_detect():
 		                        (0, 0, 255))
 		            response.append(True)
 		            response.append("RED")
-		            return response
 	  
 	    # Creating contour to track green color
 	    contours, hierarchy = cv2.findContours(green_mask,
@@ -112,7 +109,6 @@ def color_detect():
 	                        1.0, (0, 255, 0))
 	            	response.append(True)
 	            	response.append("GREEN")
-	            	return response    
 	  
 	    # Creating contour to track blue color
 	    contours, hierarchy = cv2.findContours(blue_mask,
@@ -132,7 +128,6 @@ def color_detect():
 		                        1.0, (255, 0, 0))
 		            response.append(True)
 		            response.append("BLUE")
-		            return response  
 
 	    # Creating contour to track yellow color
 	    contours, hierarchy = cv2.findContours(yellow_mask,
@@ -153,8 +148,6 @@ def color_detect():
 		                        (0, 255, 255))
 		            response.append(True)
 		            response.append("YELLOW")
-		            return response    
-	              
 	    # Program Termination
 	    cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
 	    if cv2.waitKey(10) & 0xFF == ord('q'):
