@@ -12,8 +12,6 @@ MainWindow::MainWindow(MQTTManager* manager, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    this->manager=manager;
-    manager->connectToHost();
     ui->setupUi(this);
     ui->colorSelector->addItem(" --- selectionner une couleur");
     ui->loadingZoneSelector->addItem(" --- selectionner une zone de largage");
@@ -32,7 +30,14 @@ MainWindow::MainWindow(MQTTManager* manager, QWidget *parent)
         ui->startSelector->addItem(QString::number(sz));
     }
     ui->robotSelector->addItem("ROBOT3");
+    ui->clbtSend->setDisabled(true);
+    ui->clbtSend->setText("en attente de connection ...");
     connect(ui->clbtSend, SIGNAL(clicked(bool)), this, SLOT(checkOrder()));
+
+    this->manager=manager;
+    connect(this->manager, SIGNAL(connected()), this, SLOT(openFields()));
+    connect(this->manager, SIGNAL(timedout()), this, SLOT(showTimeoutError()));
+    manager->connectToHost();
 }
 
 MainWindow::~MainWindow()
@@ -79,6 +84,7 @@ void MainWindow::sendOrder()
 
 void MainWindow::recieveMessage(QMqttMessage message)
 {
+    qDebug()<<"message recieced on topic "<<message.topic().name()<<" : "<<message.payload();
     QRegularExpression exp(MqttTopic::allUiOrder.topic.replace("#", "(\\d+)"));
     QRegularExpressionMatch match = exp.match(message.topic().name());
     if(match.hasMatch())
@@ -93,5 +99,20 @@ void MainWindow::recieveMessage(QMqttMessage message)
 void MainWindow::fieldInvalid(QString field, QString reason)
 {
     QMessageBox::information(this, "Erreur de l'envoi de l'ordre", field+" : "+reason);
+}
+
+void MainWindow::openFields()
+{
+    ui->clbtSend->setEnabled(true);
+    ui->clbtSend->setText("Envoyer");    
+
+    manager->subscribe(MqttTopic::allUiOrder, this);
+}
+
+void MainWindow::showTimeoutError()
+{
+    QMessageBox box(QMessageBox::Critical, "Erreur de noyau", "Une erreur est survenue lors de l'initialisation de l'application. Impossible de se connecter au serveur distant. Veuillez réessayer ultérieurment");
+    box.exec();
+    this->close();
 }
 

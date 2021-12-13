@@ -26,5 +26,7 @@ private slots:
     void sendOrder();
     void recieveMessage(QMqttMessage message);
     void fieldInvalid(QString field, QString reason);
+    void openFields();
+    void showTimeoutError();
 };
 #endif // MAINWINDOW_H

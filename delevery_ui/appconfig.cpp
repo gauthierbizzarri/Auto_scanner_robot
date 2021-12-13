@@ -81,8 +81,8 @@ AppConfig *AppConfig::fromFile()
 AppConfig *AppConfig::defaultConfig()
 {
     AppConfig* conf = new AppConfig();
-    conf->mqtt_host = "localhost";
-    conf->mqtt_port = 8336;
+    conf->mqtt_host = "test.mosquitto.org";
+    conf->mqtt_port = 1883;
     conf->mqtt_protocolversion = MQTTManager::defaultProtocol;
     return conf;
 }

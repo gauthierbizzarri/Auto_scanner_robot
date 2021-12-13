@@ -2,6 +2,7 @@
 #define MQTTMANAGER_H
 
 #include "mqttpayload.h"
+#include "timeoutmanager.h"
 
 #include <QApplication>
 #include <QMqttClient>
@@ -27,12 +28,13 @@ public:
 };
 
 
-class MQTTManager : QObject
+class MQTTManager : public QObject
 {
     Q_OBJECT
 private:
     QMqttClient* client;
-
+    bool m_connected;
+    TimeoutManager* timeout;
 public:
     static QString defaultProtocol;
     MQTTManager(QApplication *app);
@@ -63,6 +65,12 @@ public:
     void subscribe(MqttTopic topic, QObject* handleObject);
 
     void publish(MqttTopic topic, MqttPayload* payload);
+private slots:
+    void clientConnected();
+    void clientTimedout();
+signals:
+    void connected();
+    void timedout();
 };
 
 #endif // MQTTMANAGER_H

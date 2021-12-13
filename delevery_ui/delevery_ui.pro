@@ -19,6 +19,7 @@ SOURCES += \
     orderchecker.cpp \
     robotchecker.cpp \
     startchecker.cpp \
+    timeoutmanager.cpp \
     uiordermqttpayload.cpp
 
 HEADERS += \
@@ -35,6 +36,7 @@ HEADERS += \
     orderchecker.h \
     robotchecker.h \
     startchecker.h \
+    timeoutmanager.h \
     uiordermqttpayload.h
 
 FORMS += \

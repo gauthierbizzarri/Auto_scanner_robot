@@ -2,13 +2,15 @@
 
 #include <QApplication>
 
-MqttTopic MqttTopic::allUiOrder("field/ui/#/ordre", 2);
+MqttTopic MqttTopic::allUiOrder("field/ui/+/ordre", 2);
 
-QString MQTTManager::defaultProtocol = "mqtt5.0";
+QString MQTTManager::defaultProtocol = "mqtt3.1.1";
 
 MQTTManager::MQTTManager(QApplication *app)
 {
     client = new QMqttClient(app);
+    m_connected = false;
+    timeout = new TimeoutManager(30);
 }
 
 MQTTManager *MQTTManager::configurePort(int port)
@@ -71,7 +73,7 @@ void MQTTManager::configureFromConfigString(QString configString)
                 if(optionName == "port")
                 {
                     bool ok = false;
-                    int port = optionName.toInt(&ok);
+                    int port = optionValue.toInt(&ok, 10);
                     if(ok)
                     {
                         configurePort(port);
@@ -113,16 +115,41 @@ void MQTTManager::configureFromConfigString(QString configString)
 
 void MQTTManager::connectToHost()
 {
+    connect(client, SIGNAL(stateChanged(ClientState)), this, SLOT(clientConnected()));
+    connect(timeout, SIGNAL(timedout()), this, SLOT(clientTimedout()));
     client->connectToHost();
+    TimeoutManager::launch(timeout);
 }
 
 void MQTTManager::subscribe(MqttTopic topic, QObject *handleObject)
 {
-    QMqttSubscription* sub = client->subscribe(topic.topic);
-    connect(sub, SIGNAL(messageReceived(QMqttMessage)), handleObject, SLOT(recieveMessage(QMqttMessage)));
+    if(m_connected)
+    {
+        QMqttSubscription* sub = client->subscribe(topic.topic);
+        connect(sub, SIGNAL(messageReceived(QMqttMessage)), handleObject, SLOT(recieveMessage(QMqttMessage)));
+    }
 }
 
 void MQTTManager::publish(MqttTopic topic, MqttPayload *payload)
 {
-    client->publish(topic.topic, payload->toJson(), topic.qos, topic.retained);
+    if(m_connected)
+    {
+        int res = client->publish(topic.topic, payload->toJson(), topic.qos, topic.retained);
+        qDebug()<<"publish count : "<<res;
+    }
+}
+
+void MQTTManager::clientConnected()
+{
+    if(!timeout->timeoutReached && client->state() == QMqttClient::Connected)
+    {
+        timeout->abort();
+        m_connected = true;
+        emit connected();
+    }
+}
+
+void MQTTManager::clientTimedout()
+{
+    emit timedout();
 }
