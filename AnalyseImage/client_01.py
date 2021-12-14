@@ -1,42 +1,31 @@
 import random
 import cv2
 import json
+import time
 import numpy as np
 import paho.mqtt.client as mqtt
 from paho.mqtt import client as mqtt_client
 
 id_camera = 3  ##num groupe
-broker = 'broker.emqx.io'
+broker = 'test.mosquitto.org'
 port = 1883
 
-topic = "python/mqtt"
+topic = "Phoenix/listen"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'emqx'
 password = 'public'
 
 ID_ROBOT = "ROBOT3"
-
-def subscribe(client: mqtt_client):
-    message = None
-    def on_message(client, userdata, msg):
-        print(f'Received `{msg.payload.decode("utf-8")}` from `{msg.topic}` topic')
-        print('message {} type : {}'.format(msg.payload.decode("utf-8"),type(msg.payload.decode("utf-8"))))
-        message = format(msg.payload.decode("utf-8"))
-
-    client.subscribe(topic)
-    client.on_message = on_message
-    print(client.on_message)
-    if message :
-        return message
-
+Signal_recu = -1
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
+            client.subscribe(topic)
             print("Connected to MQTT Broker!")
         else:
             print("Failed to connect, return code %d\n", rc)
-
+    # Set Connecting Client ID
     client = mqtt_client.Client(client_id)
     client.username_pw_set(username, password)
     client.on_connect = on_connect
@@ -44,15 +33,39 @@ def connect_mqtt():
     return client
 
 
+def subscribe(client: mqtt_client):
+    def on_message(client, userdata, msg):
+        x = json.loads(msg.payload)
+        global Signal_recu
+        Signal_recu = x
+        x = json.loads(msg.payload)
+        print("received: ", x, type(x))
+
+    client.subscribe(topic)
+    client.on_message = on_message
+def on_connect(client, userdata, flags, rc):
+    client.subscribe(topic)
+
+
 
 def run():
+    sol = True
+    ###LOOP TO SUBSCRIBE DATA
     client = connect_mqtt()
+    print(subscribe(client))
+    subscribe(client)
+
+    #if j'ai la bonne solution
     client.loop_start()
+    for i in range(0, 10):
+        time.sleep(1)  # wait 1s
+        print('Signal = ', Signal_recu)
+
 
     cap = cv2.VideoCapture(4)
     cap.set(4, 640)
     cap.set(4, 480)
-    retour = subscribe(client)
+    print("SIGNAL",Signal_recu)
     while (1):
         # time.sleep(1)
         ret, frame = cap.read()
@@ -152,7 +165,7 @@ def run():
                                         (0, 0, 255))
                             response.append(True)
                             response.append("RED")
-                            topic = "field/camera/{}/color".format(id_camera)
+                            #topic = "field/camera/{}/color".format(id_camera)
                             data_set = {"robot": data, "color": "red"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
@@ -187,8 +200,7 @@ def run():
                                         1.0, (0, 255, 0))
                             response.append(True)
                             response.append("GREEN")
-                            topic = "field/camera/{}/color".format(id_camera)
-                            data_set = {"robot": data, "color": "GREEN"}
+                            data_set = {"robot": data, "color": "green"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
                             status = result[0]
@@ -220,7 +232,6 @@ def run():
                                         1.0, (255, 0, 0))
                             response.append(True)
                             response.append("BLUE")
-                            topic = "field/camera/{}/color".format(id_camera)
                             data_set = {"robot": data, "color": "blue"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
@@ -254,8 +265,7 @@ def run():
                                         (0, 255, 255))
                             response.append(True)
                             response.append("YELLOW")
-                            topic = "field/camera/{}/color".format(id_camera)
-                            data_set = {"robot": data, "color": "Yellow"}
+                            data_set = {"robot": data, "color": "yellow"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
                             status = result[0]
@@ -283,13 +293,13 @@ def display(im, bbox):
     cv2.imshow("Results", im)
 
 
+
 if __name__ == '__main__':
     run()
 
 
 
 
-client = mqtt.Client()
-client.on_connect = on_connect
-client.connect("localhost", 1883, 60)
-client.loop_forever()
+
+
+
