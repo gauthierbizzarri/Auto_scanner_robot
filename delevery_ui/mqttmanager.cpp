@@ -1,10 +1,17 @@
 #include "mqttmanager.h"
+#include "mqttmessageeventmanager.h"
 
 #include <QApplication>
 
-MqttTopic MqttTopic::allUiOrder("field/ui/+/ordre", 2);
+const QString MqttTopic::uiOrderTemplate = "field/ui/{id}/ordre";
 
 QString MQTTManager::defaultProtocol = "mqtt3.1.1";
+
+const QMap<QString, QMqttClient::ProtocolVersion> MQTTManager::admitedProtocols{
+         {"mqtt3.1", QMqttClient::MQTT_3_1},
+        {"mqtt3.1.1", QMqttClient::MQTT_3_1_1},
+        {"mqtt5.0", QMqttClient::MQTT_5_0}
+    };
 
 MQTTManager::MQTTManager(QApplication *app)
 {
@@ -126,7 +133,7 @@ void MQTTManager::subscribe(MqttTopic topic, QObject *handleObject)
     if(m_connected)
     {
         QMqttSubscription* sub = client->subscribe(topic.topic);
-        connect(sub, SIGNAL(messageReceived(QMqttMessage)), handleObject, SLOT(recieveMessage(QMqttMessage)));
+        connect(sub, SIGNAL(messageReceived(QMqttMessage)), handleObject, SLOT(recieveMessage(QMqttMessage)), Qt::ConnectionType::DirectConnection);
     }
 }
 

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "eventmanager.h"
 #include "mqttmanager.h"
 
 #include <QMainWindow>
@@ -20,13 +21,14 @@ public:
 private:
     Ui::MainWindow *ui;
     MQTTManager* manager;
+    EventManager* mqttEventManager;
 
 private slots:
     bool checkOrder();
     void sendOrder();
-    void recieveMessage(QMqttMessage message);
     void fieldInvalid(QString field, QString reason);
     void openFields();
     void showTimeoutError();
+    void appExit();
 };
 #endif // MAINWINDOW_H

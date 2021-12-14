@@ -11,15 +11,20 @@ CONFIG += c++11
 SOURCES += \
     appconfig.cpp \
     colorchecker.cpp \
+    config.cpp \
+    eventmanager.cpp \
+    fieldmodel.cpp \
     loadingzonechecker.cpp \
     main.cpp \
     mainwindow.cpp \
     mqttmanager.cpp \
+    mqttmessageeventmanager.cpp \
     mqttpayload.cpp \
     orderchecker.cpp \
     robotchecker.cpp \
     startchecker.cpp \
     timeoutmanager.cpp \
+    uiorderhandler.cpp \
     uiordermqttpayload.cpp
 
 HEADERS += \
@@ -29,17 +34,25 @@ HEADERS += \
     appconfig.h \
     colorchecker.h \
     colors.h \
+    config.h \
+    eventlistener.h \
+    eventmanager.h \
+    fieldmodel.h \
     loadingzonechecker.h \
     mainwindow.h \
     mqttmanager.h \
+    mqttmessageeventmanager.h \
     mqttpayload.h \
     orderchecker.h \
     robotchecker.h \
     startchecker.h \
     timeoutmanager.h \
+    uiorderhandler.h \
+    uiordermodel.h \
     uiordermqttpayload.h
 
 FORMS += \
+    config.ui \
     mainwindow.ui
 
 # Default rules for deployment.

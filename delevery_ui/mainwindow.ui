@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>653</height>
+    <width>1084</width>
+    <height>658</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,15 +18,15 @@
     <item>
      <widget class="QToolBox" name="toolBox">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="order">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>982</width>
-         <height>529</height>
+         <width>1066</width>
+         <height>534</height>
         </rect>
        </property>
        <attribute name="label">
@@ -180,7 +180,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>40</height>
+            <height>20</height>
            </size>
           </property>
          </spacer>
@@ -224,6 +224,9 @@
           </item>
          </layout>
         </item>
+        <item>
+         <widget class="QTableView" name="cvHistory"/>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="history">
@@ -231,16 +234,16 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>982</width>
-         <height>529</height>
+         <width>1066</width>
+         <height>534</height>
         </rect>
        </property>
        <attribute name="label">
-        <string>Historique des ordres</string>
+        <string>Options</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QColumnView" name="cvHistory"/>
+         <widget class="config" name="widget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -253,13 +256,21 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
+     <width>1084</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>config</class>
+   <extends>QWidget</extends>
+   <header>config.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

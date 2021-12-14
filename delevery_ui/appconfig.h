@@ -13,7 +13,9 @@ public:
     static const QString defaultPath;
     static AppConfig* fromFile(QString path);
     static AppConfig* fromFile();
+    static AppConfig *empty();
     static AppConfig *defaultConfig();
+    void toFile();
 
     QString mqttConfigString();
 

@@ -21,9 +21,54 @@ public:
     bool retained;
     int qos;
 
-    static MqttTopic allUiOrder;
+    static QMap<QString, QVariant> parse(QString topic, QString topicTemplate, bool *ok = nullptr)
+    {
+        QMap<QString, QVariant> res;
+        QRegularExpression exp("({.+})");
+        if(topic.split("/").count() != topicTemplate.split("/").count())
+        {
+            if(ok != nullptr)
+            {
+                *ok = false;
+            }
+            return QMap<QString, QVariant>();
+        }
+        int levelId = 0;
+        Q_FOREACH(QString topicLevel, topic.split("/"))
+        {
+            QString templateLevel = topicTemplate.split("/").at(levelId);
+            if(exp.match(templateLevel).hasMatch())
+            {
+                res.insert(templateLevel.replace("{", "").replace("}", ""), topicLevel);
+            }
+            else if(topicLevel != templateLevel)
+            {
+                if(ok != nullptr)
+                {
+                    *ok = false;
+                }
+                return QMap<QString, QVariant>();
+            }
+            levelId ++;
+        }
+        if(ok != nullptr)
+        {
+            *ok = true;
+        }
+        return res;
+    }
+
+    const static QString uiOrderTemplate;
+
+    static MqttTopic allUiOrder(){
+        QRegularExpression exp("({.+})");
+        QString temp=uiOrderTemplate;
+        return MqttTopic(temp.replace(exp, "+"), 2);
+    };
     static MqttTopic uiOrder(int uiId){
-        return MqttTopic("field/ui/"+QString::number(uiId)+"/ordre", 2);
+        QRegularExpression exp("({.+})");
+        QString temp=uiOrderTemplate;
+        return MqttTopic(temp.replace(exp, QString::number(uiId)), 2);
     };
 };
 
@@ -50,11 +95,7 @@ public:
     MQTTManager* configureClientId(QString clientId);
 
     MQTTManager* configureProtocolVersion(QString protocolVersion);
-    const QMap<QString, QMqttClient::ProtocolVersion> admitedProtocols{
-         {"mqtt3.1", QMqttClient::MQTT_3_1},
-        {"mqtt3.1.1", QMqttClient::MQTT_3_1_1},
-        {"mqtt5.0", QMqttClient::MQTT_5_0}
-    };
+    static const QMap<QString, QMqttClient::ProtocolVersion> admitedProtocols;
 
     MQTTManager* configureKeepAlive(int keepalive);
 
