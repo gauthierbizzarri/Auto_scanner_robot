@@ -1,3 +1,4 @@
 paho-mqtt
+imutils
 opencv-python
 numpy
