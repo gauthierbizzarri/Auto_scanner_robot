@@ -26,7 +26,7 @@
          <x>0</x>
          <y>0</y>
          <width>1066</width>
-         <height>534</height>
+         <height>503</height>
         </rect>
        </property>
        <attribute name="label">
@@ -229,13 +229,27 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="page">
+       <attribute name="label">
+        <string>Etat et position du robot</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="FieldDraw" name="widget_2" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(255, 255, 255)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="history">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
          <width>1066</width>
-         <height>534</height>
+         <height>503</height>
         </rect>
        </property>
        <attribute name="label">
@@ -268,6 +282,12 @@
    <class>config</class>
    <extends>QWidget</extends>
    <header>config.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FieldDraw</class>
+   <extends>QWidget</extends>
+   <header>fielddraw.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

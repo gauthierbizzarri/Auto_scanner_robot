@@ -47,6 +47,7 @@ MainWindow::MainWindow(MQTTManager* manager, QWidget *parent)
     connect(this->manager, SIGNAL(connected()), this, SLOT(openFields()));
     connect(this->manager, SIGNAL(timedout()), this, SLOT(showTimeoutError()));
     manager->connectToHost();
+    ui->widget_2->setModel(new FieldModel());
 
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(appExit()));
 }

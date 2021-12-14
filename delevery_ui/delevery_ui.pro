@@ -12,7 +12,10 @@ SOURCES += \
     appconfig.cpp \
     colorchecker.cpp \
     config.cpp \
+    downleftfieldelement.cpp \
     eventmanager.cpp \
+    fielddraw.cpp \
+    fieldelement.cpp \
     fieldmodel.cpp \
     loadingzonechecker.cpp \
     main.cpp \
@@ -23,7 +26,11 @@ SOURCES += \
     orderchecker.cpp \
     robotchecker.cpp \
     startchecker.cpp \
+    tdownfieldelement.cpp \
     timeoutmanager.cpp \
+    tleftfieldelement.cpp \
+    trightfieldelement.cpp \
+    tupfieldelement.cpp \
     uiorderhandler.cpp \
     uiordermqttpayload.cpp
 
@@ -35,8 +42,12 @@ HEADERS += \
     colorchecker.h \
     colors.h \
     config.h \
+    direction.h \
+    downleftfieldelement.h \
     eventlistener.h \
     eventmanager.h \
+    fielddraw.h \
+    fieldelement.h \
     fieldmodel.h \
     loadingzonechecker.h \
     mainwindow.h \
@@ -46,7 +57,11 @@ HEADERS += \
     orderchecker.h \
     robotchecker.h \
     startchecker.h \
+    tdownfieldelement.h \
     timeoutmanager.h \
+    tleftfieldelement.h \
+    trightfieldelement.h \
+    tupfieldelement.h \
     uiorderhandler.h \
     uiordermodel.h \
     uiordermqttpayload.h

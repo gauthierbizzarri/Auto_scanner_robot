@@ -26,6 +26,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "config.h"
+#include "fielddraw.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -55,6 +56,9 @@ public:
     QSpacerItem *horizontalSpacer;
     QCommandLinkButton *clbtSend;
     QTableView *cvHistory;
+    QWidget *page;
+    QHBoxLayout *horizontalLayout_6;
+    FieldDraw *widget_2;
     QWidget *history;
     QVBoxLayout *verticalLayout_2;
     config *widget;
@@ -74,7 +78,7 @@ public:
         toolBox->setObjectName(QString::fromUtf8("toolBox"));
         order = new QWidget();
         order->setObjectName(QString::fromUtf8("order"));
-        order->setGeometry(QRect(0, 0, 1066, 534));
+        order->setGeometry(QRect(0, 0, 1066, 503));
         verticalLayout_3 = new QVBoxLayout(order);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         horizontalLayout_5 = new QHBoxLayout();
@@ -196,9 +200,20 @@ public:
         verticalLayout_3->addWidget(cvHistory);
 
         toolBox->addItem(order, QString::fromUtf8("Cr\303\251er un ordre"));
+        page = new QWidget();
+        page->setObjectName(QString::fromUtf8("page"));
+        horizontalLayout_6 = new QHBoxLayout(page);
+        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        widget_2 = new FieldDraw(page);
+        widget_2->setObjectName(QString::fromUtf8("widget_2"));
+        widget_2->setStyleSheet(QString::fromUtf8("background-color:rgb(255, 255, 255)"));
+
+        horizontalLayout_6->addWidget(widget_2);
+
+        toolBox->addItem(page, QString::fromUtf8("Etat et position du robot"));
         history = new QWidget();
         history->setObjectName(QString::fromUtf8("history"));
-        history->setGeometry(QRect(0, 0, 1066, 534));
+        history->setGeometry(QRect(0, 0, 1066, 503));
         verticalLayout_2 = new QVBoxLayout(history);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         widget = new config(history);
@@ -238,6 +253,7 @@ public:
         checkBox->setText(QCoreApplication::translate("MainWindow", "Compl\303\251ter automatiquement", nullptr));
         clbtSend->setText(QCoreApplication::translate("MainWindow", "Envoyer", nullptr));
         toolBox->setItemText(toolBox->indexOf(order), QCoreApplication::translate("MainWindow", "Cr\303\251er un ordre", nullptr));
+        toolBox->setItemText(toolBox->indexOf(page), QCoreApplication::translate("MainWindow", "Etat et position du robot", nullptr));
         toolBox->setItemText(toolBox->indexOf(history), QCoreApplication::translate("MainWindow", "Options", nullptr));
     } // retranslateUi
 
