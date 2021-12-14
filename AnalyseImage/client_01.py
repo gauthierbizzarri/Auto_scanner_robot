@@ -10,8 +10,6 @@ broker = 'test.mosquitto.org'
 port = 1883
 ID_ROBOT = "ROBOT3"
 topic = "field/robot/{}/button".format(ID_ROBOT)
-# generate client ID with pub prefix randomly
-client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'emqx'
 password = 'public'
 
@@ -31,7 +29,7 @@ def connect_mqtt():
             print("Failed to connect, return code %d\n", rc)
 
     # Set Connecting Client ID
-    client = mqtt_client.Client(client_id)
+    client = mqtt_client.Client()
     client.username_pw_set(username, password)
     client.on_connect = on_connect
     client.connect(broker, port)
@@ -56,11 +54,13 @@ def on_connect(client, userdata, flags, rc):
 
 
 def run():
+    cap = None
     ##ETAT 0 , la machine attent le signal pour sortir du mode veille
     etat = 0
-    while (1):
-        proceed = True
-        client = connect_mqtt()
+    boole=True
+    proceed = True
+    client = connect_mqtt()
+    while (True):
         while etat == 0 :
             ###LOOP TO SUBSCRIBE DATA
             subscribe(client)
@@ -72,7 +72,10 @@ def run():
                 if 'robot' in Signal_recu.keys() :
                     etat = 1
             print(etat)
+            etat= 1
 
+        if cap and cap.isOpened():
+            cap.release()
         #On sort de l'état 0 , état de veille on attend l'état 1 , QR code bien scanné
         if etat ==1:
             cap = cv2.VideoCapture(4)
@@ -83,20 +86,18 @@ def run():
             ret, frame = cap.read()
             cv2.imshow("QR CODE SCANNER", frame)
             key = cv2.waitKey(1) & 0xFF
-
             qr_decoder = cv2.QRCodeDetector()
-
             # Detect and decode the qrcode
             data, bbox, rectified_image = qr_decoder.detectAndDecode(frame)
             # TESTING IF THERE IS A SCANNED DATA AND IF THE DATA IS CORRECT
             if len(data) > 0 and data == ID_ROBOT:
                 #On change d'état on a bien trouvé le QR code
                 etat =2
+                time.sleep(2)
         while (etat==2):
-
+            _, imageFrame = cap.read()
             # Reading the video from the
             # webcam in image frames
-            _, imageFrame = cap.read()
 
             # Convert the imageFrame in
             # BGR(RGB color space) to
@@ -119,7 +120,7 @@ def run():
             # Set range for blue color and
             # define mask
             blue_lower = np.array([100, 150, 0], np.uint8)
-            blue_upper = np.array([140, 255, 255], np.uint8)
+            blue_upper = np.array([105, 255, 255], np.uint8)
             blue_mask = cv2.inRange(hsvFrame, blue_lower, blue_upper)
 
             # yellow
@@ -158,13 +159,11 @@ def run():
                                                    cv2.RETR_TREE,
                                                    cv2.CHAIN_APPROX_SIMPLE)
 
-            response = []
-
             for pic, contour in enumerate(contours):
                 area = cv2.contourArea(contour)
                 if (area > 300):
                     x, y, w, h = cv2.boundingRect(contour)
-                    if w > 100 and h > 100:
+                    if w > 50 and h > 50:
                         imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                    (x + w, y + h),
                                                    (0, 0, 255), 2)
@@ -178,7 +177,7 @@ def run():
                         status = result[0]
                         if status == 0:
                             print(f"Send {json_dump}to topic `{topic}`")
-                            #Retrour à l'état  0
+                            # Retrour à l'état  0
                             etat = 0
 
                         else:
@@ -193,7 +192,7 @@ def run():
                 area = cv2.contourArea(contour)
                 if (area > 300):
                     x, y, w, h = cv2.boundingRect(contour)
-                    if w > 100 and h > 100:
+                    if w > 50 and h > 50:
                         imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                    (x + w, y + h),
                                                    (0, 255, 0), 2)
@@ -209,6 +208,7 @@ def run():
                             print(f"Send {json_dump}to topic `{topic}`")
                             # Retrour à l'état  0
                             etat = 0
+
                         else:
                             print(f"Failed to send message to topic {topic}")
 
@@ -220,7 +220,7 @@ def run():
                 area = cv2.contourArea(contour)
                 if (area > 300):
                     x, y, w, h = cv2.boundingRect(contour)
-                    if w > 100 and h > 100:
+                    if w > 50 and h > 50:
                         imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                    (x + w, y + h),
                                                    (255, 0, 0), 2)
@@ -236,9 +236,9 @@ def run():
                             print(f"Send {json_dump}to topic `{topic}`")
                             # Retrour à l'état  0
                             etat = 0
+
                         else:
                             print(f"Failed to send message to topic {topic}")
-
             # Creating contour to track yellow color
             contours, hierarchy = cv2.findContours(yellow_mask,
                                                    cv2.RETR_TREE,
@@ -248,7 +248,7 @@ def run():
                 area = cv2.contourArea(contour)
                 if (area > 300):
                     x, y, w, h = cv2.boundingRect(contour)
-                    if w > 100 and h > 100:
+                    if w > 50 and h > 50:
                         imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                    (x + w, y + h),
                                                    (0, 255, 255), 2)
@@ -264,12 +264,15 @@ def run():
                             print(f"Send {json_dump}to topic `{topic}`")
                             # Retrour à l'état  0
                             etat = 0
+
                         else:
                             print(f"Failed to send message to topic {topic}")
-            # Program Termination
-            cv2.imshow("Color detection", imageFrame)
 
-        # Display barcode and QR code location
+            # Program Termination
+            cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
+
+
+
 
 
 

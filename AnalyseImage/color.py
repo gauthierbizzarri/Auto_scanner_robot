@@ -33,7 +33,7 @@ def color_detect():
 	    # Set range for blue color and
 	    # define mask
 	    blue_lower = np.array([100, 150, 0], np.uint8)
-	    blue_upper = np.array([140, 255, 255], np.uint8)
+	    blue_upper = np.array([105, 255, 255], np.uint8)
 	    blue_mask = cv2.inRange(hsvFrame, blue_lower, blue_upper)
 	    
 	    #yellow
@@ -81,7 +81,7 @@ def color_detect():
 	        area = cv2.contourArea(contour)
 	        if(area > 300):
 	            x, y, w, h = cv2.boundingRect(contour)
-	            if w > 100 and h > 100 : 
+	            if w > 50 and h > 50 :
 		            imageFrame = cv2.rectangle(imageFrame, (x, y), 
 		                                       (x + w, y + h), 
 		                                       (0, 0, 255), 2)
@@ -99,7 +99,7 @@ def color_detect():
 	        area = cv2.contourArea(contour)
 	        if(area > 300):
 	            x, y, w, h = cv2.boundingRect(contour)
-	            if w > 100 and h > 100 : 
+	            if w > 50 and h > 50 :
 	            	imageFrame = cv2.rectangle(imageFrame, (x, y), 
 	                                       (x + w, y + h),
 	                                       (0, 255, 0), 2)
@@ -116,7 +116,7 @@ def color_detect():
 	        area = cv2.contourArea(contour)
 	        if(area > 300):
 	            x, y, w, h = cv2.boundingRect(contour)
-	            if w > 100 and h > 100 : 
+	            if w > 50 and h > 50 :
 		            imageFrame = cv2.rectangle(imageFrame, (x, y),
 		                                       (x + w, y + h),
 		                                       (255, 0, 0), 2)
@@ -133,7 +133,7 @@ def color_detect():
 	        area = cv2.contourArea(contour)
 	        if(area > 300):
 	            x, y, w, h = cv2.boundingRect(contour)
-	            if w > 100 and h > 100 : 
+	            if w > 50 and h > 50 :
 		            imageFrame = cv2.rectangle(imageFrame, (x, y), 
 		                                       (x + w, y + h), 
 		                                       (0, 255, 255), 2)
@@ -141,6 +141,8 @@ def color_detect():
 		            cv2.putText(imageFrame, "Yellow Colour", (x, y),
 		                        cv2.FONT_HERSHEY_SIMPLEX, 1.0,
 		                        (0, 255, 255))
+
+
 	    # Program Termination
 	    cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
 	    if cv2.waitKey(10) & 0xFF == ord('q'):
