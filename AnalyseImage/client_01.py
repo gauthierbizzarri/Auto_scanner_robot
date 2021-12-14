@@ -1,23 +1,24 @@
 import random
 import cv2
 import json
-import time
 import numpy as np
-import paho.mqtt.client as mqtt
 from paho.mqtt import client as mqtt_client
 
-id_camera = 3  ##num groupe
+id_camera = 3  # = Group Number
 broker = 'test.mosquitto.org'
 port = 1883
-
-topic = "Phoenix/listen"
+ID_ROBOT = "ROBOT3"
+topic = "field/robot/{}/button".format(ID_ROBOT)
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'emqx'
 password = 'public'
 
-ID_ROBOT = "ROBOT3"
-Signal_recu = -1
+
+Signal_recu = {}
+
+
+# CONNCTION TO THE MQTT SERVER
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
@@ -25,6 +26,7 @@ def connect_mqtt():
             print("Connected to MQTT Broker!")
         else:
             print("Failed to connect, return code %d\n", rc)
+
     # Set Connecting Client ID
     client = mqtt_client.Client(client_id)
     client.username_pw_set(username, password)
@@ -43,33 +45,34 @@ def subscribe(client: mqtt_client):
 
     client.subscribe(topic)
     client.on_message = on_message
+
+
 def on_connect(client, userdata, flags, rc):
     client.subscribe(topic)
 
 
-
 def run():
-    sol = True
+    proceed = True
     ###LOOP TO SUBSCRIBE DATA
     client = connect_mqtt()
     print(subscribe(client))
     subscribe(client)
 
-    #if j'ai la bonne solution
+    # if j'ai la bonne solution
     client.loop_start()
-    for i in range(0, 10):
-        time.sleep(1)  # wait 1s
-        print('Signal = ', Signal_recu)
+    if 'humidity' in Signal_recu.keys() and Signal_recu['humidity'] == 40:
+        proceed = True
 
+    print(proceed)
 
     cap = cv2.VideoCapture(4)
     cap.set(4, 640)
     cap.set(4, 480)
-    print("SIGNAL",Signal_recu)
-    while (1):
+    print("SIGNAL", Signal_recu)
+    while (proceed):
         # time.sleep(1)
         ret, frame = cap.read()
-        cv2.imshow("frame", frame)
+        cv2.imshow("QR CODE SCANNER", frame)
         key = cv2.waitKey(1) & 0xFF
 
         qr_decoder = cv2.QRCodeDetector()
@@ -80,8 +83,8 @@ def run():
         if len(data) > 0 and data == ID_ROBOT:
             # Start a while loop
 
-            cv2.destroyWindow("frame")
-            q=True
+            cv2.destroyWindow("QR CODE SCANNER")
+            q = True
             print(q)
             while (q):
 
@@ -163,20 +166,14 @@ def run():
                             cv2.putText(imageFrame, "Red Colour", (x, y),
                                         cv2.FONT_HERSHEY_SIMPLEX, 1.0,
                                         (0, 0, 255))
-                            response.append(True)
-                            response.append("RED")
-                            #topic = "field/camera/{}/color".format(id_camera)
                             data_set = {"robot": data, "color": "red"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
-                                q=False
-                                signal= True
-                                break
-                                break
-                                break
+                                q = False
+                                proceed = False
 
                             else:
                                 print(f"Failed to send message to topic {topic}")
@@ -198,19 +195,14 @@ def run():
                             cv2.putText(imageFrame, "Green Colour", (x, y),
                                         cv2.FONT_HERSHEY_SIMPLEX,
                                         1.0, (0, 255, 0))
-                            response.append(True)
-                            response.append("GREEN")
                             data_set = {"robot": data, "color": "green"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
-                                q=False
-                                signal = True
-                                break
-                                break
-                                break
+                                q = False
+                                proceed = False
                             else:
                                 print(f"Failed to send message to topic {topic}")
 
@@ -230,19 +222,14 @@ def run():
                             cv2.putText(imageFrame, "Blue Colour", (x, y),
                                         cv2.FONT_HERSHEY_SIMPLEX,
                                         1.0, (255, 0, 0))
-                            response.append(True)
-                            response.append("BLUE")
                             data_set = {"robot": data, "color": "blue"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
-                                q=False
-                                signal = True
-                                break
-                                break
-                                break
+                                q = False
+                                proceed = False
                             else:
                                 print(f"Failed to send message to topic {topic}")
 
@@ -263,24 +250,18 @@ def run():
                             cv2.putText(imageFrame, "Yellow Colour", (x, y),
                                         cv2.FONT_HERSHEY_SIMPLEX, 1.0,
                                         (0, 255, 255))
-                            response.append(True)
-                            response.append("YELLOW")
                             data_set = {"robot": data, "color": "yellow"}
                             json_dump = json.dumps(data_set)
                             result = client.publish(topic, json_dump)
                             status = result[0]
                             if status == 0:
                                 print(f"Send {json_dump}to topic `{topic}`")
-                                q=False
-                                signal = True
-                                break
-                                break
-                                break
+                                q = False
+                                proceed = False
                             else:
                                 print(f"Failed to send message to topic {topic}")
                 # Program Termination
-                cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
-
+                cv2.imshow("Color detection", imageFrame)
 
     # Display barcode and QR code location
 
@@ -293,13 +274,5 @@ def display(im, bbox):
     cv2.imshow("Results", im)
 
 
-
 if __name__ == '__main__':
     run()
-
-
-
-
-
-
-
