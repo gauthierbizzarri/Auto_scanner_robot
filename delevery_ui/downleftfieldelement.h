@@ -13,6 +13,7 @@ public:
     // FieldElement interface
 public:
     void paint(QPainter *p);
+    QChar letter(Direction dir);
 };
 
 #endif // DOWNLEFTFIELDELEMENT_H

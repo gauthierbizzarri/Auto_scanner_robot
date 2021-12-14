@@ -4,6 +4,9 @@
 #include "tleftfieldelement.h"
 #include "trightfieldelement.h"
 #include "tupfieldelement.h"
+#include "turndownrightfieldelement.h"
+#include "upleftfieldelement.h"
+#include "uprightfieldelement.h"
 
 FieldElement *FieldModel::elementAt(QPoint p)
 {
@@ -28,6 +31,10 @@ FieldModel::FieldModel()
     addElement(new TLeftFieldElement(QPoint(2, 1)));
     addElement(new TRightFieldElement(QPoint(2, 2)));
     addElement(new DownLeftFieldElement(QPoint(3, 2)));
+    addElement(new UpLeftFieldElement(QPoint(3, 3)));
+    addElement(new UpRightFieldElement(QPoint(2, 3)));
+    addElement(new TurnDownRightFieldElement(QPoint(4, 3)));
+
 }
 
 void FieldModel::draw(QPainter *p, FieldElement *e)

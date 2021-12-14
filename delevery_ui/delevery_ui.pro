@@ -13,6 +13,7 @@ SOURCES += \
     colorchecker.cpp \
     config.cpp \
     downleftfieldelement.cpp \
+    downrightfieldelement.cpp \
     eventmanager.cpp \
     fielddraw.cpp \
     fieldelement.cpp \
@@ -31,8 +32,11 @@ SOURCES += \
     tleftfieldelement.cpp \
     trightfieldelement.cpp \
     tupfieldelement.cpp \
+    turndownrightfieldelement.cpp \
     uiorderhandler.cpp \
-    uiordermqttpayload.cpp
+    uiordermqttpayload.cpp \
+    upleftfieldelement.cpp \
+    uprightfieldelement.cpp
 
 HEADERS += \
     DataChecker.h \
@@ -44,6 +48,7 @@ HEADERS += \
     config.h \
     direction.h \
     downleftfieldelement.h \
+    downrightfieldelement.h \
     eventlistener.h \
     eventmanager.h \
     fielddraw.h \
@@ -62,9 +67,12 @@ HEADERS += \
     tleftfieldelement.h \
     trightfieldelement.h \
     tupfieldelement.h \
+    turndownrightfieldelement.h \
     uiorderhandler.h \
     uiordermodel.h \
-    uiordermqttpayload.h
+    uiordermqttpayload.h \
+    upleftfieldelement.h \
+    uprightfieldelement.h
 
 FORMS += \
     config.ui \
