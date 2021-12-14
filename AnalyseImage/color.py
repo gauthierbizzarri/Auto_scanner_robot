@@ -89,8 +89,6 @@ def color_detect():
 		            cv2.putText(imageFrame, "Red Colour", (x, y),
 		                        cv2.FONT_HERSHEY_SIMPLEX, 1.0,
 		                        (0, 0, 255))
-		            response.append(True)
-		            response.append("RED")
 	  
 	    # Creating contour to track green color
 	    contours, hierarchy = cv2.findContours(green_mask,
@@ -109,8 +107,6 @@ def color_detect():
 	            	cv2.putText(imageFrame, "Green Colour", (x, y),
 	                        cv2.FONT_HERSHEY_SIMPLEX, 
 	                        1.0, (0, 255, 0))
-	            	response.append(True)
-	            	response.append("GREEN")
 	  
 	    # Creating contour to track blue color
 	    contours, hierarchy = cv2.findContours(blue_mask,
@@ -128,9 +124,6 @@ def color_detect():
 		            cv2.putText(imageFrame, "Blue Colour", (x, y),
 		                        cv2.FONT_HERSHEY_SIMPLEX,
 		                        1.0, (255, 0, 0))
-		            response.append(True)
-		            response.append("BLUE")
-
 	    # Creating contour to track yellow color
 	    contours, hierarchy = cv2.findContours(yellow_mask,
 	                                           cv2.RETR_TREE,
@@ -148,9 +141,6 @@ def color_detect():
 		            cv2.putText(imageFrame, "Yellow Colour", (x, y),
 		                        cv2.FONT_HERSHEY_SIMPLEX, 1.0,
 		                        (0, 255, 255))
-		            response.append(True)
-		            response.append("YELLOW")
-		            return response              
 	    # Program Termination
 	    cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
 	    if cv2.waitKey(10) & 0xFF == ord('q'):
