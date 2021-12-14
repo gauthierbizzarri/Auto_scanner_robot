@@ -3,10 +3,12 @@
 
 #include <QFileInfo>
 #include <QFile>
+#include <QDir>
+
+const QString AppConfig::defaultPath = QDir::homePath()+"/robotdelivery/options.txt";
 
 AppConfig::AppConfig()
 {
-
 }
 
 AppConfig *AppConfig::fromFile(QString path)
@@ -31,7 +33,7 @@ AppConfig *AppConfig::fromFile(QString path)
                 if(optionName == "port")
                 {
                     bool ok = false;
-                    int portFile = optionName.toInt(&ok);
+                    int portFile = optionValue.toInt(&ok, 10);
                     if(ok)
                     {
                         config->mqtt_port = portFile;
@@ -60,7 +62,7 @@ AppConfig *AppConfig::fromFile(QString path)
                 else if(optionName == "keepalive")
                 {
                     bool ok = false;
-                    int keepaliveFile = optionName.toInt(&ok);
+                    int keepaliveFile = optionValue.toInt(&ok, 10);
                     if(ok)
                     {
                         config->mqtt_keepalive = (keepaliveFile);
@@ -77,13 +79,41 @@ AppConfig *AppConfig::fromFile()
     return AppConfig::fromFile(AppConfig::defaultPath);
 }
 
+AppConfig *AppConfig::empty()
+{
+    return new AppConfig();
+}
+
 AppConfig *AppConfig::defaultConfig()
 {
     AppConfig* conf = new AppConfig();
-    conf->mqtt_host = "localhost";
-    conf->mqtt_port = 8336;
+    conf->mqtt_host = "test.mosquitto.org";
+    conf->mqtt_port = 1883;
     conf->mqtt_protocolversion = MQTTManager::defaultProtocol;
     return conf;
+}
+
+void AppConfig::toFile()
+{
+    QFile file(AppConfig::defaultPath);
+    if(!file.open(QIODevice::ReadWrite))
+    {
+        qDebug()<<"Cannot open option file";
+        return;
+    }
+    QString s = "";
+
+    s+="port:"+QString::number(mqtt_port)+"\n";
+    s+= "host:"+mqtt_host+"\n";
+    s+= "username:"+mqtt_username+"\n";
+    s+= "password:"+mqtt_password+"\n";
+    s+= "clientid:"+mqtt_clientid+"\n";
+    s+= "protocolversion:"+mqtt_protocolversion+"\n";
+    s+= "keepalive:"+QString::number(mqtt_keepalive)+"\n";
+
+    file.write(s.toUtf8());
+    file.flush();
+    file.close();
 }
 
 QString AppConfig::mqttConfigString()
