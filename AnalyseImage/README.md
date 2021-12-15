@@ -20,7 +20,7 @@ password = ...
 Signal_recu = ...
 ```
 #  Understand the functionment 
-![Screenshot](etat_machine.jpg)
+![Screenshot](etat_machine.jpg)\
 First lets see the **MQTT part :** 
 ```python
 connect_mqtt():

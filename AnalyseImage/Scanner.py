@@ -9,12 +9,16 @@ from paho.mqtt import client as mqtt_client
 GLOBAL VARS
 """
 id_camera = 3  # = Group Number
-broker = 'test.mosquitto.org'  # = Broker name
+#broker = 'test.mosquitto.org'  # = Broker name
+broker = 'mqtt-milles.imerir.org'
 port = 1883  # = Broker port
 ID_ROBOT = "ROBOT3"  # = ID of the Robot
 topic = "field/robot/{}/button".format(ID_ROBOT)  # = topic to write
-username = 'emqx'  # UserName
-password = 'public'  # password
+#username = 'emqx'  # UserName
+username= "terrain1"
+password = "w87KNd2b"
+
+#password = 'public'  # password
 
 Signal_recu = None  # Global var used to store the
 
@@ -86,14 +90,15 @@ def run():
         # If camera is opened , we close it
         if cap and cap.isOpened():
             cap.release()
+            time.sleep(1)
         # ETAT 1
         if etat == 1:
             # Opening the camera
             cap = cv2.VideoCapture(4)
 
             # Fixing the camera resolution : (640x480) in order to be more efficient
-            cap.set(4, 640)
-            cap.set(4, 480)
+            cap.set(4, 800)
+            cap.set(4, 600)
         # Looping into etat 1 while the QR code Scanned is not corresponding to the payload received
         while (etat == 1):
             # getting the camera stream
@@ -128,7 +133,7 @@ def run():
 
             # Set range for green color and
             # define mask
-            green_lower = np.array([40, 40, 40], np.uint8)
+            green_lower = np.array([55, 40, 40], np.uint8)
             green_upper = np.array([70, 255, 255], np.uint8)
             green_mask = cv2.inRange(hsvFrame, green_lower, green_upper)
 
@@ -140,7 +145,7 @@ def run():
 
             # Set range for yellow color and
             # define mask
-            yellow_lower = np.array([22, 93, 0], np.uint8)
+            yellow_lower = np.array([22, 170, 0], np.uint8)
             yellow_upper = np.array([45, 255, 255], np.uint8)
             yellow_mask = cv2.inRange(hsvFrame, yellow_lower, yellow_upper)
 
@@ -296,7 +301,8 @@ def run():
             if etat == 0:
                 print("--- %s seconds ---" % (time.time() - start_time))
             # Program Termination
-            cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
+            cv2.imshow("Color Detection", imageFrame)
+            cv2.moveWindow("Color Detection", 800,-20);
             key = cv2.waitKey(1) & 0xFF
 
 
