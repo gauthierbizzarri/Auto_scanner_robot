@@ -9,16 +9,16 @@ from paho.mqtt import client as mqtt_client
 GLOBAL VARS
 """
 id_camera = 3  # = Group Number
-#broker = 'test.mosquitto.org'  # = Broker name
+# broker = 'test.mosquitto.org'  # = Broker name
 broker = 'mqtt-milles.imerir.org'
 port = 1883  # = Broker port
 ID_ROBOT = "ROBOT3"  # = ID of the Robot
 topic = "field/robot/{}/button".format(ID_ROBOT)  # = topic to write
-#username = 'emqx'  # UserName
-username= "terrain1"
+# username = 'emqx'  # UserName
+username = "terrain1"
 password = "w87KNd2b"
 
-#password = 'public'  # password
+# password = 'public'  # password
 
 Signal_recu = None  # Global var used to store the
 
@@ -45,7 +45,7 @@ def connect_mqtt():
 
 
 def subscribe(client: mqtt_client):
-    #topic_to_listen = "field/camera/<id_camera>/scan".format(id_camera)
+    # topic_to_listen = "field/camera/<id_camera>/scan".format(id_camera)
     topic_to_listen = "field/robot/{}/button".format(ID_ROBOT)
 
     def on_message(client, userdata, msg):
@@ -70,12 +70,12 @@ def on_connect(client, userdata, flags, rc):
 def run():
     # Var of the camera Video capture initialized to None to checks if camera is running
     cap = None
-    #ETAT 0 , the machine is sleeping and awaiting the signal from the QT Interface
+    # ETAT 0 , the machine is sleeping and awaiting the signal from the QT Interface
     etat = 0
     client = connect_mqtt()  # Connect to MQTT
     while (True):  # The machine is always running but , it's sleeping
         while etat == 0:
-            #Looping and awaiting the payload
+            # Looping and awaiting the payload
             subscribe(client)
             client.loop_start()
             # If we receive a payload from the topic
@@ -85,7 +85,7 @@ def run():
                 if 'robot' in Signal_recu.keys():
                     # Moving to etat = 1 , the system is no longer sleeping , and is prepared to scan the QR Code
                     etat = 1
-            #etat = 1 ####
+            etat = 1 ####
         print(etat)
         # If camera is opened , we close it
         if cap and cap.isOpened():
@@ -116,7 +116,7 @@ def run():
                 etat = 2
         # Looping into etat 2 while no colors are detected
         while (etat == 2):
-            #Getting video stream
+            # Getting video stream
             _, imageFrame = cap.read()
 
             # Convert the imageFrame in
@@ -179,21 +179,21 @@ def run():
             contours, hierarchy = cv2.findContours(red_mask,
                                                    cv2.RETR_TREE,
                                                    cv2.CHAIN_APPROX_SIMPLE)
-            #Track red color
+            # Track red color
             for pic, contour in enumerate(contours):
                 area = cv2.contourArea(contour)
                 if (area > 300):
                     x, y, w, h = cv2.boundingRect(contour)
-                    #Detect red if only size of w and h > 50
+                    # Detect red if only size of w and h > 50
                     if w > 50 and h > 50:
                         imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                    (x + w, y + h),
                                                    (0, 0, 255), 2)
-                        #Display a red text to inform about red color
+                        # Display a red text to inform about red color
                         cv2.putText(imageFrame, "Red Colour", (x, y),
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.0,
                                     (0, 0, 255))
-                        #Publishing response as  a Json to the topic
+                        # Publishing response as  a Json to the topic
                         data_set = {"robot": data, "color": "red"}
                         json_dump = json.dumps(data_set)
                         result = client.publish(topic, json_dump)
@@ -302,7 +302,7 @@ def run():
                 print("--- %s seconds ---" % (time.time() - start_time))
             # Program Termination
             cv2.imshow("Color Detection", imageFrame)
-            cv2.moveWindow("Color Detection", 800,-20);
+            cv2.moveWindow("Color Detection", 800, -20);
             key = cv2.waitKey(1) & 0xFF
 
 
