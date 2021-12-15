@@ -13,18 +13,18 @@ id_camera = 3  # = Group Number
 broker = 'mqtt-milles.imerir.org'
 port = 1883  # = Broker port
 ID_ROBOT = "ROBOT3"  # = ID of the Robot
-#LISTEN F
-topic_to_write="field/camera/{}/color".format(id_camera)
-topic_to_listen="field/camera/3/scan"
+topic_to_write = "field/camera/{}/color".format(id_camera)
+topic_to_listen = "field/camera/3/scan"
 username = "terrain1"
 password = "w87KNd2b"
-
 
 Signal_recu = None  # Global var used to store the
 
 """
 MQTT PART 
 """
+
+
 def run():
     # Var of the camera Video capture initialized to None to checks if camera is running
     cap = None
@@ -41,7 +41,7 @@ def run():
                 if 'robot' in Signal_recu.keys():
                     # Moving to etat = 1 , the system is no longer sleeping , and is prepared to scan the QR Code
                     etat = 1
-            #etat = 1 ####
+            # etat = 1 ####
         # If camera is opened , we close it
         if cap and cap.isOpened():
             cap.release()
@@ -260,36 +260,27 @@ def run():
             cv2.moveWindow("Color Detection", 800, -20);
             key = cv2.waitKey(1) & 0xFF
 
+
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print("Connected with result code " + str(rc))
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe(topic_to_listen)
 
+
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
-    result = str(msg.payload)
-    if result == b'{robot:ROBOT3}':
-        print(True)
-    print(result)
-    global Signal_recu
-    Signal_recu = b'{robot:ROBOT3}'
-
-    run()
-    """x = json.loads(msg.payload)
+    print(msg.topic + " " + str(msg.payload))
+    x = json.loads(msg.payload)
     global Signal_recu
     Signal_recu = x
     x = json.loads(msg.payload)
     if Signal_recu is not None:
-        print("received: ", x, "from:{}".format(topic_to_listen))"""
+        print("received: ", x, "from:{}".format(topic_to_listen))
 
-
-
-
-
+    run()
 
 
 client = mqtt.Client()
@@ -297,12 +288,4 @@ client.on_connect = on_connect
 client.username_pw_set(username, password)
 client.on_message = on_message
 client.connect(broker, 1883)
-#run()
-
-
-
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
 client.loop_forever()
