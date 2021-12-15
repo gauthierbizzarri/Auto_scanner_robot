@@ -62,6 +62,8 @@ void moteur_droit(uint16_t speed, GPIO_PinState direction);
 void moteur_gauche(uint16_t speed, GPIO_PinState direction);
 
 enum direction { AVANT, ARRIERE };
+
+int boutton();
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -161,14 +163,15 @@ int main(void)
 
 	  /* CONTROL DU ROBOT */
 
-	  //moteur_gauche(0, ARRIERE);
-	  //moteur_droit(999, GPIO_PIN_RESET);
-	  //moteur_droit(0, GPIO_PIN_RESET);
-	  //moteur_gauche(999, ARRIERE);
+	  //moteur_gauche(0, AVANT);
+	  //moteur_droit(999, AVANT);
+	  //moteur_droit(0, AVANT);
+	  //moteur_gauche(999, AVANT);
 
 	  /* FIN CONTROL DU ROBOT */
 
-	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, boutton());
+	  HAL_Delay(100);
 
     /* USER CODE END WHILE */
 
@@ -440,6 +443,12 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PC0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
@@ -471,6 +480,11 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
+}
+
+int boutton()
+{
+	return HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
 }
 
 /* USER CODE BEGIN 4 */
