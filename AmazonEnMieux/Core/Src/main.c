@@ -46,7 +46,7 @@ TIM_HandleTypeDef htim8;
 UART_HandleTypeDef huart4;
 
 /* USER CODE BEGIN PV */
-uint16_t sonar_distance();
+void sonar_distance();
 
 uint16_t ecart_temps = 0;
 uint16_t distance = 0;
@@ -64,6 +64,22 @@ void moteur_gauche(uint16_t speed, GPIO_PinState direction);
 enum direction { AVANT, ARRIERE };
 
 int boutton();
+
+uint16_t taille = 10;
+
+int sensor_gauche();
+int sensor_droit();
+
+void follow_path(int path);
+void follow_line();
+
+int mode_depl = 0;
+
+int vitesse_moteurs = 999;
+int temps_rotation = 500;
+
+int moving_state = 0;
+int sensor_state;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -127,6 +143,28 @@ int main(void)
 
   //uint16_t MGA = GPIO_PIN_2;
   //uint16_t MGD = GPIO_PIN_9;
+
+  /* TEST FOLLOW PATH */
+
+  /* TEST FOLLOW PATH */
+
+  follow_path('L');
+  follow_path('F');
+  follow_path('F');
+  follow_path('F');
+  follow_path('F');
+  follow_path('F');
+  follow_path('L');
+  follow_path('R');
+  follow_path('F');
+  follow_path('F');
+  follow_path('F');
+  follow_path('R');
+
+  /* FIN TEST FOLLOW PATH */
+
+  /* FIN TEST FOLLOW PATH */
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,13 +189,13 @@ int main(void)
 
 	  /* CONTROL DU SONAR */
 
-	  /*
-	  HAL_Delay(1000);
+	  //HAL_Delay(10);
 
-	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	  HAL_Delay(sonar_distance());
-	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	  */
+	  //sonar_distance();
+
+	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	  //HAL_Delay(distance);
+	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 
 	  /* FIN CONTROL DU SONAR */
 
@@ -170,8 +208,28 @@ int main(void)
 
 	  /* FIN CONTROL DU ROBOT */
 
-	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, boutton());
-	  HAL_Delay(100);
+	  /* BOUTTON */
+
+	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, boutton());
+	  //HAL_Delay(100);
+
+	  /* FIN BOUTTON */
+
+	  /* LINE SENSOR */
+
+	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11));
+	  //HAL_Delay(500);
+	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12));
+	  //HAL_Delay(500);
+
+	  /* FIN LINE SENSOR */
+
+	  /* TEST FOLLOW LINE */
+
+	  //if (moving_state == 0) follow_line();
+	  //else HAL_Delay(100);
+
+	  /* FIN TEST FOLLOW LINE */
 
     /* USER CODE END WHILE */
 
@@ -469,6 +527,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : PA11 PA12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pins : PB8 PB9 */
   GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -480,6 +544,31 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+}
+
+/* USER CODE BEGIN 4 */
+
+char* nodemcu_receive()
+{
+	/* Creation du message vide */
+	char received[taille];
+	/* Reception du message avec un timeout de 2s */
+	HAL_UART_Receive(&huart4, received, taille, 2000);
+	/* Attente */
+	HAL_Delay(100);
+}
+
+void nodemcu_send()
+{
+	/* Creation du message vide */
+	char *message = "Hello World";
+	/* Envoi par UART avec un timeout de 100 ms */
+	HAL_UART_Transmit(&huart4, message, taille, 100);
+	/* Attente */
+	HAL_Delay(100);
 }
 
 int boutton()
@@ -487,8 +576,74 @@ int boutton()
 	return HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
 }
 
-/* USER CODE BEGIN 4 */
-uint16_t sonar_distance()
+void follow_path(int path)
+{
+	moving_state = 0;
+
+	switch(path)
+	{
+	case 'L':
+	case 'R':
+		if (path == 'L') moteur_droit(vitesse_moteurs, AVANT);
+		if (path == 'R') moteur_gauche(vitesse_moteurs, AVANT);
+		HAL_Delay(temps_rotation);
+	case 'F':
+		while(moving_state == 0) follow_line();
+		break;
+	}
+}
+
+void follow_line()
+{
+	switch (sensor_state) // (sensor g;sensor d)
+	{
+	case 0: // 00
+		moteur_droit(vitesse_moteurs, AVANT);
+		moteur_gauche(vitesse_moteurs, AVANT);
+		break;
+	case 1: // 01
+		moteur_droit(vitesse_moteurs, AVANT);
+		moteur_gauche(0, AVANT);
+		break;
+	case 2: // 10
+		moteur_droit(0, AVANT);
+		moteur_gauche(vitesse_moteurs, AVANT);
+		break;
+	case 3: // 11
+		moteur_droit(0, AVANT);
+		moteur_gauche(0, AVANT);
+		moving_state = 1;
+		break;
+	}
+
+	while (distance < 100)
+	{
+		moteur_droit(0, AVANT);
+		moteur_gauche(0, AVANT);
+
+		sonar_distance();
+		HAL_Delay(100);
+	}
+
+	sonar_distance();
+	HAL_Delay(10);
+}
+
+void moteur_droit(uint16_t speed, GPIO_PinState direction)
+{
+	PWM_TIM8_SET_PULSE(speed);
+	HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, direction);
+}
+
+void moteur_gauche(uint16_t speed, GPIO_PinState direction)
+{
+	PWM_TIM3_SET_PULSE(speed);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, direction);
+}
+
+void sonar_distance()
 {
 	//Generation de la pulsation trigger :
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);
@@ -499,26 +654,16 @@ uint16_t sonar_distance()
 	}
 	while (fin - debut < 10);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
-
-	//Attente :
-	HAL_Delay(100);
-
-	//Calcul apres reception signal :
-	ecart_temps = fin - debut;
-	distance = ecart_temps * 0.17;  //distance en mm
-
-	//Allumage de la LED :
-	/*
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	HAL_Delay(distance);
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	*/
-
-	return distance;
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	sensor_state = 0;
+	sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
+	sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
+
+	// if (GPIO_Pin != 1) return; // Condition si la pin du SONAR !
+
 	if ( HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0) == 1 )
 	{
 		debut = __HAL_TIM_GET_COUNTER(&htim7);
@@ -526,108 +671,46 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	else
 	{
 		fin = __HAL_TIM_GET_COUNTER(&htim7);
+
+		//Calcul apres reception signal :
+		ecart_temps = fin - debut;
+		distance = ecart_temps * 0.17;  //distance en mm
 	}
-}
-
-void moteur_droit(uint16_t speed, GPIO_PinState direction)
-{
-	PWM_TIM8_SET_PULSE(speed);
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, direction);
-}
-
-void moteur_gauche(uint16_t speed, GPIO_PinState direction)
-{
-	PWM_TIM3_SET_PULSE(speed);
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, direction);
 }
 
 void PWM_TIM3_SET_PULSE(uint16_t newPulse)
 {
-	  TIM_MasterConfigTypeDef sMasterConfig = {0};
-	  TIM_OC_InitTypeDef sConfigOC = {0};
+	HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3);
 
-	  htim3.Instance = TIM3;
-	  htim3.Init.Prescaler = 999;
-	  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-	  htim3.Init.Period = 999;
-	  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-	  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-	  if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
-	  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-	  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-	  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
-	  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-	  sConfigOC.Pulse = newPulse;
-	  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-	  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-	  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
+	TIM_OC_InitTypeDef sConfigOC = {0};
 
-	  HAL_TIM_MspPostInit(&htim3);
-	  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+	sConfigOC.OCMode = TIM_OCMODE_PWM1;
+	sConfigOC.Pulse = newPulse;
+	sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+	sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+	if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+	{
+	    Error_Handler();
+	}
 }
 
 void PWM_TIM8_SET_PULSE(uint16_t newPulse)
 {
-	  TIM_MasterConfigTypeDef sMasterConfig = {0};
-	  TIM_OC_InitTypeDef sConfigOC = {0};
-	  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
+	HAL_TIM_PWM_Stop(&htim8, TIM_CHANNEL_1);
 
-	  htim8.Instance = TIM8;
-	  htim8.Init.Prescaler = 999;
-	  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-	  htim8.Init.Period = 999;
-	  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-	  htim8.Init.RepetitionCounter = 0;
-	  htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-	  if (HAL_TIM_PWM_Init(&htim8) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
-	  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-	  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
-	  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-	  if (HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
-	  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-	  sConfigOC.Pulse = newPulse;
-	  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-	  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
-	  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-	  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
-	  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-	  if (HAL_TIM_PWM_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
-	  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
-	  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
-	  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-	  sBreakDeadTimeConfig.DeadTime = 0;
-	  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
-	  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
-	  sBreakDeadTimeConfig.BreakFilter = 0;
-	  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
-	  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
-	  sBreakDeadTimeConfig.Break2Filter = 0;
-	  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
-	  if (HAL_TIMEx_ConfigBreakDeadTime(&htim8, &sBreakDeadTimeConfig) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
+	TIM_OC_InitTypeDef sConfigOC = {0};
 
-	  HAL_TIM_MspPostInit(&htim8);
-	  HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
+	sConfigOC.OCMode = TIM_OCMODE_PWM1;
+	sConfigOC.Pulse = newPulse;
+	sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+	sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+	sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+	sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+	sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+	if (HAL_TIM_PWM_ConfigChannel(&htim8, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+	{
+	    Error_Handler();
+	}
 }
 
 /* USER CODE END 4 */
