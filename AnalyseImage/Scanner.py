@@ -41,14 +41,16 @@ def connect_mqtt():
 
 
 def subscribe(client: mqtt_client):
-    topic_to_listen = "field/camera/<id_camera>/scan".format(id_camera)
+    #topic_to_listen = "field/camera/<id_camera>/scan".format(id_camera)
+    topic_to_listen = "field/robot/{}/button".format(ID_ROBOT)
 
     def on_message(client, userdata, msg):
         x = json.loads(msg.payload)
         global Signal_recu
         Signal_recu = x
         x = json.loads(msg.payload)
-        print("received: ", x, "from topic ", topic_to_listen)
+        if Signal_recu is not None:
+            print("received: ", x, "from topic ", topic_to_listen)
 
     client.subscribe(topic_to_listen)
     client.on_message = on_message
@@ -79,7 +81,7 @@ def run():
                 if 'robot' in Signal_recu.keys():
                     # Moving to etat = 1 , the system is no longer sleeping , and is prepared to scan the QR Code
                     etat = 1
-            etat = 1 ####
+            #etat = 1 ####
         print(etat)
         # If camera is opened , we close it
         if cap and cap.isOpened():
