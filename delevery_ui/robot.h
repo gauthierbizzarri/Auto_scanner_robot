@@ -2,11 +2,12 @@
 #define ROBOT_H
 
 #include <QColor>
+#include <QPainter>
 #include <QPoint>
 #include <direction.h>
 
 enum RobotStatus{
-    TOLOAD, TOANALYSE, TODEPOSIT, BACKTOLOADING
+    TOLOAD, TOANALYSE, TODEPOSIT, BACKTOLOADING, RELOAD
 };
 
 class Robot
@@ -37,7 +38,7 @@ public:
     QString getCarriedColor();
     void setColorToLookFor(QString);
     QString getColorToLookFor();
-
+    void draw(QPainter* p);
 };
 
 #endif // ROBOT_H

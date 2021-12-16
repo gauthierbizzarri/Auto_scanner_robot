@@ -4,6 +4,7 @@
 #include "eventlistener.h"
 #include "fieldmodel.h"
 #include "iconlabel.h"
+#include "mqttmanager.h"
 
 
 
@@ -12,8 +13,9 @@ class CameraColorHandler : public EventListener
 private:
     IconLabel* packet;
     FieldModel* model;
+     MQTTManager* manager;
 public:
-    CameraColorHandler(IconLabel* packet, FieldModel* model);
+    CameraColorHandler(IconLabel* packet, MQTTManager* manager, FieldModel* model);
 
     // EventListener interface
 public:

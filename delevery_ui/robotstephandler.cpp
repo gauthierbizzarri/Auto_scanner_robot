@@ -16,21 +16,28 @@ void RobotStepHandler::handle(QJsonObject data, bool dataEmpty, QMap<QString, QV
             model->follower(meta.value("robotid").toString().toUpper()) != nullptr)
     {
         OrderFollower* follower = model->follower(meta.value("robotid").toString().toUpper());
-        if(model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::TOLOAD
-                || model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::TODEPOSIT)
-            connect(follower, SIGNAL(orderEnd(QString)), this, SLOT(followerDone()));
-        follower->toStep(data.value("status").toInt());
-        disconnect(follower, SIGNAL(orderEnd(QString)), this, SLOT(followerDone()));
-        if(!follower->isDone())
+        bool stopState = model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::TOLOAD
+                || model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::TODEPOSIT
+                || model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::BACKTOLOADING
+                || model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::RELOAD;
+        if(stopState)
+            connect(follower, SIGNAL(orderEnd(QString)), this, SLOT(customSlot()));
+        bool continues = follower->toStep(data.value("status").toInt());
+        if(continues)
         {
             order->setText("Ordre en cours d'execution");
             order->setColor(StateColors::OK);
+        }
+        else
+        {
+            if(stopState)
+                customSlot();
         }
         draw->update();
     }
 }
 
-void RobotStepHandler::followerDone()
+void RobotStepHandler::customSlot()
 {
     order->setText("A l'arret");
     order->setColor(StateColors::KO);

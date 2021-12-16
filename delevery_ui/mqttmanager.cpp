@@ -9,6 +9,7 @@ const QString MqttTopic::cameraColorTemplate = "field/camera/{camid}/color";
 const QString MqttTopic::robotPathTemplate = "field/robot/{robotid}/path";
 const QString MqttTopic::robotStepTemplate = "field/robot/{robotid}/status";
 const QString MqttTopic::cameraScanTemplate = "field/camera/{camid}/scan";
+const QString MqttTopic::loadingAreaColorTemplate = "field/loading_area/{loadingareaid}/color";
 
 QString MQTTManager::defaultProtocol = "mqtt3.1.1";
 

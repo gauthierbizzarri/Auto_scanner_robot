@@ -19,6 +19,7 @@ private:
     QMap<QString, OrderFollower*> orderFollowers;
 
     QMap<QString, Robot*> robots;
+    QMap<int, QString> colorsFound;
 
     int lastLoading;
 public:
@@ -43,6 +44,9 @@ public:
     QList<FieldElement*> getPath(Direction init, FieldElement* from, FieldElement* to);
     void setLastLoading(int v);
     int getLastLoading();
+    void ColorFound(QString color);
+    void ColorFound(int loading, QString color);
+    QMap<int, QString> getColorsFound();
 signals:
     void changed();
     void newPath(QString robotid, QList<FieldElement*> elements);

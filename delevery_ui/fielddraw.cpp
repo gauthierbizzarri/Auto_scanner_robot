@@ -18,9 +18,16 @@ void FieldDraw::redifineRobotPosition()
 {
     QWidget* w = (QWidget*)sender();
     moveRobotId = w->property("robot").toString();
-    moveRobotSender = w;
-    w->setDisabled(true);
-    robotPositionRedifined = true;
+    if(model->follower(moveRobotId) == nullptr)
+    {
+        moveRobotSender = w;
+        w->setDisabled(true);
+        robotPositionRedifined = true;
+    }
+    else
+    {
+        QMessageBox::warning(this, "Déplacement du robot", "Le robot "+moveRobotId+" ne peu pas être déplacé car il est occupế");
+    }
 }
 
 void FieldDraw::paintEvent(QPaintEvent *event)

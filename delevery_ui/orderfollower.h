@@ -16,12 +16,12 @@ protected:
     QString robotid;
     int lastIndex;
     QString path;
+    void manageDirectionInBetween(int from, int to);
 public:
     OrderFollower(QString robotid, Robot* robot, QString path, QList<FieldElement*> steps, QList<FieldElement*> passBy);
-    void toStep(int step);
+    bool toStep(int step);
     int lastStep();
     void draw(QPainter* p);
-    bool isDone();
 signals:
     void orderEnd(QString);
 };

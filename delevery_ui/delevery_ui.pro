@@ -23,6 +23,9 @@ SOURCES += \
     fieldmodel.cpp \
     iconlabel.cpp \
     jsonpathmaker.cpp \
+    leftrightpathmaker.cpp \
+    loadinareacolorhandler.cpp \
+    loadingareacolormqttpayload.cpp \
     loadingzonechecker.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -77,6 +80,9 @@ HEADERS += \
     fieldmodel.h \
     iconlabel.h \
     jsonpathmaker.h \
+    leftrightpathmaker.h \
+    loadinareacolorhandler.h \
+    loadingareacolormqttpayload.h \
     loadingzonechecker.h \
     mainwindow.h \
     mqttmanager.h \

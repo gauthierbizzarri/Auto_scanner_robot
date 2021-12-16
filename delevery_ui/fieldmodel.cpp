@@ -24,7 +24,7 @@
 
 FieldModel::FieldModel()
 {
-    addElement((new DownRightFieldElement(QPoint(1, 0)))->setAllowedDirection({RIGHT}));
+    addElement((new TurnDownRightFieldElement(QPoint(1, 0)))->setAllowedDirection({RIGHT}));
     addElement((new TDownFieldElement(QPoint(2, 0)))->setAllowedDirection({RIGHT}));
     addElement((new TDownFieldElement(QPoint(3, 0)))->setAllowedDirection({RIGHT}));
     addLoading((new TDownFieldElement(QPoint(4, 0)))->setAllowedDirection({RIGHT}), 4);
@@ -34,7 +34,7 @@ FieldModel::FieldModel()
     addLoading((new TUpFieldElement(QPoint(1, 1)))->setAllowedDirection({UP, RIGHT}), 1);
     addLoading((new TUpFieldElement(QPoint(2, 1)))->setAllowedDirection({UP, RIGHT}), 2);
     addLoading((new TUpFieldElement(QPoint(3, 1)))->setAllowedDirection({UP, RIGHT}), 3);
-    addElement((new UpLeftFieldElement(QPoint(4, 1)))->setAllowedDirection({UP}));
+    addElement((new TurnUpLeftFieldElement(QPoint(4, 1)))->setAllowedDirection({UP}));
     addElement((new StraightUpDownFieldElement(QPoint(6, 1)))->setAllowedDirection({DOWN}));
     addElement((new TRightFieldElement(QPoint(0, 2)))->setAllowedDirection({UP}));
     addElement((new StraightLeftRightFieldElement(QPoint(1, 2)))->setAllowedDirection({LEFT}));
@@ -47,9 +47,9 @@ FieldModel::FieldModel()
     addDeposit((new TDownFieldElement(QPoint(1, 3)))->setAllowedDirection({LEFT}), 1);
     addDeposit((new TDownFieldElement(QPoint(2, 3)))->setAllowedDirection({LEFT}), 2);
     addDeposit((new TDownFieldElement(QPoint(3, 3)))->setAllowedDirection({LEFT}), 3);
-    addElement((new DownLeftFieldElement(QPoint(4, 3)))->setAllowedDirection({LEFT}));
+    addElement((new TurnDownLeftFieldElement(QPoint(4, 3)))->setAllowedDirection({LEFT}));
     addElement((new StraightUpDownFieldElement(QPoint(6, 3)))->setAllowedDirection({DOWN}));
-    addElement((new UpRightFieldElement(QPoint(1, 4)))->setAllowedDirection({UP}));
+    addElement((new TurnUpRightFieldElement(QPoint(1, 4)))->setAllowedDirection({UP}));
     addElement((new TUpFieldElement(QPoint(2, 4)))->setAllowedDirection({UP, LEFT}));
     addElement((new TUpFieldElement(QPoint(3, 4)))->setAllowedDirection({UP, LEFT}));
     addDeposit((new TUpFieldElement(QPoint(4, 4)))->setAllowedDirection({UP, LEFT}), 4);
@@ -97,12 +97,9 @@ void FieldModel::drawAll(QPainter *p)
     {
         orderFollowers.value(robot)->draw(p);
     }
-    int robSize = FieldElement::thickness+10;
     Q_FOREACH(Robot* robot, robots.values())
     {
-        QPainterPath rpath;
-        rpath.addEllipse(robot->getPosition().x()*FieldElement::size+FieldElement::size/2-robSize/2, robot->getPosition().y()*FieldElement::size+FieldElement::size/2-robSize/2, robSize, robSize);
-        p->fillPath(rpath, QBrush(robot->getColor()));
+        robot->draw(p);
     }
 }
 
@@ -384,6 +381,27 @@ int FieldModel::getLastLoading()
     return lastLoading;
 }
 
+void FieldModel::ColorFound(QString color)
+{
+    if(loadings.keys().contains(lastLoading))
+    {
+        colorsFound.insert(lastLoading, color);
+    }
+}
+
+void FieldModel::ColorFound(int loading, QString color)
+{
+    if(loadings.keys().contains(loading))
+    {
+        colorsFound.insert(loading, color);
+    }
+}
+
+QMap<int, QString> FieldModel::getColorsFound()
+{
+    return colorsFound;
+}
+
 void FieldModel::setRobotAvailable(QString robot)
 {
     if(orderFollowers.contains(robot))
@@ -392,14 +410,19 @@ void FieldModel::setRobotAvailable(QString robot)
     }
     if(robots.contains(robot))
     {
-        robots.value(robot)->setReadyForOrder(false);
         if(robots.value(robot)->getStatus() == RobotStatus::TOLOAD)
+        {
+            robots.value(robot)->setStatus(RobotStatus::TOANALYSE);
+        }
+        else if(robots.value(robot)->getStatus() == RobotStatus::RELOAD)
         {
             robots.value(robot)->setStatus(RobotStatus::TOANALYSE);
         }
         else if (robots.value(robot)->getStatus() == RobotStatus::TODEPOSIT)
         {
+            robots.value(robot)->setReadyForOrder(true);
             robots.value(robot)->setStatus(RobotStatus::TOLOAD);
+            lastLoading = -1;
         }
         else if(robots.value(robot)->getStatus() == RobotStatus::TOANALYSE)
         {
@@ -424,7 +447,12 @@ void FieldModel::setRobotAvailable(QString robot)
         }
         else if(robots.value(robot)->getStatus() == RobotStatus::BACKTOLOADING)
         {
-            robots.value(robot)->setStatus(RobotStatus::TOLOAD);
+            lastLoading = (lastLoading+1)%(loadings.count()+1);
+            if(lastLoading == 0)
+            {
+                lastLoading = 1;
+            }
+            robots.value(robot)->setStatus(RobotStatus::RELOAD);
         }
     }
 }

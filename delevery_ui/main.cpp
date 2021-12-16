@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QDir>
 #include <QProcess>
 
 int main(int argc, char *argv[])
@@ -11,6 +12,8 @@ int main(int argc, char *argv[])
     manager->configureFromConfigString(AppConfig::fromFile()->mqttConfigString());
 
     MainWindow w(manager);
+    w.setWindowTitle("NOZAMA");
+    w.setWindowIcon(QIcon(QDir::homePath()+"/robotdelivery/icon.png"));
     w.show();
    return a.exec();
 }

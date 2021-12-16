@@ -8,21 +8,19 @@
 
 
 
-class RobotStepHandler : public QObject, public EventListener
+class RobotStepHandler : public EventListener
 {
-    Q_OBJECT
 private:
     FieldModel* model;
     IconLabel* order;
     FieldDraw* draw;
-private slots:
-    void followerDone();
 public:
     RobotStepHandler(IconLabel* order, FieldModel* model, FieldDraw* draw);
 
     // EventListener interface
-public:
+public slots:
     void handle(QJsonObject data, bool dataEmpty, QMap<QString, QVariant> meta);
+    void customSlot();
 };
 
 #endif // ROBOTSTEPHANDLER_H

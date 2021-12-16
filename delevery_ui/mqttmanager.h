@@ -64,6 +64,7 @@ public:
     const static QString robotPathTemplate;
     const static QString robotStepTemplate;
     const static QString cameraScanTemplate;
+    const static QString loadingAreaColorTemplate;
 
     static MqttTopic allRobotButton()
     {
@@ -78,11 +79,25 @@ public:
         return MqttTopic(temp.replace(exp, "+"), 1);
     }
 
+    static MqttTopic allLoadingAreaColor()
+    {
+        QRegularExpression exp("({.+})");
+        QString temp=loadingAreaColorTemplate;
+        return MqttTopic(temp.replace(exp, "+"), 0);
+    }
+
     static MqttTopic robotPath(QString robotId)
     {
         QRegularExpression exp("({robotid})");
         QString temp=robotPathTemplate;
         return MqttTopic(temp.replace(exp, robotId), 2);
+    }
+
+    static MqttTopic loadingAreaColor(int loadingarea)
+    {
+        QRegularExpression exp("({loadingareaid})");
+        QString temp=loadingAreaColorTemplate;
+        return MqttTopic(temp.replace(exp, QString::number(loadingarea)), 0);
     }
 
     static MqttTopic allCameraColor()

@@ -11,6 +11,7 @@ MqttMessageEventManager::MqttMessageEventManager(MQTTManager *manager) : EventMa
     manager->subscribe(MqttTopic::allRobotButton(), this);
     manager->subscribe(MqttTopic::allCameraColor(), this);
     manager->subscribe(MqttTopic::allRobotStatus(), this);
+    manager->subscribe(MqttTopic::allLoadingAreaColor(), this);
 }
 
 void MqttMessageEventManager::process()
@@ -27,7 +28,9 @@ void MqttMessageEventManager::process()
                 if(accurate)
                 {
                     QJsonDocument data = QJsonDocument::fromJson(message.payload());
-                    listeners.value(topic)->handle(data.object(), data.isEmpty(), meta);
+                    connect(this, SIGNAL(handleCalled(QJsonObject, bool, QMap<QString, QVariant>)), listeners.value(topic), SLOT(handle(QJsonObject, bool, QMap<QString, QVariant>)));
+                    emit handleCalled(data.object(), data.isEmpty(), meta);
+                    disconnect(this, SIGNAL(handleCalled(QJsonObject, bool, QMap<QString, QVariant>)), listeners.value(topic), SLOT(handle(QJsonObject, bool, QMap<QString, QVariant>)));
                 }
             }
         }
@@ -36,5 +39,10 @@ void MqttMessageEventManager::process()
 
 void MqttMessageEventManager::recieveMessage(QMqttMessage message)
 {
-    messageQueue.append(message);
+    QJsonParseError* error= nullptr;
+    QJsonDocument::fromJson(message.payload(), error);
+    if(error == nullptr)
+    {
+        messageQueue.append(message);
+    }
 }

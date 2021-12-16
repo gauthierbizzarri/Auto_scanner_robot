@@ -22,6 +22,7 @@ public slots:
     virtual void process() = 0;
 signals:
     void exited();
+    void handleCalled(QJsonObject, bool, QMap<QString, QVariant>);
 };
 
 #endif // EVENTMANAGER_H
