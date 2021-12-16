@@ -216,7 +216,7 @@ def run(etat):
         # Track yellow color
         for pic, contour in enumerate(contours):
             area = cv2.contourArea(contour)
-            if (area > 300):
+            if (1000 < area < 100000):
                 x, y, w, h = cv2.boundingRect(contour)
                 # Detect blue if only size of w and h > 50
                 if w > rayon_perce and h > rayon_perce:
@@ -257,6 +257,7 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     etat = 0
+    print("Test : {}".format(msg.payload))
     x = json.loads(msg.payload)
     global Signal_recu
     Signal_recu = x
