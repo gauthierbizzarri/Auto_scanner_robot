@@ -4,6 +4,11 @@
 #include <QApplication>
 
 const QString MqttTopic::uiOrderTemplate = "field/ui/{id}/ordre";
+const QString MqttTopic::robotButtonTemplate = "field/robot/{robotid}/button";
+const QString MqttTopic::cameraColorTemplate = "field/camera/{camid}/color";
+const QString MqttTopic::robotPathTemplate = "field/robot/{robotid}/path";
+const QString MqttTopic::robotStepTemplate = "field/robot/{robotid}/status";
+const QString MqttTopic::cameraScanTemplate = "field/camera/{camid}/scan";
 
 QString MQTTManager::defaultProtocol = "mqtt3.1.1";
 
@@ -141,7 +146,8 @@ void MQTTManager::publish(MqttTopic topic, MqttPayload *payload)
 {
     if(m_connected)
     {
-        int res = client->publish(topic.topic, payload->toJson(), topic.qos, topic.retained);
+        QByteArray json = payload->toJson();
+        int res = client->publish(topic.topic, json, topic.qos, topic.retained);
         qDebug()<<"publish count : "<<res;
     }
 }

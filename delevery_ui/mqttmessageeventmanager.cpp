@@ -8,6 +8,9 @@ MqttMessageEventManager::MqttMessageEventManager(MQTTManager *manager) : EventMa
     this->manager=manager;
 
     manager->subscribe(MqttTopic::allUiOrder(), this);
+    manager->subscribe(MqttTopic::allRobotButton(), this);
+    manager->subscribe(MqttTopic::allCameraColor(), this);
+    manager->subscribe(MqttTopic::allRobotStatus(), this);
 }
 
 void MqttMessageEventManager::process()

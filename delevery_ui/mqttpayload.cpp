@@ -1,15 +1,11 @@
 #include "mqttpayload.h"
 
 #include <QJsonDocument>
+#include <QJsonArray>
 
 MqttPayload::MqttPayload()
 {
 
-}
-
-void MqttPayload::addValue(QString field, QVariant data)
-{
-    this->data.insert(field, data.toString());
 }
 
 QByteArray MqttPayload::toJson()

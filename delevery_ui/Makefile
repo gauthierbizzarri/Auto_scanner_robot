@@ -52,7 +52,10 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = appconfig.cpp \
+SOURCES       = StateColors.cpp \
+		appconfig.cpp \
+		cameracolorhandler.cpp \
+		camerascanmqttpayload.cpp \
 		colorchecker.cpp \
 		config.cpp \
 		downleftfieldelement.cpp \
@@ -61,21 +64,34 @@ SOURCES       = appconfig.cpp \
 		fielddraw.cpp \
 		fieldelement.cpp \
 		fieldmodel.cpp \
+		iconlabel.cpp \
+		jsonpathmaker.cpp \
 		loadingzonechecker.cpp \
 		main.cpp \
 		mainwindow.cpp \
 		mqttmanager.cpp \
 		mqttmessageeventmanager.cpp \
 		mqttpayload.cpp \
+		objectpathmaker.cpp \
 		orderchecker.cpp \
+		orderfollower.cpp \
+		robot.cpp \
+		robotbuttonpresshandler.cpp \
 		robotchecker.cpp \
+		robotpathmqttpayload.cpp \
+		robotstephandler.cpp \
 		startchecker.cpp \
+		straightleftrightfieldelement.cpp \
+		straightupdownfieldelement.cpp \
 		tdownfieldelement.cpp \
 		timeoutmanager.cpp \
 		tleftfieldelement.cpp \
 		trightfieldelement.cpp \
 		tupfieldelement.cpp \
+		turndownleftfieldelement.cpp \
 		turndownrightfieldelement.cpp \
+		turnupleftfieldelement.cpp \
+		turnuprightfieldelement.cpp \
 		uiorderhandler.cpp \
 		uiordermqttpayload.cpp \
 		upleftfieldelement.cpp \
@@ -83,11 +99,17 @@ SOURCES       = appconfig.cpp \
 		moc_config.cpp \
 		moc_eventmanager.cpp \
 		moc_fielddraw.cpp \
+		moc_fieldmodel.cpp \
 		moc_mainwindow.cpp \
 		moc_mqttmanager.cpp \
 		moc_mqttmessageeventmanager.cpp \
+		moc_orderfollower.cpp \
+		moc_robotstephandler.cpp \
 		moc_timeoutmanager.cpp
-OBJECTS       = appconfig.o \
+OBJECTS       = StateColors.o \
+		appconfig.o \
+		cameracolorhandler.o \
+		camerascanmqttpayload.o \
 		colorchecker.o \
 		config.o \
 		downleftfieldelement.o \
@@ -96,21 +118,34 @@ OBJECTS       = appconfig.o \
 		fielddraw.o \
 		fieldelement.o \
 		fieldmodel.o \
+		iconlabel.o \
+		jsonpathmaker.o \
 		loadingzonechecker.o \
 		main.o \
 		mainwindow.o \
 		mqttmanager.o \
 		mqttmessageeventmanager.o \
 		mqttpayload.o \
+		objectpathmaker.o \
 		orderchecker.o \
+		orderfollower.o \
+		robot.o \
+		robotbuttonpresshandler.o \
 		robotchecker.o \
+		robotpathmqttpayload.o \
+		robotstephandler.o \
 		startchecker.o \
+		straightleftrightfieldelement.o \
+		straightupdownfieldelement.o \
 		tdownfieldelement.o \
 		timeoutmanager.o \
 		tleftfieldelement.o \
 		trightfieldelement.o \
 		tupfieldelement.o \
+		turndownleftfieldelement.o \
 		turndownrightfieldelement.o \
+		turnupleftfieldelement.o \
+		turnuprightfieldelement.o \
 		uiorderhandler.o \
 		uiordermqttpayload.o \
 		upleftfieldelement.o \
@@ -119,9 +154,12 @@ OBJECTS       = appconfig.o \
 		moc_config.o \
 		moc_eventmanager.o \
 		moc_fielddraw.o \
+		moc_fieldmodel.o \
 		moc_mainwindow.o \
 		moc_mqttmanager.o \
 		moc_mqttmessageeventmanager.o \
+		moc_orderfollower.o \
+		moc_robotstephandler.o \
 		moc_timeoutmanager.o
 DIST          = /home/florian/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/florian/Qt/5.15.2/gcc_64/mkspecs/common/unix.conf \
@@ -337,9 +375,14 @@ DIST          = /home/florian/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/florian/Qt/5.15.2/gcc_64/mkspecs/features/yacc.prf \
 		/home/florian/Qt/5.15.2/gcc_64/mkspecs/features/lex.prf \
 		delevery_ui.pro DataChecker.h \
+		FieldElementTracker.h \
 		LoadingZones.h \
 		StartZones.h \
+		StateColors.h \
 		appconfig.h \
+		cameracolorhandler.h \
+		cameraids.h \
+		camerascanmqttpayload.h \
 		colorchecker.h \
 		colors.h \
 		config.h \
@@ -351,25 +394,42 @@ DIST          = /home/florian/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		fielddraw.h \
 		fieldelement.h \
 		fieldmodel.h \
+		iconlabel.h \
+		jsonpathmaker.h \
 		loadingzonechecker.h \
 		mainwindow.h \
 		mqttmanager.h \
 		mqttmessageeventmanager.h \
 		mqttpayload.h \
+		objectpathmaker.h \
 		orderchecker.h \
+		orderfollower.h \
+		pathmaker.h \
+		robot.h \
+		robotbuttonpresshandler.h \
 		robotchecker.h \
+		robotpathmqttpayload.h \
+		robotstephandler.h \
 		startchecker.h \
+		straightleftrightfieldelement.h \
+		straightupdownfieldelement.h \
 		tdownfieldelement.h \
 		timeoutmanager.h \
 		tleftfieldelement.h \
 		trightfieldelement.h \
 		tupfieldelement.h \
+		turndownleftfieldelement.h \
 		turndownrightfieldelement.h \
+		turnupleftfieldelement.h \
+		turnuprightfieldelement.h \
 		uiorderhandler.h \
 		uiordermodel.h \
 		uiordermqttpayload.h \
 		upleftfieldelement.h \
-		uprightfieldelement.h appconfig.cpp \
+		uprightfieldelement.h StateColors.cpp \
+		appconfig.cpp \
+		cameracolorhandler.cpp \
+		camerascanmqttpayload.cpp \
 		colorchecker.cpp \
 		config.cpp \
 		downleftfieldelement.cpp \
@@ -378,21 +438,34 @@ DIST          = /home/florian/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		fielddraw.cpp \
 		fieldelement.cpp \
 		fieldmodel.cpp \
+		iconlabel.cpp \
+		jsonpathmaker.cpp \
 		loadingzonechecker.cpp \
 		main.cpp \
 		mainwindow.cpp \
 		mqttmanager.cpp \
 		mqttmessageeventmanager.cpp \
 		mqttpayload.cpp \
+		objectpathmaker.cpp \
 		orderchecker.cpp \
+		orderfollower.cpp \
+		robot.cpp \
+		robotbuttonpresshandler.cpp \
 		robotchecker.cpp \
+		robotpathmqttpayload.cpp \
+		robotstephandler.cpp \
 		startchecker.cpp \
+		straightleftrightfieldelement.cpp \
+		straightupdownfieldelement.cpp \
 		tdownfieldelement.cpp \
 		timeoutmanager.cpp \
 		tleftfieldelement.cpp \
 		trightfieldelement.cpp \
 		tupfieldelement.cpp \
+		turndownleftfieldelement.cpp \
 		turndownrightfieldelement.cpp \
+		turnupleftfieldelement.cpp \
+		turnuprightfieldelement.cpp \
 		uiorderhandler.cpp \
 		uiordermqttpayload.cpp \
 		upleftfieldelement.cpp \
@@ -852,8 +925,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/florian/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents DataChecker.h LoadingZones.h StartZones.h appconfig.h colorchecker.h colors.h config.h direction.h downleftfieldelement.h downrightfieldelement.h eventlistener.h eventmanager.h fielddraw.h fieldelement.h fieldmodel.h loadingzonechecker.h mainwindow.h mqttmanager.h mqttmessageeventmanager.h mqttpayload.h orderchecker.h robotchecker.h startchecker.h tdownfieldelement.h timeoutmanager.h tleftfieldelement.h trightfieldelement.h tupfieldelement.h turndownrightfieldelement.h uiorderhandler.h uiordermodel.h uiordermqttpayload.h upleftfieldelement.h uprightfieldelement.h $(DISTDIR)/
-	$(COPY_FILE) --parents appconfig.cpp colorchecker.cpp config.cpp downleftfieldelement.cpp downrightfieldelement.cpp eventmanager.cpp fielddraw.cpp fieldelement.cpp fieldmodel.cpp loadingzonechecker.cpp main.cpp mainwindow.cpp mqttmanager.cpp mqttmessageeventmanager.cpp mqttpayload.cpp orderchecker.cpp robotchecker.cpp startchecker.cpp tdownfieldelement.cpp timeoutmanager.cpp tleftfieldelement.cpp trightfieldelement.cpp tupfieldelement.cpp turndownrightfieldelement.cpp uiorderhandler.cpp uiordermqttpayload.cpp upleftfieldelement.cpp uprightfieldelement.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents DataChecker.h FieldElementTracker.h LoadingZones.h StartZones.h StateColors.h appconfig.h cameracolorhandler.h cameraids.h camerascanmqttpayload.h colorchecker.h colors.h config.h direction.h downleftfieldelement.h downrightfieldelement.h eventlistener.h eventmanager.h fielddraw.h fieldelement.h fieldmodel.h iconlabel.h jsonpathmaker.h loadingzonechecker.h mainwindow.h mqttmanager.h mqttmessageeventmanager.h mqttpayload.h objectpathmaker.h orderchecker.h orderfollower.h pathmaker.h robot.h robotbuttonpresshandler.h robotchecker.h robotpathmqttpayload.h robotstephandler.h startchecker.h straightleftrightfieldelement.h straightupdownfieldelement.h tdownfieldelement.h timeoutmanager.h tleftfieldelement.h trightfieldelement.h tupfieldelement.h turndownleftfieldelement.h turndownrightfieldelement.h turnupleftfieldelement.h turnuprightfieldelement.h uiorderhandler.h uiordermodel.h uiordermqttpayload.h upleftfieldelement.h uprightfieldelement.h $(DISTDIR)/
+	$(COPY_FILE) --parents StateColors.cpp appconfig.cpp cameracolorhandler.cpp camerascanmqttpayload.cpp colorchecker.cpp config.cpp downleftfieldelement.cpp downrightfieldelement.cpp eventmanager.cpp fielddraw.cpp fieldelement.cpp fieldmodel.cpp iconlabel.cpp jsonpathmaker.cpp loadingzonechecker.cpp main.cpp mainwindow.cpp mqttmanager.cpp mqttmessageeventmanager.cpp mqttpayload.cpp objectpathmaker.cpp orderchecker.cpp orderfollower.cpp robot.cpp robotbuttonpresshandler.cpp robotchecker.cpp robotpathmqttpayload.cpp robotstephandler.cpp startchecker.cpp straightleftrightfieldelement.cpp straightupdownfieldelement.cpp tdownfieldelement.cpp timeoutmanager.cpp tleftfieldelement.cpp trightfieldelement.cpp tupfieldelement.cpp turndownleftfieldelement.cpp turndownrightfieldelement.cpp turnupleftfieldelement.cpp turnuprightfieldelement.cpp uiorderhandler.cpp uiordermqttpayload.cpp upleftfieldelement.cpp uprightfieldelement.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents config.ui mainwindow.ui $(DISTDIR)/
 
 
@@ -886,9 +959,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/florian/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /home/florian/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_DataChecker.cpp moc_config.cpp moc_eventmanager.cpp moc_fielddraw.cpp moc_mainwindow.cpp moc_mqttmanager.cpp moc_mqttmessageeventmanager.cpp moc_timeoutmanager.cpp
+compiler_moc_header_make_all: moc_DataChecker.cpp moc_config.cpp moc_eventmanager.cpp moc_fielddraw.cpp moc_fieldmodel.cpp moc_mainwindow.cpp moc_mqttmanager.cpp moc_mqttmessageeventmanager.cpp moc_orderfollower.cpp moc_robotstephandler.cpp moc_timeoutmanager.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_DataChecker.cpp moc_config.cpp moc_eventmanager.cpp moc_fielddraw.cpp moc_mainwindow.cpp moc_mqttmanager.cpp moc_mqttmessageeventmanager.cpp moc_timeoutmanager.cpp
+	-$(DEL_FILE) moc_DataChecker.cpp moc_config.cpp moc_eventmanager.cpp moc_fielddraw.cpp moc_fieldmodel.cpp moc_mainwindow.cpp moc_mqttmanager.cpp moc_mqttmessageeventmanager.cpp moc_orderfollower.cpp moc_robotstephandler.cpp moc_timeoutmanager.cpp
 moc_DataChecker.cpp: DataChecker.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
@@ -1246,6 +1319,10 @@ moc_fielddraw.cpp: fielddraw.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1264,6 +1341,110 @@ moc_fielddraw.cpp: fielddraw.h \
 		moc_predefs.h \
 		/home/florian/Qt/5.15.2/gcc_64/bin/moc
 	/home/florian/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui/moc_predefs.h -I/home/florian/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui -I/home/florian/Qt/5.15.2/gcc_64/include -I/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/florian/Qt/5.15.2/gcc_64/include/QtGui -I/home/florian/Qt/5.15.2/gcc_64/include/QtMqtt -I/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/florian/Qt/5.15.2/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include fielddraw.h -o moc_fielddraw.cpp
+
+moc_fieldmodel.cpp: fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		moc_predefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/bin/moc
+	/home/florian/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui/moc_predefs.h -I/home/florian/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui -I/home/florian/Qt/5.15.2/gcc_64/include -I/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/florian/Qt/5.15.2/gcc_64/include/QtGui -I/home/florian/Qt/5.15.2/gcc_64/include/QtMqtt -I/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/florian/Qt/5.15.2/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include fieldmodel.h -o moc_fieldmodel.cpp
 
 moc_mainwindow.cpp: mainwindow.h \
 		eventmanager.h \
@@ -1344,6 +1525,42 @@ moc_mainwindow.cpp: mainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
 		mqttmanager.h \
 		mqttpayload.h \
 		timeoutmanager.h \
@@ -1351,37 +1568,13 @@ moc_mainwindow.cpp: mainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QApplication \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qapplication.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreapplication.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qeventloop.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
@@ -1426,6 +1619,7 @@ moc_mainwindow.cpp: mainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcryptographichash.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork/qssl.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QFlags \
+		pathmaker.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtabwidget.h \
@@ -1763,6 +1957,245 @@ moc_mqttmessageeventmanager.cpp: mqttmessageeventmanager.h \
 		/home/florian/Qt/5.15.2/gcc_64/bin/moc
 	/home/florian/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui/moc_predefs.h -I/home/florian/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui -I/home/florian/Qt/5.15.2/gcc_64/include -I/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/florian/Qt/5.15.2/gcc_64/include/QtGui -I/home/florian/Qt/5.15.2/gcc_64/include/QtMqtt -I/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/florian/Qt/5.15.2/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mqttmessageeventmanager.h -o moc_mqttmessageeventmanager.cpp
 
+moc_orderfollower.cpp: orderfollower.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		moc_predefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/bin/moc
+	/home/florian/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui/moc_predefs.h -I/home/florian/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui -I/home/florian/Qt/5.15.2/gcc_64/include -I/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/florian/Qt/5.15.2/gcc_64/include/QtGui -I/home/florian/Qt/5.15.2/gcc_64/include/QtMqtt -I/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/florian/Qt/5.15.2/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include orderfollower.h -o moc_orderfollower.cpp
+
+moc_robotstephandler.cpp: robotstephandler.h \
+		eventlistener.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		fielddraw.h \
+		fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
+		iconlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		moc_predefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/bin/moc
+	/home/florian/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui/moc_predefs.h -I/home/florian/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/florian/Documents/IMERIR/projet-4a/integration-s5/delevery_ui -I/home/florian/Qt/5.15.2/gcc_64/include -I/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/florian/Qt/5.15.2/gcc_64/include/QtGui -I/home/florian/Qt/5.15.2/gcc_64/include/QtMqtt -I/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/florian/Qt/5.15.2/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include robotstephandler.h -o moc_robotstephandler.cpp
+
 moc_timeoutmanager.cpp: timeoutmanager.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QObject \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
@@ -1836,6 +2269,7 @@ ui_mainwindow.h: mainwindow.ui \
 		/home/florian/Qt/5.15.2/gcc_64/bin/uic \
 		config.h \
 		fielddraw.h \
+		iconlabel.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2035,6 +2469,10 @@ ui_mainwindow.h: mainwindow.ui \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2044,6 +2482,111 @@ ui_mainwindow.h: mainwindow.ui \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
@@ -2061,6 +2604,58 @@ compiler_lex_clean:
 compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
+
+StateColors.o: StateColors.cpp StateColors.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StateColors.o StateColors.cpp
 
 appconfig.o: appconfig.cpp appconfig.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString \
@@ -2227,6 +2822,219 @@ appconfig.o: appconfig.cpp appconfig.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QDir \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdir.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o appconfig.o appconfig.cpp
+
+cameracolorhandler.o: cameracolorhandler.cpp cameracolorhandler.h \
+		eventlistener.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		iconlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
+		colors.h \
+		cameraids.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QList
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cameracolorhandler.o cameracolorhandler.cpp
+
+camerascanmqttpayload.o: camerascanmqttpayload.cpp camerascanmqttpayload.h \
+		mqttpayload.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o camerascanmqttpayload.o camerascanmqttpayload.cpp
 
 colorchecker.o: colorchecker.cpp colorchecker.h \
 		DataChecker.h \
@@ -2466,47 +3274,6 @@ config.o: config.cpp config.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork/qssl.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QFlags \
 		ui_config.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QComboBox \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qcombobox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qstyleoption.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvalidator.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qicon.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qslider.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractslider.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qstyle.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtabbar.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QFormLayout \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qformlayout.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLayout \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlayout.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qboxlayout.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qgridlayout.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QGroupBox \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qgroupbox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QHBoxLayout \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLineEdit \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlineedit.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextcursor.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextformat.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QPushButton \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QSpacerItem \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QSpinBox \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qspinbox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QVBoxLayout \
 		appconfig.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QCoreApplication \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QMessageBox \
@@ -2893,6 +3660,10 @@ fielddraw.o: fielddraw.cpp fielddraw.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2907,7 +3678,11 @@ fielddraw.o: fielddraw.cpp fielddraw.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QMouseEvent \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QMessageBox \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fielddraw.o fielddraw.cpp
 
 fieldelement.o: fieldelement.cpp fieldelement.h \
@@ -3007,7 +3782,7 @@ fieldelement.o: fieldelement.cpp fieldelement.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fieldelement.o fieldelement.cpp
 
-fieldmodel.o: fieldmodel.cpp downleftfieldelement.h \
+fieldmodel.o: fieldmodel.cpp FieldElementTracker.h \
 		fieldelement.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
@@ -3103,15 +3878,271 @@ fieldmodel.o: fieldmodel.cpp downleftfieldelement.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		downleftfieldelement.h \
+		downrightfieldelement.h \
 		fieldmodel.h \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		jsonpathmaker.h \
+		pathmaker.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QList \
+		straightleftrightfieldelement.h \
+		straightupdownfieldelement.h \
 		tdownfieldelement.h \
 		tleftfieldelement.h \
 		trightfieldelement.h \
 		tupfieldelement.h \
+		turndownleftfieldelement.h \
 		turndownrightfieldelement.h \
+		turnupleftfieldelement.h \
+		turnuprightfieldelement.h \
 		upleftfieldelement.h \
-		uprightfieldelement.h
+		uprightfieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainterPath \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainterpath.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonArray \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonarray.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fieldmodel.o fieldmodel.cpp
+
+iconlabel.o: iconlabel.cpp iconlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainterPath \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainterpath.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		StateColors.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o iconlabel.o iconlabel.cpp
+
+jsonpathmaker.o: jsonpathmaker.cpp jsonpathmaker.h \
+		pathmaker.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QList \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonArray \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonarray.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o jsonpathmaker.o jsonpathmaker.cpp
 
 loadingzonechecker.o: loadingzonechecker.cpp loadingzonechecker.h \
 		DataChecker.h \
@@ -3267,6 +4298,42 @@ main.o: main.cpp appconfig.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
 		mqttmanager.h \
 		mqttpayload.h \
 		timeoutmanager.h \
@@ -3274,35 +4341,11 @@ main.o: main.cpp appconfig.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QApplication \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qapplication.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
@@ -3347,6 +4390,7 @@ main.o: main.cpp appconfig.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcryptographichash.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork/qssl.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QFlags \
+		pathmaker.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtabwidget.h \
@@ -3434,6 +4478,42 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
 		mqttmanager.h \
 		mqttpayload.h \
 		timeoutmanager.h \
@@ -3441,37 +4521,13 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QApplication \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qapplication.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreapplication.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qeventloop.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
@@ -3516,6 +4572,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcryptographichash.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtNetwork/qssl.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QFlags \
+		pathmaker.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QMainWindow \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtabwidget.h \
@@ -3523,61 +4580,6 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		LoadingZones.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QList \
 		ui_mainwindow.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QCheckBox \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qcheckbox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QComboBox \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qcombobox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qstyleoption.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvalidator.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qslider.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractslider.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qstyle.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtabbar.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QCommandLinkButton \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qcommandlinkbutton.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QHBoxLayout \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qboxlayout.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlayout.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qgridlayout.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QHeaderView \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qheaderview.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QMenuBar \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qmenubar.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qmenu.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qaction.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qactiongroup.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QSpacerItem \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QStatusBar \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qstatusbar.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QTableView \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtableview.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QToolBox \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtoolbox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QVBoxLayout \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
-		config.h \
-		fielddraw.h \
-		fieldmodel.h \
-		fieldelement.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
-		direction.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
 		orderchecker.h \
 		DataChecker.h \
 		StartZones.h \
@@ -3589,9 +4591,9 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		uiorderhandler.h \
 		uiordermodel.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QAbstractItemModel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qabstractitemmodel.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QBrush \
 		colors.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QSortFilterProxyModel \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsortfilterproxymodel.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qabstractproxymodel.h \
@@ -3600,9 +4602,41 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainterpath.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QColumnView \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qcolumnview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvalidator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qslider.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qstyle.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qrubberband.h \
+		StateColors.h \
+		robotbuttonpresshandler.h \
+		iconlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QCommandLinkButton \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qcommandlinkbutton.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		cameracolorhandler.h \
+		jsonpathmaker.h \
+		robotpathmqttpayload.h \
+		objectpathmaker.h \
+		robotstephandler.h \
+		fielddraw.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
+		camerascanmqttpayload.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QMessageBox \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qmessagebox.h \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qdialog.h
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qdialog.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonArray \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonarray.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
 mqttmanager.o: mqttmanager.cpp mqttmanager.h \
@@ -4015,8 +5049,109 @@ mqttpayload.o: mqttpayload.cpp mqttpayload.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonDocument \
-		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsondocument.h
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsondocument.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonArray \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonarray.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mqttpayload.o mqttpayload.cpp
+
+objectpathmaker.o: objectpathmaker.cpp objectpathmaker.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		pathmaker.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objectpathmaker.o objectpathmaker.cpp
 
 orderchecker.o: orderchecker.cpp orderchecker.h \
 		DataChecker.h \
@@ -4145,6 +5280,305 @@ orderchecker.o: orderchecker.cpp orderchecker.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qabstractitemmodel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o orderchecker.o orderchecker.cpp
 
+orderfollower.o: orderfollower.cpp orderfollower.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o orderfollower.o orderfollower.cpp
+
+robot.o: robot.cpp robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		direction.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o robot.o robot.cpp
+
+robotbuttonpresshandler.o: robotbuttonpresshandler.cpp robotbuttonpresshandler.h \
+		eventlistener.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		iconlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QCommandLinkButton \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qcommandlinkbutton.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qicon.h \
+		StateColors.h \
+		jsonpathmaker.h \
+		pathmaker.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QList \
+		objectpathmaker.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonArray \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonarray.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o robotbuttonpresshandler.o robotbuttonpresshandler.cpp
+
 robotchecker.o: robotchecker.cpp robotchecker.h \
 		DataChecker.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
@@ -4214,6 +5648,221 @@ robotchecker.o: robotchecker.cpp robotchecker.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o robotchecker.o robotchecker.cpp
+
+robotpathmqttpayload.o: robotpathmqttpayload.cpp robotpathmqttpayload.h \
+		mqttpayload.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonArray \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonarray.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o robotpathmqttpayload.o robotpathmqttpayload.cpp
+
+robotstephandler.o: robotstephandler.cpp robotstephandler.h \
+		eventlistener.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QJsonObject \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QString \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
+		fielddraw.h \
+		fieldmodel.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		orderfollower.h \
+		robot.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QColor \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QPoint \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpalette.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfile.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
+		iconlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/QLabel \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		StateColors.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o robotstephandler.o robotstephandler.cpp
 
 startchecker.o: startchecker.cpp startchecker.h \
 		DataChecker.h \
@@ -4285,6 +5934,202 @@ startchecker.o: startchecker.cpp startchecker.h \
 		startZones.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QList
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o startchecker.o startchecker.cpp
+
+straightleftrightfieldelement.o: straightleftrightfieldelement.cpp straightleftrightfieldelement.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o straightleftrightfieldelement.o straightleftrightfieldelement.cpp
+
+straightupdownfieldelement.o: straightupdownfieldelement.cpp straightupdownfieldelement.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o straightupdownfieldelement.o straightupdownfieldelement.cpp
 
 tdownfieldelement.o: tdownfieldelement.cpp tdownfieldelement.h \
 		fieldelement.h \
@@ -4742,6 +6587,104 @@ tupfieldelement.o: tupfieldelement.cpp tupfieldelement.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tupfieldelement.o tupfieldelement.cpp
 
+turndownleftfieldelement.o: turndownleftfieldelement.cpp turndownleftfieldelement.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o turndownleftfieldelement.o turndownleftfieldelement.cpp
+
 turndownrightfieldelement.o: turndownrightfieldelement.cpp turndownrightfieldelement.h \
 		fieldelement.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
@@ -4839,6 +6782,202 @@ turndownrightfieldelement.o: turndownrightfieldelement.cpp turndownrightfieldele
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
 		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o turndownrightfieldelement.o turndownrightfieldelement.cpp
+
+turnupleftfieldelement.o: turnupleftfieldelement.cpp turnupleftfieldelement.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o turnupleftfieldelement.o turnupleftfieldelement.cpp
+
+turnuprightfieldelement.o: turnuprightfieldelement.cpp turnuprightfieldelement.h \
+		fieldelement.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrect.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmargins.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsize.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qcolor.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgb.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qimage.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtransform.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qregion.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qline.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qbrush.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfont.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtGui/qfontmetrics.h \
+		direction.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/QMap \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qmap.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qdebug.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qlocale.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qset.h \
+		/home/florian/Qt/5.15.2/gcc_64/include/QtCore/qcontiguouscache.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o turnuprightfieldelement.o turnuprightfieldelement.cpp
 
 uiorderhandler.o: uiorderhandler.cpp uiorderhandler.h \
 		eventlistener.h \
@@ -5276,6 +7415,9 @@ moc_eventmanager.o: moc_eventmanager.cpp
 moc_fielddraw.o: moc_fielddraw.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_fielddraw.o moc_fielddraw.cpp
 
+moc_fieldmodel.o: moc_fieldmodel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_fieldmodel.o moc_fieldmodel.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
@@ -5284,6 +7426,12 @@ moc_mqttmanager.o: moc_mqttmanager.cpp
 
 moc_mqttmessageeventmanager.o: moc_mqttmessageeventmanager.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mqttmessageeventmanager.o moc_mqttmessageeventmanager.cpp
+
+moc_orderfollower.o: moc_orderfollower.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_orderfollower.o moc_orderfollower.cpp
+
+moc_robotstephandler.o: moc_robotstephandler.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_robotstephandler.o moc_robotstephandler.cpp
 
 moc_timeoutmanager.o: moc_timeoutmanager.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_timeoutmanager.o moc_timeoutmanager.cpp

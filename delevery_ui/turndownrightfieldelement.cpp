@@ -18,7 +18,7 @@ void TurnDownRightFieldElement::paint(QPainter *p)
                position.y()*FieldElement::size+FieldElement::size/2,
                FieldElement::size-FieldElement::thickness,
                FieldElement::size - FieldElement::thickness,
-               1400, 1450);
+               1450, 1500);
 }
 
 QString TurnDownRightFieldElement::letter(Direction from, Direction to)

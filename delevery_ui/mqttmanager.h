@@ -59,6 +59,38 @@ public:
     }
 
     const static QString uiOrderTemplate;
+    const static QString robotButtonTemplate;
+    const static QString cameraColorTemplate;
+    const static QString robotPathTemplate;
+    const static QString robotStepTemplate;
+    const static QString cameraScanTemplate;
+
+    static MqttTopic allRobotButton()
+    {
+        QRegularExpression exp("({.+})");
+        QString temp=robotButtonTemplate;
+        return MqttTopic(temp.replace(exp, "+"), 2);
+    }
+    static MqttTopic allRobotStatus()
+    {
+        QRegularExpression exp("({.+})");
+        QString temp=robotStepTemplate;
+        return MqttTopic(temp.replace(exp, "+"), 1);
+    }
+
+    static MqttTopic robotPath(QString robotId)
+    {
+        QRegularExpression exp("({robotid})");
+        QString temp=robotPathTemplate;
+        return MqttTopic(temp.replace(exp, robotId), 2);
+    }
+
+    static MqttTopic allCameraColor()
+    {
+        QRegularExpression exp("({.+})");
+        QString temp=cameraColorTemplate;
+        return MqttTopic(temp.replace(exp, "+"), 2);
+    }
 
     static MqttTopic allUiOrder(){
         QRegularExpression exp("({.+})");
@@ -66,9 +98,14 @@ public:
         return MqttTopic(temp.replace(exp, "+"), 2);
     };
     static MqttTopic uiOrder(int uiId){
-        QRegularExpression exp("({.+})");
+        QRegularExpression exp("({id})");
         QString temp=uiOrderTemplate;
         return MqttTopic(temp.replace(exp, QString::number(uiId)), 2);
+    };
+    static MqttTopic cameraScan(int camid){
+        QRegularExpression exp("({camid})");
+        QString temp=cameraScanTemplate;
+        return MqttTopic(temp.replace(exp, QString::number(camid)), 2);
     };
 };
 

@@ -10,10 +10,15 @@ class FieldDraw : public QWidget
     Q_OBJECT
 private:
     FieldModel* model;
+
+    bool robotPositionRedifined;
+    QString moveRobotId;
+    QWidget* moveRobotSender;
 public:
     explicit FieldDraw(QWidget *parent = nullptr);
     void setModel(FieldModel* model);
-
+public slots:
+    void redifineRobotPosition();
 signals:
 
 
@@ -21,6 +26,7 @@ signals:
 protected:
     void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 };
 
 #endif // FIELDDRAW_H

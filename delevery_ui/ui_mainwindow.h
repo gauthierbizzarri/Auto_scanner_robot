@@ -14,11 +14,14 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QCommandLinkButton>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
@@ -27,6 +30,7 @@
 #include <QtWidgets/QWidget>
 #include "config.h"
 #include "fielddraw.h"
+#include "iconlabel.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -38,9 +42,6 @@ public:
     QToolBox *toolBox;
     QWidget *order;
     QVBoxLayout *verticalLayout_3;
-    QHBoxLayout *horizontalLayout_5;
-    QLabel *label_4;
-    QComboBox *startSelector;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QComboBox *robotSelector;
@@ -58,7 +59,22 @@ public:
     QTableView *cvHistory;
     QWidget *page;
     QHBoxLayout *horizontalLayout_6;
+    QHBoxLayout *horizontalLayout_7;
     FieldDraw *widget_2;
+    QGroupBox *groupBox;
+    QVBoxLayout *verticalLayout_5;
+    QFormLayout *formLayout;
+    QLabel *label_5;
+    IconLabel *orderState;
+    QLabel *label_7;
+    IconLabel *connectionState;
+    QLabel *label_9;
+    IconLabel *PackageTransitState;
+    QLabel *label_11;
+    IconLabel *packageColor;
+    QPushButton *pbRedifRobPos;
+    QSpacerItem *verticalSpacer_2;
+    QVBoxLayout *verticalLayout_4;
     QWidget *history;
     QVBoxLayout *verticalLayout_2;
     config *widget;
@@ -69,7 +85,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1084, 658);
+        MainWindow->resize(1125, 632);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -78,26 +94,9 @@ public:
         toolBox->setObjectName(QString::fromUtf8("toolBox"));
         order = new QWidget();
         order->setObjectName(QString::fromUtf8("order"));
-        order->setGeometry(QRect(0, 0, 1066, 503));
+        order->setGeometry(QRect(0, 0, 1107, 477));
         verticalLayout_3 = new QVBoxLayout(order);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
-        label_4 = new QLabel(order);
-        label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setMaximumSize(QSize(150, 55));
-        label_4->setMargin(18);
-
-        horizontalLayout_5->addWidget(label_4);
-
-        startSelector = new QComboBox(order);
-        startSelector->setObjectName(QString::fromUtf8("startSelector"));
-
-        horizontalLayout_5->addWidget(startSelector);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_5);
-
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         label = new QLabel(order);
@@ -202,18 +201,96 @@ public:
         toolBox->addItem(order, QString::fromUtf8("Cr\303\251er un ordre"));
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
+        page->setGeometry(QRect(0, 0, 1107, 477));
         horizontalLayout_6 = new QHBoxLayout(page);
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
         widget_2 = new FieldDraw(page);
         widget_2->setObjectName(QString::fromUtf8("widget_2"));
+        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(widget_2->sizePolicy().hasHeightForWidth());
+        widget_2->setSizePolicy(sizePolicy3);
         widget_2->setStyleSheet(QString::fromUtf8("background-color:rgb(255, 255, 255)"));
 
-        horizontalLayout_6->addWidget(widget_2);
+        horizontalLayout_7->addWidget(widget_2);
+
+        groupBox = new QGroupBox(page);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        groupBox->setMinimumSize(QSize(300, 0));
+        verticalLayout_5 = new QVBoxLayout(groupBox);
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        formLayout = new QFormLayout();
+        formLayout->setObjectName(QString::fromUtf8("formLayout"));
+        label_5 = new QLabel(groupBox);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, label_5);
+
+        orderState = new IconLabel(groupBox);
+        orderState->setObjectName(QString::fromUtf8("orderState"));
+
+        formLayout->setWidget(0, QFormLayout::FieldRole, orderState);
+
+        label_7 = new QLabel(groupBox);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, label_7);
+
+        connectionState = new IconLabel(groupBox);
+        connectionState->setObjectName(QString::fromUtf8("connectionState"));
+
+        formLayout->setWidget(1, QFormLayout::FieldRole, connectionState);
+
+        label_9 = new QLabel(groupBox);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, label_9);
+
+        PackageTransitState = new IconLabel(groupBox);
+        PackageTransitState->setObjectName(QString::fromUtf8("PackageTransitState"));
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, PackageTransitState);
+
+        label_11 = new QLabel(groupBox);
+        label_11->setObjectName(QString::fromUtf8("label_11"));
+
+        formLayout->setWidget(3, QFormLayout::LabelRole, label_11);
+
+        packageColor = new IconLabel(groupBox);
+        packageColor->setObjectName(QString::fromUtf8("packageColor"));
+
+        formLayout->setWidget(3, QFormLayout::FieldRole, packageColor);
+
+
+        verticalLayout_5->addLayout(formLayout);
+
+        pbRedifRobPos = new QPushButton(groupBox);
+        pbRedifRobPos->setObjectName(QString::fromUtf8("pbRedifRobPos"));
+
+        verticalLayout_5->addWidget(pbRedifRobPos);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_5->addItem(verticalSpacer_2);
+
+
+        horizontalLayout_7->addWidget(groupBox);
+
+        verticalLayout_4 = new QVBoxLayout();
+        verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
+
+        horizontalLayout_7->addLayout(verticalLayout_4);
+
+
+        horizontalLayout_6->addLayout(horizontalLayout_7);
 
         toolBox->addItem(page, QString::fromUtf8("Etat et position du robot"));
         history = new QWidget();
         history->setObjectName(QString::fromUtf8("history"));
-        history->setGeometry(QRect(0, 0, 1066, 503));
+        history->setGeometry(QRect(0, 0, 1107, 477));
         verticalLayout_2 = new QVBoxLayout(history);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         widget = new config(history);
@@ -228,7 +305,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1084, 22));
+        menubar->setGeometry(QRect(0, 0, 1125, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -245,7 +322,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        label_4->setText(QCoreApplication::translate("MainWindow", "Zone de d\303\251pot :", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Robot : ", nullptr));
         robotSelector->setCurrentText(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "Couleur :", nullptr));
@@ -253,6 +329,16 @@ public:
         checkBox->setText(QCoreApplication::translate("MainWindow", "Compl\303\251ter automatiquement", nullptr));
         clbtSend->setText(QCoreApplication::translate("MainWindow", "Envoyer", nullptr));
         toolBox->setItemText(toolBox->indexOf(order), QCoreApplication::translate("MainWindow", "Cr\303\251er un ordre", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("MainWindow", "Informations du robot", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "Etat du robot :", nullptr));
+        orderState->setText(QCoreApplication::translate("MainWindow", "En attente d'ordre", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "Etat de connection du robot :", nullptr));
+        connectionState->setText(QCoreApplication::translate("MainWindow", "Connect\303\251", nullptr));
+        label_9->setText(QCoreApplication::translate("MainWindow", "Colis en transit :", nullptr));
+        PackageTransitState->setText(QCoreApplication::translate("MainWindow", "Non", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Couleur du colis :", nullptr));
+        packageColor->setText(QCoreApplication::translate("MainWindow", "inconnue", nullptr));
+        pbRedifRobPos->setText(QCoreApplication::translate("MainWindow", "Red\303\251finir position robot (annulera ordres en cours )", nullptr));
         toolBox->setItemText(toolBox->indexOf(page), QCoreApplication::translate("MainWindow", "Etat et position du robot", nullptr));
         toolBox->setItemText(toolBox->indexOf(history), QCoreApplication::translate("MainWindow", "Options", nullptr));
     } // retranslateUi

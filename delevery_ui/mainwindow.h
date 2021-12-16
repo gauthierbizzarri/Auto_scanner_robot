@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include "eventmanager.h"
+#include "fieldmodel.h"
 #include "mqttmanager.h"
+#include "pathmaker.h"
 
 #include <QMainWindow>
 
@@ -22,6 +24,8 @@ private:
     Ui::MainWindow *ui;
     MQTTManager* manager;
     EventManager* mqttEventManager;
+    FieldModel* fieldModel;
+    PathMaker<QList<FieldElement*>, QJsonObject>* pathMaker;
 
 private slots:
     bool checkOrder();
@@ -30,5 +34,6 @@ private slots:
     void openFields();
     void showTimeoutError();
     void appExit();
+    void sendPath(QString robotid, QList<FieldElement*> elements);
 };
 #endif // MAINWINDOW_H
