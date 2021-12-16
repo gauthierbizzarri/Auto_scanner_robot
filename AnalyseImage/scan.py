@@ -18,12 +18,8 @@ username = "terrain1"
 password = "w87KNd2b"
 
 Signal_recu = None  # Global var used to store the
-rayon_perce = 90
-lum = 30
-"""
-MQTT PART 
-"""
-
+rayon_perce = 90 #minimum size to detect
+lum = 30 # var to modify the mask in function of the luminosity
 
 def run(etat):
     # Var of the camera Video capture initialized to None to checks if camera is running
@@ -257,7 +253,7 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     etat = 0
-    print("Test : {}".format(msg.payload))
+    print("Test =={}".format(msg.payload.decode("utf-8")))
     x = json.loads(msg.payload)
     global Signal_recu
     Signal_recu = x
