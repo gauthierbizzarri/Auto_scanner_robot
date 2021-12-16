@@ -15,6 +15,7 @@ void EventManager::addEventListener(QString reference, EventListener* handler)
 
 void EventManager::launch(EventManager *manager)
 {
+    //launch the thread
     QThread* thread = new QThread();
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     connect(manager, SIGNAL(exited()), thread, SLOT(quit()));

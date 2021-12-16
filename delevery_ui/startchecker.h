@@ -4,7 +4,10 @@
 #include "DataChecker.h"
 
 
-
+/**
+ * @brief The StartChecker class
+ * Check if a deposit start zone is valid
+ */
 class StartChecker : public DataChecker
 {
 public:

@@ -14,7 +14,7 @@ OrderChecker::OrderChecker(QString color, QString robot, int loadingZone) : Data
 
 bool OrderChecker::check()
 {
-    Q_FOREACH(DataChecker* checker, checkers)
+    Q_FOREACH(DataChecker* checker, checkers)//check if each and every checker passes the test
     {
         if(!checker->check())
         {

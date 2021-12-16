@@ -7,6 +7,10 @@ namespace Ui {
 class config;
 }
 
+/**
+ * @brief The config class
+ * Clmass used to manage configuration panel
+ */
 class config : public QWidget
 {
     Q_OBJECT

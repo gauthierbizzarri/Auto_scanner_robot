@@ -10,6 +10,10 @@
 #include <QIcon>
 #include <QPainterPath>
 
+/**
+ * @brief The ColumnData class
+ * Class storing column header data
+ */
 class ColumnData
 {
 public:
@@ -35,6 +39,11 @@ public:
             {"robotId", "robot"}
         };
     };
+    /**
+     * @brief append
+     * Add a new value to the model
+     * @param data
+     */
     void append(QJsonObject data)
     {
         beginInsertRows(QModelIndex() , m_data.count()-1, m_data.count()-1);
@@ -47,21 +56,31 @@ public:
         endInsertRows();
     }
     int rowCount(const QModelIndex &parent) const{
+        Q_UNUSED(parent);
         return m_data.count();
     };
     int columnCount(const QModelIndex &parent) const{
+        Q_UNUSED(parent);
         return headerMap.count();
     };
+    /**
+     * @brief data
+     * Return a specific facet of the columns data accurding to their roles
+     * @param index
+     * @param role
+     * @return
+     */
     QVariant data(const QModelIndex &index, int role) const{
         if(index.isValid())
         {
-            if(role == Qt::DisplayRole)
+            if(role == Qt::DisplayRole)//to display it
             {
                 QList<QVariant> data = m_data.at(index.row());
                 return data.at(index.column());
             }
-            if(headerMap.at(index.column()).jsonName == "color" && role == Qt::DecorationRole)
+            if(headerMap.at(index.column()).jsonName == "color" && role == Qt::DecorationRole)//to decorate it
             {
+                //add a colored icon to a cell
                 QList<QVariant> data = m_data.at(index.row());
                 QString colorString = data.at(index.column()).toString();
                 int size = 20;
@@ -91,7 +110,16 @@ public:
             append(o);
         }
         endInsertRows();
+        return true;
     };
+    /**
+     * @brief headerData
+     * Specified how the header will be arranged
+     * @param section
+     * @param orientation
+     * @param role
+     * @return
+     */
     QVariant headerData(int section, Qt::Orientation orientation, int role) const{
         if(role == Qt::TextAlignmentRole)
         {

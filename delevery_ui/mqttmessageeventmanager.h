@@ -7,7 +7,10 @@
 #include <QQueue>
 #include <QMqttMessage>
 
-
+/**
+ * @brief The MqttMessageEventManager class
+ * Event manager specialised in managing mqtt messages events
+ */
 class MqttMessageEventManager : public EventManager
 {
     Q_OBJECT

@@ -2,8 +2,8 @@
 
 UiOrderMqttPayload::UiOrderMqttPayload(QString color, int loadingArea, int depositArea, QString robotid)
 {
-    addValue("color", color);
-    addValue("loadingArea", loadingArea);
-    addValue("depositArea", depositArea);
-    addValue("robotId", robotid);
+    data.insert("color", color);
+    data.insert("loadingArea", loadingArea);
+    data.insert("depositArea", depositArea);
+    data.insert("robotId", robotid);
 }

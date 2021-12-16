@@ -4,7 +4,10 @@
 #include "mqttpayload.h"
 
 
-
+/**
+ * @brief The UiOrderMqttPayload class
+ * Payload class used to send order histories
+ */
 class UiOrderMqttPayload : public MqttPayload
 {
 public:

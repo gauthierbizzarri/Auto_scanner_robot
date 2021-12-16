@@ -9,47 +9,111 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    StateColors.cpp \
     appconfig.cpp \
+    cameracolorhandler.cpp \
+    camerascanmqttpayload.cpp \
     colorchecker.cpp \
     config.cpp \
+    downleftfieldelement.cpp \
+    downrightfieldelement.cpp \
     eventmanager.cpp \
+    fielddraw.cpp \
+    fieldelement.cpp \
     fieldmodel.cpp \
+    iconlabel.cpp \
+    jsonpathmaker.cpp \
+    leftrightpathmaker.cpp \
+    loadinareacolorhandler.cpp \
+    loadingareacolormqttpayload.cpp \
     loadingzonechecker.cpp \
     main.cpp \
     mainwindow.cpp \
     mqttmanager.cpp \
     mqttmessageeventmanager.cpp \
     mqttpayload.cpp \
+    objectpathmaker.cpp \
     orderchecker.cpp \
+    orderfollower.cpp \
+    robot.cpp \
+    robotbuttonpresshandler.cpp \
     robotchecker.cpp \
+    robotpathmqttpayload.cpp \
+    robotstephandler.cpp \
     startchecker.cpp \
+    straightleftrightfieldelement.cpp \
+    straightupdownfieldelement.cpp \
+    tdownfieldelement.cpp \
     timeoutmanager.cpp \
+    tleftfieldelement.cpp \
+    trightfieldelement.cpp \
+    tupfieldelement.cpp \
+    turndownleftfieldelement.cpp \
+    turndownrightfieldelement.cpp \
+    turnupleftfieldelement.cpp \
+    turnuprightfieldelement.cpp \
     uiorderhandler.cpp \
-    uiordermqttpayload.cpp
+    uiordermqttpayload.cpp \
+    upleftfieldelement.cpp \
+    uprightfieldelement.cpp
 
 HEADERS += \
     DataChecker.h \
+    FieldElementTracker.h \
     LoadingZones.h \
     StartZones.h \
+    StateColors.h \
     appconfig.h \
+    cameracolorhandler.h \
+    cameraids.h \
+    camerascanmqttpayload.h \
     colorchecker.h \
     colors.h \
     config.h \
+    direction.h \
+    downleftfieldelement.h \
+    downrightfieldelement.h \
     eventlistener.h \
     eventmanager.h \
+    fielddraw.h \
+    fieldelement.h \
     fieldmodel.h \
+    iconlabel.h \
+    jsonpathmaker.h \
+    leftrightpathmaker.h \
+    loadinareacolorhandler.h \
+    loadingareacolormqttpayload.h \
     loadingzonechecker.h \
     mainwindow.h \
     mqttmanager.h \
     mqttmessageeventmanager.h \
     mqttpayload.h \
+    objectpathmaker.h \
     orderchecker.h \
+    orderfollower.h \
+    pathmaker.h \
+    robot.h \
+    robotbuttonpresshandler.h \
     robotchecker.h \
+    robotpathmqttpayload.h \
+    robotstephandler.h \
     startchecker.h \
+    straightleftrightfieldelement.h \
+    straightupdownfieldelement.h \
+    tdownfieldelement.h \
     timeoutmanager.h \
+    tleftfieldelement.h \
+    trightfieldelement.h \
+    tupfieldelement.h \
+    turndownleftfieldelement.h \
+    turndownrightfieldelement.h \
+    turnupleftfieldelement.h \
+    turnuprightfieldelement.h \
     uiorderhandler.h \
     uiordermodel.h \
-    uiordermqttpayload.h
+    uiordermqttpayload.h \
+    upleftfieldelement.h \
+    uprightfieldelement.h
 
 FORMS += \
     config.ui \

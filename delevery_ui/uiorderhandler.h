@@ -6,6 +6,10 @@
 
 #include <QColumnView>
 
+/**
+ * @brief The UiOrderHandler class
+ * Handles adding a new order to history
+ */
 class UiOrderHandler : public EventListener
 {
 private:

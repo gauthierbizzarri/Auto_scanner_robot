@@ -4,7 +4,10 @@
 #include "DataChecker.h"
 
 
-
+/**
+ * @brief The ColorChecker class
+ * Class used to check if a color value is ok
+ */
 class ColorChecker: public DataChecker
 {
 public:
