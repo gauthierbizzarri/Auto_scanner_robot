@@ -5,6 +5,10 @@
 
 #include <QWidget>
 
+/**
+ * @brief The FieldDraw class
+ * Class used to handle the drawing of the field
+ */
 class FieldDraw : public QWidget
 {
     Q_OBJECT
@@ -16,8 +20,18 @@ private:
     QWidget* moveRobotSender;
 public:
     explicit FieldDraw(QWidget *parent = nullptr);
+
+    /**
+     * @brief setModel
+     * Sets the field model to draw with
+     * @param model
+     */
     void setModel(FieldModel* model);
 public slots:
+    /**
+     * @brief redifineRobotPosition
+     * Handle the click event activation for robot position change
+     */
     void redifineRobotPosition();
 signals:
 

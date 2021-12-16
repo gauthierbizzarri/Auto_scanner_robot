@@ -13,9 +13,9 @@ void LoadinAreaColorHandler::handle(QJsonObject data, bool dataEmpty, QMap<QStri
     if(!dataEmpty && data.contains("color") && meta.contains("loadingareaid"))
     {
         int id = meta.value("loadingareaid").toInt();
-        model->ColorFound(id, data.value("color").toString());
+        model->ColorFound(id, data.value("color").toString());//insert data as color we found
 
         loadings.at(id-1)->setText(data.value("color").toString());
-        loadings.at(id-1)->setColor(colors.value(data.value("color").toString()));
+        loadings.at(id-1)->setColor(colors.value(data.value("color").toString()));//set graphical components to adapt their content to this discovery
     }
 }

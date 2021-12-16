@@ -3,7 +3,10 @@
 
 #include "fieldelement.h"
 
-
+/**
+ * @brief The FieldElementTracker class
+ * Class used as part of the A* algorithm used to get shortest path throught the field from one element to another
+ */
 class FieldElementTracker{
 private:
     FieldElement* element;

@@ -16,6 +16,7 @@ AppConfig *AppConfig::fromFile(QString path)
     QFile file(path);
     if(!file.exists())
     {
+        //if the loading file does not exist, load teh default config
         return AppConfig::defaultConfig();
     }
     file.open(QFile::ReadOnly);
@@ -86,6 +87,7 @@ AppConfig *AppConfig::empty()
 
 AppConfig *AppConfig::defaultConfig()
 {
+    //configure mqtt brocker on mosquitto text brocker
     AppConfig* conf = new AppConfig();
     conf->mqtt_host = "test.mosquitto.org";
     conf->mqtt_port = 1883;

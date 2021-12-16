@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The DownRightFieldElement class
+ * Field element used to represent a path on which you can only go down and right
+ */
 class DownRightFieldElement : public FieldElement
 {
 public:

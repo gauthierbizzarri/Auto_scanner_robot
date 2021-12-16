@@ -11,6 +11,6 @@ void UiOrderHandler::handle(QJsonObject data, bool dataEmpty, QMap<QString, QVar
     {
         data.insert("id", meta.value("id").toInt());
         data.insert("date", QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm"));
-        view->append(data);
+        view->append(data);//append data to view model
     }
 }

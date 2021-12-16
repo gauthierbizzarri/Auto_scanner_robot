@@ -3,6 +3,6 @@
 
 enum Direction{
     UP, LEFT, DOWN, RIGHT
-};
+}; //enum specifying the directions a robot can take on the field
 
 #endif // DIRECTION_H

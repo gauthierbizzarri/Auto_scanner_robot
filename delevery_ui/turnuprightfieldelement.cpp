@@ -12,6 +12,7 @@ TurnUpRightFieldElement::TurnUpRightFieldElement(QPoint pos, FieldElement *up, F
 
 void TurnUpRightFieldElement::paint(QPainter *p)
 {
+    //draw arc
     QPen pen(QColor(0, 0, 0), FieldElement::thickness);
     p->setPen(pen);
     p->drawArc(position.x()*FieldElement::size+FieldElement::size/2,

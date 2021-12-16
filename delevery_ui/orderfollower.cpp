@@ -1,7 +1,9 @@
 #include "orderfollower.h"
+
+
 void OrderFollower::manageDirectionInBetween(int from, int to)
 {
-    for(int i = from; i<=to; i++)
+    for(int i = from; i<=to; i++)//for each in between elements, turn the robot direction accurding to the exit direction
     {
         if(robot->pointing() == LEFT && passBy.at(i)->alowedToGoTo().contains(UP))
         {
@@ -50,6 +52,7 @@ OrderFollower::OrderFollower(QString robotid, Robot *robot, QString path, QList<
 
 bool OrderFollower::toStep(int step)
 {
+    //decomposes path to raw directions
     if(step == lastIndex+1)
     {
         if(path.at(step) == "L")
@@ -86,6 +89,8 @@ bool OrderFollower::toStep(int step)
                 robot->setDirection(DOWN);
             }
         }
+
+        //if we did not arrive passed the last step (end of the following)
         if(step+1<steps.count())
         {
             robot->moveAt(steps.at(step+1)->getPosition());
@@ -95,7 +100,7 @@ bool OrderFollower::toStep(int step)
         {
             manageDirectionInBetween(passBy.indexOf(steps.at(step))+1, passBy.count()-2);
             robot->moveAt(passBy.last()->getPosition());
-            emit orderEnd(robotid);
+            emit orderEnd(robotid);//inform about the journey end
             return false;
         }
         lastIndex = step;
@@ -115,7 +120,7 @@ void OrderFollower::draw(QPainter *p)
     {
         p->setPen(QPen(QBrush(robot->getColor()), FieldElement::thickness/thicknessRatio));
         FieldElement* first = passBy.at(passBy.indexOf(steps.at(lastIndex+1)));
-        for(int i = passBy.indexOf(steps.at(lastIndex+1))+1; i < passBy.count(); i++)
+        for(int i = passBy.indexOf(steps.at(lastIndex+1))+1; i < passBy.count(); i++)//draws each elements of the path as a line depending on its direction
         {
             p->drawLine(first->getPosition().x()*FieldElement::size+FieldElement::size/2-FieldElement::thickness/thicknessRatio/2,
                         first->getPosition().y()*FieldElement::size+FieldElement::size/2-FieldElement::thickness/thicknessRatio/2,

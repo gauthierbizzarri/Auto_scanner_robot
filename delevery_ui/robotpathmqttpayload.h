@@ -4,7 +4,10 @@
 #include "mqttpayload.h"
 
 
-
+/**
+ * @brief The RobotPathMqttPayload class
+ * Payload to send the path throught mqtt
+ */
 class RobotPathMqttPayload : public MqttPayload
 {
 public:

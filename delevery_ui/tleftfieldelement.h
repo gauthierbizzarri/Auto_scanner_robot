@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The TLeftFieldElement class
+ * Class representing a left sided T
+ */
 class TLeftFieldElement : public FieldElement
 {
 public:

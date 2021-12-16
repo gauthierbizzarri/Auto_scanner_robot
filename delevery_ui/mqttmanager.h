@@ -8,6 +8,10 @@
 #include <QMqttClient>
 
 
+/**
+ * @brief The MqttTopic class
+ * Managing the topics you can write and read on to
+ */
 class MqttTopic {
 private:
     MqttTopic(QString t, int qos = 0, bool retained = false)
@@ -21,11 +25,19 @@ public:
     bool retained;
     int qos;
 
+    /**
+     * @brief parse
+     * Parses a topic from a template to extract meta data from it
+     * @param topic
+     * @param topicTemplate
+     * @param ok set to false if somthing went wrong
+     * @return a meta data map, or an empty one
+     */
     static QMap<QString, QVariant> parse(QString topic, QString topicTemplate, bool *ok = nullptr)
     {
         QMap<QString, QVariant> res;
         QRegularExpression exp("({.+})");
-        if(topic.split("/").count() != topicTemplate.split("/").count())
+        if(topic.split("/").count() != topicTemplate.split("/").count())//if topic has different level number in comparison to template
         {
             if(ok != nullptr)
             {
@@ -34,14 +46,14 @@ public:
             return QMap<QString, QVariant>();
         }
         int levelId = 0;
-        Q_FOREACH(QString topicLevel, topic.split("/"))
+        Q_FOREACH(QString topicLevel, topic.split("/"))//for each topic level
         {
             QString templateLevel = topicTemplate.split("/").at(levelId);
             if(exp.match(templateLevel).hasMatch())
             {
-                res.insert(templateLevel.replace("{", "").replace("}", ""), topicLevel);
+                res.insert(templateLevel.replace("{", "").replace("}", ""), topicLevel);//extract meta data
             }
-            else if(topicLevel != templateLevel)
+            else if(topicLevel != templateLevel)//if a level is different on topic and template
             {
                 if(ok != nullptr)
                 {
@@ -124,7 +136,10 @@ public:
     };
 };
 
-
+/**
+ * @brief The MQTTManager class
+ * Class managing mqtt communication with brocker
+ */
 class MQTTManager : public QObject
 {
     Q_OBJECT
@@ -151,12 +166,34 @@ public:
 
     MQTTManager* configureKeepAlive(int keepalive);
 
+    /**
+     * @brief configureFromConfigString*
+     * set configuration from an mqtt configuration string
+     * @see AppConfig
+     * @param configString
+     */
     void configureFromConfigString(QString configString);
 
+    /**
+     * @brief connectToHost
+     * Connect manager to brocker usint given configuration
+     */
     void connectToHost();
 
+    /**
+     * @brief subscribe
+     * Subscribe to the topic topic, setting the message handler handleObject
+     * @param topic
+     * @param handleObject
+     */
     void subscribe(MqttTopic topic, QObject* handleObject);
 
+    /**
+     * @brief publish
+     * Publish the payload to the topic on the broclker
+     * @param topic
+     * @param payload
+     */
     void publish(MqttTopic topic, MqttPayload* payload);
 private slots:
     void clientConnected();

@@ -16,6 +16,7 @@ config::config(QWidget *parent) :
         ui->protocolversion->addItem(proto);
     }
 
+    //populate field from a config
     AppConfig* config = AppConfig::fromFile();
     ui->clientid->setText(config->mqtt_clientid);
     ui->host->setText(config->mqtt_host);
@@ -35,6 +36,7 @@ config::~config()
 
 void config::saveOptions()
 {
+    //generate a config object from fields
     AppConfig* config = AppConfig::empty();
     config->mqtt_clientid = ui->clientid->text();
     config->mqtt_host = ui->host->text();

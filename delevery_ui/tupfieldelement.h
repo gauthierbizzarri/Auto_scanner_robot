@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The TUpFieldElement class
+ * Class representing an upside down T
+ */
 class TUpFieldElement : public FieldElement
 {
 public:

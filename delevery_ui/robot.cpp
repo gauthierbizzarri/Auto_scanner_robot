@@ -35,6 +35,11 @@ QPoint Robot::startedOn()
     return start;
 }
 
+void Robot::setStartPoint(QPoint p)
+{
+    start = p;
+}
+
 QColor Robot::getColor()
 {
     return color;
@@ -99,11 +104,13 @@ void Robot::draw(QPainter *p)
 {
     int robSize = FieldElement::thickness+10;
     QPainterPath rpath;
+    //draw robot body
     rpath.addEllipse(getPosition().x()*FieldElement::size+FieldElement::size/2-robSize/2, getPosition().y()*FieldElement::size+FieldElement::size/2-robSize/2, robSize, robSize);
     p->fillPath(rpath, QBrush(getColor()));
     QPainterPath arrow;
     QPolygonF trig;
     int offset = 2;
+    //draw robot "head"
     switch(dir)
     {
     case LEFT:

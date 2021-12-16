@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The StraightLeftRightFieldElement class
+ * Field element representing a straight horizontal line
+ */
 class StraightLeftRightFieldElement : public FieldElement
 {
 public:

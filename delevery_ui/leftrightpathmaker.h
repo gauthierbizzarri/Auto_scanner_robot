@@ -5,7 +5,11 @@
 #include "pathmaker.h"
 
 
-
+/**
+ * @brief The LeftRightPathMaker class
+ * Alternante version of the json path maker one, only with L's and R's
+ * @see JsonPathMaker
+ */
 class LeftRightPathMaker : PathMaker<QList<FieldElement*>, QJsonObject>
 {
 private:

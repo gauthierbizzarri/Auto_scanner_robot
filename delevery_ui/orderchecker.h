@@ -3,6 +3,10 @@
 
 #include "DataChecker.h"
 
+/**
+ * @brief The OrderChecker class
+ * Class used to check if an order is valid, user multiple sub checkers
+ */
 class OrderChecker : public DataChecker
 {
 private:

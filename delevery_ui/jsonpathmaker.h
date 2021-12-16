@@ -6,6 +6,10 @@
 
 #include <QList>
 
+/**
+ * @brief The JsonPathMaker class
+ * Class used to transfrom an ordered list of field elemnt to a nice json path
+ */
 class JsonPathMaker : public PathMaker<QList<FieldElement*>, QJsonObject>
 {
 private:

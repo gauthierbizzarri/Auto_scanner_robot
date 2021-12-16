@@ -6,7 +6,10 @@
 #include "iconlabel.h"
 
 
-
+/**
+ * @brief The LoadinAreaColorHandler class
+ * Class used to handle the arrival of informations about the field from other robots and cameras (collaborative exploring)
+ */
 class LoadinAreaColorHandler : public EventListener
 {
 private:

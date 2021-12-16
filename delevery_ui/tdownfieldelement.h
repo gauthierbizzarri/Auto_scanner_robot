@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The TDownFieldElement class
+ * Class representing a T
+ */
 class TDownFieldElement : public FieldElement
 {
 public:

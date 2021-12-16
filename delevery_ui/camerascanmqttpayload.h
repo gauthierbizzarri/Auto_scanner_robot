@@ -4,7 +4,10 @@
 #include "mqttpayload.h"
 
 
-
+/**
+ * @brief The CameraScanMqttPayload class
+ * Class representing the payload for launching the camera scan
+ */
 class CameraScanMqttPayload : public MqttPayload
 {
 public:

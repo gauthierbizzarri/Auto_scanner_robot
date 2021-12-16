@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The TurnUpLeftFieldElement class
+ * Class representing a smooth turn from up to left seen as a straight line
+ */
 class TurnUpLeftFieldElement : public FieldElement
 {
 public:

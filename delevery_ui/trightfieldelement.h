@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The TRightFieldElement class
+ * Class representing a right sided T
+ */
 class TRightFieldElement : public FieldElement
 {
 public:

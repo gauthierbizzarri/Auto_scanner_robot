@@ -9,7 +9,11 @@
 #include <mqttmanager.h>
 
 
-
+/**
+ * @brief The RobotButtonPressHandler class
+ * Handle the press of the robot ntton indicating if its ready to gu ahead
+ *
+ */
 class RobotButtonPressHandler : public EventListener
 {
 private:

@@ -4,7 +4,10 @@
 #include <QObject>
 
 
-
+/**
+ * @brief The TimeoutManager class
+ * Class managing timeout counter in a separate thread
+ */
 class TimeoutManager : public QObject
 {
     Q_OBJECT

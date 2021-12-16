@@ -3,7 +3,10 @@
 
 #include <QColor>
 
-
+/**
+ * @brief The StateColors class
+ * Class storing the different colors and states of a robot indicator
+ */
 class StateColors
 {
 public:

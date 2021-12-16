@@ -4,6 +4,10 @@
 #include "fieldelement.h"
 #include "pathmaker.h"
 
+/**
+ * @brief The ObjectPathMaker class
+ * Path maker extracting only intersection elements to create its path
+ */
 class ObjectPathMaker : PathMaker<QList<FieldElement*>, QList<FieldElement*>>
 {
 private:

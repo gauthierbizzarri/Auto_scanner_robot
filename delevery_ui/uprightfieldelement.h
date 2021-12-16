@@ -4,7 +4,10 @@
 #include "fieldelement.h"
 
 
-
+/**
+ * @brief The UpRightFieldElement class
+ * Class representing a path on wich you can only go up and right
+ */
 class UpRightFieldElement : public FieldElement
 {
 public:

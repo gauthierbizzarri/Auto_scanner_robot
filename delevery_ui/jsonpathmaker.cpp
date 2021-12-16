@@ -23,22 +23,22 @@ QJsonObject JsonPathMaker::create(QList<FieldElement *> res)
     for(int i = 1; i<res.count(); i++)
     {
         QString direction = "";
-        if(cur->goTo(UP) == res.at(i))
+        if(cur->goTo(UP) == res.at(i))//if going up
         {
             direction = cur->letter(dir, UP);
             dir = UP;
         }
-        else if(cur->goTo(DOWN) == res.at(i))
+        else if(cur->goTo(DOWN) == res.at(i))//if going down
         {
             direction = cur->letter(dir, DOWN);
             dir = DOWN;
         }
-        if(cur->goTo(LEFT) == res.at(i))
+        if(cur->goTo(LEFT) == res.at(i))//if going left
         {
             direction = cur->letter(dir, LEFT);
             dir = LEFT;
         }
-        if(cur->goTo(RIGHT) == res.at(i))
+        if(cur->goTo(RIGHT) == res.at(i))//if going right
         {
             direction = cur->letter(dir, RIGHT);
             dir = RIGHT;

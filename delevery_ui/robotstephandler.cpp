@@ -16,15 +16,15 @@ void RobotStepHandler::handle(QJsonObject data, bool dataEmpty, QMap<QString, QV
             model->follower(meta.value("robotid").toString().toUpper()) != nullptr)
     {
         OrderFollower* follower = model->follower(meta.value("robotid").toString().toUpper());
+        //a robot must stop when it arrives at a loading area or a deposit area
         bool stopState = model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::TOLOAD
                 || model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::TODEPOSIT
                 || model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::BACKTOLOADING
                 || model->getRobots().value(meta.value("robotid").toString().toUpper())->getStatus() == RobotStatus::RELOAD;
-        if(stopState)
-            connect(follower, SIGNAL(orderEnd(QString)), this, SLOT(customSlot()));
         bool continues = follower->toStep(data.value("status").toInt());
         if(continues)
         {
+            //set robot working indicator
             order->setText("Ordre en cours d'execution");
             order->setColor(StateColors::OK);
         }
@@ -39,6 +39,7 @@ void RobotStepHandler::handle(QJsonObject data, bool dataEmpty, QMap<QString, QV
 
 void RobotStepHandler::customSlot()
 {
+    //set robot stoped indicator
     order->setText("A l'arret");
     order->setColor(StateColors::KO);
 }

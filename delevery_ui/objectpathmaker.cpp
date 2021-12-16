@@ -7,6 +7,9 @@ ObjectPathMaker::ObjectPathMaker(Direction dir)
 
 QList<FieldElement *> ObjectPathMaker::create(QList<FieldElement *> res)
 {
+    /*
+     * Pretty much the same as the json version, but with objects
+     * */
     QList<FieldElement *> data;
     Direction dir = init;
     FieldElement *cur = res.at(0);

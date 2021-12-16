@@ -4,7 +4,10 @@
 #include "DataChecker.h"
 
 
-
+/**
+ * @brief The LoadingZoneChecker class
+ * Class used to check if a loading area is correct
+ */
 class LoadingZoneChecker : public DataChecker
 {
 public:

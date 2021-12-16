@@ -32,7 +32,7 @@ void IconLabel::setColor(QColor color)
 
 void IconLabel::paintEvent(QPaintEvent *event)
 {
-    int spacing = height()/2-iconSize/2;
+    int spacing = height()/2-iconSize/2; //space on top of the icon to center it
     // creating circle clip area
     QPainterPath path;
     path.addEllipse(spacing, spacing, iconSize, iconSize);

@@ -7,7 +7,10 @@
 #include "iconlabel.h"
 
 
-
+/**
+ * @brief The RobotStepHandler class
+ * Handle the step forward of a robot in a part of its journey
+ */
 class RobotStepHandler : public EventListener
 {
 private:

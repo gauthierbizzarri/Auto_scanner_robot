@@ -4,7 +4,10 @@
 #include "mqttpayload.h"
 
 
-
+/**
+ * @brief The LoadingAreaColorMqttPayload class
+ * Payload for color discoveries to share
+ */
 class LoadingAreaColorMqttPayload : public MqttPayload
 {
 public:

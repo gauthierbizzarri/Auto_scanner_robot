@@ -3,6 +3,10 @@
 
 #include <QLabel>
 
+/**
+ * @brief The IconLabel class
+ * Extension of QLable allowing to add an icon to a text
+ */
 class IconLabel : public QLabel
 {
 private:

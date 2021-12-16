@@ -3,6 +3,10 @@
 
 #include <QJsonObject>
 
+/**
+ * @brief The MqttPayload class
+ * Base class for mqtt payload (just a layer above a simple json)
+ */
 class MqttPayload
 {
 protected:

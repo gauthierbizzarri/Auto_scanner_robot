@@ -6,7 +6,10 @@
 #include <QString>
 
 
-
+/**
+ * @brief The RobotChecker class
+ * Check if the selected robot is correct
+ */
 class RobotChecker : public DataChecker
 {
 public:

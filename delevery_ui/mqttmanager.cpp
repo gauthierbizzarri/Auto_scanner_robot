@@ -3,6 +3,7 @@
 
 #include <QApplication>
 
+//templates definitions
 const QString MqttTopic::uiOrderTemplate = "field/ui/{id}/ordre";
 const QString MqttTopic::robotButtonTemplate = "field/robot/{robotid}/button";
 const QString MqttTopic::cameraColorTemplate = "field/camera/{camid}/color";
@@ -11,8 +12,10 @@ const QString MqttTopic::robotStepTemplate = "field/robot/{robotid}/status";
 const QString MqttTopic::cameraScanTemplate = "field/camera/{camid}/scan";
 const QString MqttTopic::loadingAreaColorTemplate = "field/loading_area/{loadingareaid}/color";
 
+//default mqtt protocol to use
 QString MQTTManager::defaultProtocol = "mqtt3.1.1";
 
+//allowed mqtt protocols to use
 const QMap<QString, QMqttClient::ProtocolVersion> MQTTManager::admitedProtocols{
          {"mqtt3.1", QMqttClient::MQTT_3_1},
         {"mqtt3.1.1", QMqttClient::MQTT_3_1_1},
@@ -155,7 +158,7 @@ void MQTTManager::publish(MqttTopic topic, MqttPayload *payload)
 
 void MQTTManager::clientConnected()
 {
-    if(!timeout->timeoutReached && client->state() == QMqttClient::Connected)
+    if(!timeout->timeoutReached && client->state() == QMqttClient::Connected)//if connection did not time out
     {
         timeout->abort();
         m_connected = true;
@@ -165,5 +168,5 @@ void MQTTManager::clientConnected()
 
 void MQTTManager::clientTimedout()
 {
-    emit timedout();
+    emit timedout();//when connection did time out
 }

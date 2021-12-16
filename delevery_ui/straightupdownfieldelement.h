@@ -5,6 +5,10 @@
 
 
 
+/**
+ * @brief The StraightUpDownFieldElement class
+ * Class representing a straight vertical line
+ */
 class StraightUpDownFieldElement : public FieldElement
 {
 public:

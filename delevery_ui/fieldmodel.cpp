@@ -24,6 +24,7 @@
 
 FieldModel::FieldModel()
 {
+    //generate the home field ground
     addElement((new TurnDownRightFieldElement(QPoint(1, 0)))->setAllowedDirection({RIGHT}));
     addElement((new TDownFieldElement(QPoint(2, 0)))->setAllowedDirection({RIGHT}));
     addElement((new TDownFieldElement(QPoint(3, 0)))->setAllowedDirection({RIGHT}));
@@ -57,6 +58,8 @@ FieldModel::FieldModel()
     addElement((new TurnUpLeftFieldElement(QPoint(6, 4)))->setAllowedDirection({LEFT}));
 
     srand(time(0));
+    //insert the only robot we have (yet)
+    //might be moved to some addRobot method
     robots.insert("ROBOT3", new Robot(deposits.value(3)->getPosition(), QColor(rand()%150+100, rand()%150+100, rand()%150+100), UP));
     lastLoading = -1;
 }
@@ -70,59 +73,64 @@ void FieldModel::drawAll(QPainter *p)
 {
     Q_FOREACH(FieldElement* e, elements)
     {
-        if(loadings.values().contains(e))
+        if(loadings.values().contains(e)) //draw loading areas (in blueish)
         {
             p->setPen(QPen(QColor(0, 0, 0), 1));
             p->drawRect(e->getPosition().x()*FieldElement::size, e->getPosition().y()*FieldElement::size, FieldElement::size,FieldElement::size);
             p->fillRect(e->getPosition().x()*FieldElement::size, e->getPosition().y()*FieldElement::size, FieldElement::size, FieldElement::size, QBrush(QColor(166,219,248,125)));
             p->drawText(e->getPosition().x()*FieldElement::size+5, e->getPosition().y()*FieldElement::size+FieldElement::size-5, QString::number(loadings.key(e)));
         }
-        if(deposits.values().contains(e))
+        if(deposits.values().contains(e)) //draw depoits area (int orangeish)
         {
             p->setPen(QPen(QColor(0, 0, 0), 1));
             p->drawRect(e->getPosition().x()*FieldElement::size, e->getPosition().y()*FieldElement::size, FieldElement::size,FieldElement::size);
             p->fillRect(e->getPosition().x()*FieldElement::size, e->getPosition().y()*FieldElement::size, FieldElement::size, FieldElement::size, QBrush(QColor(246,178,107,125)));
             p->drawText(e->getPosition().x()*FieldElement::size+5, e->getPosition().y()*FieldElement::size+FieldElement::size-5, QString::number(deposits.key(e)));
         }
-        if(analyse.contains(e))
+        if(analyse.contains(e)) //draw analyse areas (int greenish)
         {
             p->setPen(QPen(QColor(0, 0, 0), 1));
             p->drawRect(e->getPosition().x()*FieldElement::size, e->getPosition().y()*FieldElement::size, FieldElement::size,FieldElement::size);
             p->fillRect(e->getPosition().x()*FieldElement::size, e->getPosition().y()*FieldElement::size, FieldElement::size, FieldElement::size, QBrush(QColor(204,238,226,200)));
             p->drawText(e->getPosition().x()*FieldElement::size+5, e->getPosition().y()*FieldElement::size+FieldElement::size-5, QString::number(analyse.indexOf(e)+1));
         }
-        e->paint(p);
+        e->paint(p);//draw the actual element
     }
     Q_FOREACH(QString robot, orderFollowers.keys())
     {
-        orderFollowers.value(robot)->draw(p);
+        orderFollowers.value(robot)->draw(p); //draw the follower of a robot (the path it will take)
     }
     Q_FOREACH(Robot* robot, robots.values())
     {
-        robot->draw(p);
+        robot->draw(p); //draw the robot
     }
 }
 
 void FieldModel::addElement(FieldElement *e)
 {
-    if(elements.contains(e))
+    if(elements.contains(e)) //if element was already added
     {
         return;
     }
     QPoint p = e->getPosition();
     FieldElement* element = at(p);
-    if(element != nullptr)
+    if(element != nullptr) //if an element already exists at this position
     {
-        elements.removeOne(element);
+        elements.removeOne(element); //remove it from elements
         if(deposits.values().contains(element))
         {
-            deposits.remove(deposits.key(element));
+            deposits.remove(deposits.key(element));//remove it from deposits
         }
         if(loadings.values().contains(element))
         {
-            loadings.remove(loadings.key(element));
+            loadings.remove(loadings.key(element));//remove it from loadings
+        }
+        if(analyse.contains(element))
+        {
+            analyse.removeOne(element);//remove it from analyses
         }
     }
+    //get elements on left, right, up and down from this position
     QPoint up = p;
     up.setY(up.y()-1);
     QPoint down = p;
@@ -135,6 +143,7 @@ void FieldModel::addElement(FieldElement *e)
     FieldElement* downE = at(down);
     FieldElement* leftE = at(left);
     FieldElement* rightE = at(right);
+    //link the directions that can be linked
     Q_FOREACH(Direction d, e->canGoTo())
     {
         switch(d)
@@ -169,20 +178,20 @@ void FieldModel::addElement(FieldElement *e)
             break;
         }
     }
-    elements.append(e);
+    elements.append(e);//add element to elements
     emit changed();
 }
 
 void FieldModel::addDeposit(FieldElement *e, int index)
 {
     if(!deposits.values().contains(e))
-        deposits.insert(index, e);
+        deposits.insert(index, e);//tag the element
     if(loadings.values().contains(e))
     {
-        loadings.remove(loadings.key(e));
+        loadings.remove(loadings.key(e));//remove the loading area tag
     }
     if(analyse.contains(e)){
-        analyse.removeOne(e);
+        analyse.removeOne(e);//remove the analyse tag
     }
     addElement(e);
 }
@@ -190,13 +199,13 @@ void FieldModel::addDeposit(FieldElement *e, int index)
 void FieldModel::addLoading(FieldElement *e, int index)
 {
     if(!loadings.values().contains(e))
-        loadings.insert(index, e);
+        loadings.insert(index, e);//tage the element
     if(deposits.values().contains(e))
     {
-        deposits.remove(deposits.key(e));
+        deposits.remove(deposits.key(e));//remove the deposit tag
     }
     if(analyse.contains(e)){
-        analyse.removeOne(e);
+        analyse.removeOne(e);//remove the analyse tag
     }
     addElement(e);
 }
@@ -242,16 +251,21 @@ FieldElement *FieldModel::getAnalyse(int index)
 void FieldModel::addAnalyse(FieldElement *e)
 {
     if(!analyse.contains(e))
-        analyse.append(e);
+        analyse.append(e);//add analyse tag
     if(loadings.values().contains(e))
     {
-        loadings.remove(loadings.key(e));
+        loadings.remove(loadings.key(e));//remove loading are tag
     }
     if(deposits.values().contains(e))
     {
-        deposits.remove(deposits.key(e));
+        deposits.remove(deposits.key(e));//remove deposit tag
     }
     addElement(e);
+}
+
+QList<FieldElement *> FieldModel::getAnalyses()
+{
+    return analyse;
 }
 
 FieldElement *FieldModel::at(QPoint pos)
@@ -263,14 +277,14 @@ FieldElement *FieldModel::at(QPoint pos)
             return e;
         }
     }
-    return nullptr;
+    return nullptr;//if no elements fount at this position
 }
 
 bool FieldModel::moveRobot(QString robotId, QPoint pos)
 {
     if(at(pos) == nullptr)
     {
-        return false;
+        return false;//if no element at position pos
     }
     if(robots.contains(robotId))
     {
@@ -279,7 +293,7 @@ bool FieldModel::moveRobot(QString robotId, QPoint pos)
         emit changed();
         return true;
     }
-    return false;
+    return false;//if robot does not exist
 }
 
 float distanceBetween(QPoint p1, QPoint p2)
@@ -313,7 +327,7 @@ FieldElementTracker* fromElement(FieldElement* element, QList<FieldElementTracke
     return nullptr;
 }
 
-QList<FieldElement*> FieldModel::getPath(Direction init, FieldElement* from, FieldElement* to)
+QList<FieldElement*> FieldModel::getPath(FieldElement* from, FieldElement* to)
 {
     QList<FieldElementTracker*> open{new FieldElementTracker(from, 0+distanceBetween(from->getPosition(), to->getPosition()))};
     QList<FieldElementTracker*> closed;
@@ -410,49 +424,49 @@ void FieldModel::setRobotAvailable(QString robot)
     }
     if(robots.contains(robot))
     {
-        if(robots.value(robot)->getStatus() == RobotStatus::TOLOAD)
+        if(robots.value(robot)->getStatus() == RobotStatus::TOLOAD)//if robot arrived on loading area
         {
-            robots.value(robot)->setStatus(RobotStatus::TOANALYSE);
+            robots.value(robot)->setStatus(RobotStatus::TOANALYSE);//robot goes to analyse
         }
-        else if(robots.value(robot)->getStatus() == RobotStatus::RELOAD)
+        else if(robots.value(robot)->getStatus() == RobotStatus::RELOAD)//if robot changed its loading area
         {
-            robots.value(robot)->setStatus(RobotStatus::TOANALYSE);
+            robots.value(robot)->setStatus(RobotStatus::TOANALYSE);//robot goes to analyse
         }
-        else if (robots.value(robot)->getStatus() == RobotStatus::TODEPOSIT)
+        else if (robots.value(robot)->getStatus() == RobotStatus::TODEPOSIT)//if robot arrived on deposit
         {
-            robots.value(robot)->setReadyForOrder(true);
-            robots.value(robot)->setStatus(RobotStatus::TOLOAD);
-            lastLoading = -1;
+            robots.value(robot)->setReadyForOrder(true);//set robot open to orders
+            robots.value(robot)->setStatus(RobotStatus::TOLOAD);//robot goes on loading area
+            lastLoading = -1;//reset loading reference
         }
-        else if(robots.value(robot)->getStatus() == RobotStatus::TOANALYSE)
+        else if(robots.value(robot)->getStatus() == RobotStatus::TOANALYSE)//if robot arrived on analyse
         {
-            if(robots.value(robot)->getCarriedColor() == robots.value(robot)->getColorToLookFor())
+            if(robots.value(robot)->getCarriedColor() == robots.value(robot)->getColorToLookFor())//if color carried by robot is the one he look for
             {
-                robots.value(robot)->setStatus(RobotStatus::TODEPOSIT);
-                QList<FieldElement*> path = getPath(robots.value(robot)->pointing(), at(robots.value(robot)->getPosition()), at(robots.value(robot)->startedOn()));
+                robots.value(robot)->setStatus(RobotStatus::TODEPOSIT);//robot goes to deposit
+                QList<FieldElement*> path = getPath(at(robots.value(robot)->getPosition()), at(robots.value(robot)->startedOn()));//find the shortest way to its starting point
                 if(path.count() > 0)
                 {
                     emit newPath(robot, path);
                 }
             }
-            else
+            else//else if color is wrong
             {
-                robots.value(robot)->setStatus(RobotStatus::BACKTOLOADING);
-                QList<FieldElement*> path = getPath(robots.value(robot)->pointing(), at(robots.value(robot)->getPosition()), loadings.value(lastLoading));
+                robots.value(robot)->setStatus(RobotStatus::BACKTOLOADING);//robot head back to loading area
+                QList<FieldElement*> path = getPath(at(robots.value(robot)->getPosition()), loadings.value(lastLoading));//where it took the whont item
                 if(path.count() > 0)
                 {
                     emit newPath(robot, path);
                 }
             }
         }
-        else if(robots.value(robot)->getStatus() == RobotStatus::BACKTOLOADING)
+        else if(robots.value(robot)->getStatus() == RobotStatus::BACKTOLOADING)//if robot arrived back to loading area
         {
-            lastLoading = (lastLoading+1)%(loadings.count()+1);
+            lastLoading = (lastLoading+1)%(loadings.count()+1);//heading to the next loading area
             if(lastLoading == 0)
             {
                 lastLoading = 1;
             }
-            robots.value(robot)->setStatus(RobotStatus::RELOAD);
+            robots.value(robot)->setStatus(RobotStatus::RELOAD);//robot goes take a new item
         }
     }
 }
@@ -470,8 +484,8 @@ bool FieldModel::followSteps(QString robotid, OrderFollower *follower)
         {
             return false;
         }
-        orderFollowers.insert(robotid, follower);
-        connect(follower, SIGNAL(orderEnd(QString)), this, SLOT(setRobotAvailable(QString)));
+        orderFollowers.insert(robotid, follower);//link a robot and a follower
+        connect(follower, SIGNAL(orderEnd(QString)), this, SLOT(setRobotAvailable(QString)));//on journey's end, robots allways change
         emit changed();
         return true;
     }

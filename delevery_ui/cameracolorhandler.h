@@ -7,7 +7,10 @@
 #include "mqttmanager.h"
 
 
-
+/**
+ * @brief The CameraColorHandler class
+ * Class handleing camera color result event
+ */
 class CameraColorHandler : public EventListener
 {
 private:
