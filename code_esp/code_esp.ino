@@ -7,7 +7,7 @@
 #include <ArduinoJson.h>
 #include <HardwareSerial.h>
 
-#define MDa 5
+#define MDa 5 // pins used by the motors
 #define MGa 4
 #define MD 0
 #define MG 2
@@ -15,30 +15,27 @@
 #define MQTT_USER "terrain1" // terrain2
 #define MQTT_PASS "w87KNd2b" // 56jpwYhr
 
-char *ssid = "PhoenixArdent";
-char *password = "pioupiou";
-int retries = 5;
-DynamicJsonDocument docMqtt(512);
-DynamicJsonDocument rdocMqtt(512);
-String clientId;
-char buffer[512];
-String test;
+String ssid = "IMERIR_IoT";        // IMERIR_IoT
+String password = "kohWoong5oox";  // kohWoong5oox
+int retries = 5;                   // number of retries (wifi connection)
+int i = 0;
 
+
+DynamicJsonDocument docMqtt(5000); // just a bunch of big arrays
+DynamicJsonDocument rdocMqtt(5000);
+StaticJsonDocument<5000> doc;
+char buffer[5000];
+
+String clientId;
+String test;
 const byte numChars = 32;
 char receivedChars[numChars]; // an array to store the received data
-
 boolean newData = false;
 
-int i = 0;
 
 WiFiClient espClient;
 char mqtt_server[] = "mqtt-milles.imerir.org"; // mqtt-milles.imerir.org
 PubSubClient MQTTclient(espClient);
-
-StaticJsonDocument<200> doc;
-
-const int serialComm = 3;
-
 
 int ConnexionWifi();
 void Wifisetup();
@@ -52,8 +49,7 @@ void parsedata(char *donnees);
 void recvWithEndMarker();
 void decodejson();
 
-
-int ConnexionWifi()
+int ConnexionWifi() // connect to the wifi
 {
   WiFi.begin(ssid, password);
   // tries each second (to let some time to scan WiFi)
@@ -64,14 +60,12 @@ int ConnexionWifi()
   }
   if (WiFi.status() == WL_CONNECTED)
   { // successfully connected
-    Serial.println("connecte");
     return 0;
   }
-  Serial.println("erreur connexion");
   return -1;
 }
 
-void Wifisetup()
+void Wifisetup() // try to connect to the wifi hotspot (many hotspot possible)
 {
   delay(1000);
   WiFi.mode(WIFI_STA);
@@ -94,44 +88,37 @@ void Wifisetup()
   }
 }
 
-
-void MQTTsend(int qos, String topic)
+void MQTTsend(int qos, String topic) // send data to the broker
 {
-  size_t n = serializeJson(docMqtt, buffer);
+  serializeJson(docMqtt, buffer);
   String topsend = "field/robot/" + clientId + "/" + topic;
-  Serial.println(topsend);
   const char *topicsend = topsend.c_str();
-  Serial.println("buffer:");
-  Serial.println(buffer);
-  MQTTclient.publish(topicsend, buffer, n); // TODO: false -> n en cas de bug
+  MQTTclient.publish(topicsend, buffer, false);
   docMqtt.clear();
-   memset(buffer,0,sizeof buffer);
+  memset(buffer, 0, sizeof buffer);
 }
 
-
-
-void MQTTconnect() {
-  while (!MQTTclient.connected()) {
-      Serial.print("Attente  MQTT connection...");
-      clientId = "ROBOT3";
-
+void MQTTconnect()
+{ // connect to the broker and subscribe
+  while (!MQTTclient.connected())
+  {
+    clientId = "ROBOT3";
     // Attempt to connect
-    if (MQTTclient.connect(clientId.c_str(),MQTT_USER,MQTT_PASS)) {
-      Serial.println("connected");
+    if (MQTTclient.connect(clientId.c_str(), MQTT_USER, MQTT_PASS))
+    {
       MQTTclient.subscribe("field/robot/ROBOT3/path");
-      MQTTclient.subscribe("field/robot/ROBOT3/button"); // TODO: topic subscribe
-      MQTTclient.subscribe("field/camera/3/color");
-    } else {
-      Serial.print("ECHEC, rc=");
-      Serial.print(MQTTclient.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
+      // MQTTclient.subscribe("field/robot/ROBOT3/status");
+      // MQTTclient.subscribe("field/robot/ROBOT3/button");
+      // MQTTclient.subscribe("field/camera/3/color");
+    }
+    else
+    {
       delay(5000);
     }
   }
 }
 
-void MQTTbutton(char *donnees)
+void MQTTbutton(char *donnees) // publish to the broker the state of the button (if the ball in on the robot)
 {
   if (donnees[1] == '1')
   {
@@ -144,39 +131,32 @@ void MQTTbutton(char *donnees)
   MQTTsend(2, "button");
 }
 
-void MQTTstatus(char *donnees)
+void MQTTstatus(char *donnees) // publish to the broker the curent position of the robot (up to pos 99)
 {
-  String tempbuff1="";
-  String tempbuff2="";
+  String tempbuff1 = "";
+  String tempbuff2 = "";
   tempbuff1 = donnees[1];
   tempbuff2 = donnees[2];
-  String tosend="";
+  String tosend = "";
   tosend += tempbuff1;
   tosend += tempbuff2;
   docMqtt["status"] = tosend.toInt();
   MQTTsend(1, "status");
 }
 
-
-void MQTTcallback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message MQTT [");
-  Serial.print(topic);
-  Serial.print("] ");
+void MQTTcallback(char *topic, byte *payload, unsigned int length)
+{ // function called when data is recieved from the broker
   rdocMqtt.clear();
-  deserializeJson(rdocMqtt, payload, length);  
-  String s=rdocMqtt["color"];
-  Serial.println(s);
+  deserializeJson(rdocMqtt, payload, length);
   decodejson();
 }
 
-
-void sendData(String donnees)
+void sendData(String donnees) // send data to the serial port (used for debug)
 {
   Serial.println(donnees);
 }
 
-
-void parsedata(char *donnees)
+void parsedata(char *donnees) // check the data from the serial port and start publishing
 {
   if (donnees[0] == '1')
   {
@@ -188,7 +168,7 @@ void parsedata(char *donnees)
   }
 }
 
-void recvWithEndMarker()
+void recvWithEndMarker() // recieve data from the serial port (if there is some)
 {
   static byte ndx = 0;
   char endMarker = '.';
@@ -211,47 +191,48 @@ void recvWithEndMarker()
       receivedChars[ndx] = '\0'; // terminate the string
       ndx = 0;
       parsedata(receivedChars);
-    } 
+    }
   }
 }
 
-
-void decodejson(){
-  int a=rdocMqtt["size"];
-  Serial.println("size:"+ a);
-  for (int b=0; b<a; b++){
-    String tosend = rdocMqtt[b]["id"]; 
-    String tosend2 = rdocMqtt[b]["direction"];
-    tosend+= tosend2;
-    Serial.println("tosend:");
+void decodejson()
+{ // decode the json comming from the broker and send it to the serial port
+  int a = rdocMqtt["size"];
+  String s = String(a);
+  if (s != "0")
+  {
+    Serial.println("P" + s);
+  }
+  for (int b = 0; b < a; b++)
+  {
+    int t = rdocMqtt["data"][b]["id"];
+    String tosend = String(t);
+    String tosend2 = rdocMqtt["data"][b]["direction"];
+    tosend += tosend2;
     Serial.println(tosend);
   }
 }
 
-
-void setup() {
-Serial.begin(9600);
-  // Conexion WIFI
-    Wifisetup();
-   Serial.println("Connected");
-   MQTTclient.setServer(mqtt_server, 1883);
-   MQTTclient.setCallback(MQTTcallback);
-   MQTTconnect();
-     pinMode(MGa, INPUT);
+void setup()
+{
+  MQTTclient.setBufferSize(5000);
+  Serial.begin(9600);
+  Wifisetup();
+  MQTTclient.setServer(mqtt_server, 1883);
+  MQTTclient.setCallback(MQTTcallback);
+  MQTTconnect();
+  pinMode(MGa, INPUT);
   pinMode(MDa, INPUT);
   pinMode(MG, INPUT);
   pinMode(MD, INPUT);
 }
 
-void loop() {
-  /*
+void loop()
+{
+  if (!MQTTclient.connected())
+  {
+    MQTTconnect();
+  }
   MQTTclient.loop();
   recvWithEndMarker();
-  */
-  String test;
-  sendData("P04");
-  sendData("0L");
-  sendData("1F");
-  sendData("2F");
-  sendData("3G");
 }
