@@ -40,7 +40,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim3;
-TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim8;
 
@@ -55,8 +54,6 @@ uint16_t distance = 0;
 uint8_t flag1 = 0;
 uint16_t debut = 0;
 uint16_t fin = 0;
-
-int sonar_launch = 0;
 
 void PWM_TIM3_SET_PULSE(uint16_t newPulse);
 void PWM_TIM8_SET_PULSE(uint16_t newPulse);
@@ -97,7 +94,6 @@ static void MX_UART4_Init(void);
 static void MX_TIM7_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM8_Init(void);
-static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -139,7 +135,6 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM3_Init();
   MX_TIM8_Init();
-  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Init(&htim7);
@@ -147,6 +142,10 @@ int main(void)
 
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_1);
+
+  sensor_state = 0;
+  sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
+  sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
 
   //uint16_t MDA = GPIO_PIN_3;
   //uint16_t MDD = GPIO_PIN_8;
@@ -158,9 +157,10 @@ int main(void)
 
   /* TEST FOLLOW PATH */
 
-  sensor_state = 0;
-  sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
-  sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
+  //sensor_state = 0;
+  //sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
+  //sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
+
 
   follow_path('L');
   follow_path('R');
@@ -174,6 +174,7 @@ int main(void)
   follow_path('L');
   follow_path('L');
   follow_path('R');
+
 
   /* FIN TEST FOLLOW PATH */
 
@@ -350,44 +351,6 @@ static void MX_TIM3_Init(void)
 }
 
 /**
-  * @brief TIM6 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM6_Init(void)
-{
-
-  /* USER CODE BEGIN TIM6_Init 0 */
-
-  /* USER CODE END TIM6_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM6_Init 1 */
-
-  /* USER CODE END TIM6_Init 1 */
-  htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 7999;
-  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 999;
-  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM6_Init 2 */
-
-  /* USER CODE END TIM6_Init 2 */
-
-}
-
-/**
   * @brief TIM7 Initialization Function
   * @param None
   * @retval None
@@ -548,9 +511,6 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
@@ -571,13 +531,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA11 PA12 */
   GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
@@ -708,17 +661,15 @@ void follow_line()
 		}
 		HAL_Delay(10);
 
-		//if (sonar_launch)
-		//{
-		//	sonar_distance();
-		//	sonar_launch = 0;
-		//}
+		sonar_distance();
 
-		//while (distance < 100)
-		//{
-		//	moteur_droit(0, AVANT);
-		//	moteur_gauche(0, AVANT);
-		//}
+		while (distance < 200)
+		{
+			sonar_distance();
+			moteur_droit(0, AVANT);
+			moteur_gauche(0, AVANT);
+			HAL_Delay(100);
+		}
 	}
 }
 
@@ -772,11 +723,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		ecart_temps = fin - debut;
 		distance = ecart_temps * 0.17;  //distance en mm
 	}
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-	sonar_launch = 1;
 }
 
 void PWM_TIM3_SET_PULSE(uint16_t newPulse)
