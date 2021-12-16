@@ -56,6 +56,8 @@ uint8_t flag1 = 0;
 uint16_t debut = 0;
 uint16_t fin = 0;
 
+int sonar_launch = 0;
+
 void PWM_TIM3_SET_PULSE(uint16_t newPulse);
 void PWM_TIM8_SET_PULSE(uint16_t newPulse);
 
@@ -72,15 +74,20 @@ int sensor_gauche();
 int sensor_droit();
 
 void follow_path(int path);
+void fix_path(int path);
 void follow_line();
 
 int mode_depl = 0;
 
-int vitesse_moteurs = 999;
+int vitesse_moteurs = 550;
+
 int temps_rotation = 500;
+int temps_fix = 250;
+int temps_pause = 1000;
 
 int moving_state = 0;
-int sensor_state;
+int sensor_state = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -151,17 +158,21 @@ int main(void)
 
   /* TEST FOLLOW PATH */
 
-  follow_path('L');
-  follow_path('F');
-  follow_path('F');
-  follow_path('F');
-  follow_path('F');
-  follow_path('F');
+  sensor_state = 0;
+  sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
+  sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
+
   follow_path('L');
   follow_path('R');
-  follow_path('F');
-  follow_path('F');
-  follow_path('F');
+  follow_path('R');
+  follow_path('L');
+  follow_path('R');
+  follow_path('R');
+  follow_path('L');
+  follow_path('R');
+  follow_path('L');
+  follow_path('L');
+  follow_path('L');
   follow_path('R');
 
   /* FIN TEST FOLLOW PATH */
@@ -358,7 +369,7 @@ static void MX_TIM6_Init(void)
   htim6.Instance = TIM6;
   htim6.Init.Prescaler = 7999;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 99;
+  htim6.Init.Period = 999;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
@@ -621,47 +632,93 @@ void follow_path(int path)
 {
 	moving_state = 0;
 
+	fix_path(path);
+	follow_line();
+	HAL_Delay(temps_pause);
+}
+
+void fix_path(int path)
+{
 	switch(path)
 	{
-	case 'L':
-	case 'R':
-		if (path == 'L') moteur_droit(vitesse_moteurs, AVANT);
-		if (path == 'R') moteur_gauche(vitesse_moteurs, AVANT);
-		HAL_Delay(temps_rotation);
-	case 'F':
-		while(moving_state == 0) follow_line();
+	case 'L': // gauche
+		moteur_gauche(vitesse_moteurs, ARRIERE);
+		HAL_Delay(temps_fix);
+		moteur_gauche(vitesse_moteurs, AVANT);
+		moteur_droit(vitesse_moteurs, AVANT);
+		HAL_Delay(temps_fix);
+		moteur_gauche(0, AVANT);
+		moteur_droit(0, AVANT);
+		while(sensor_state == 2 || sensor_state == 3)
+		{
+			moteur_droit(vitesse_moteurs, AVANT);
+			HAL_Delay(10);
+		}
+		break;
+	case 'R': // droite
+		moteur_droit(vitesse_moteurs, ARRIERE);
+		HAL_Delay(temps_fix);
+		moteur_gauche(vitesse_moteurs, AVANT);
+		moteur_droit(vitesse_moteurs, AVANT);
+		HAL_Delay(temps_fix);
+		moteur_gauche(0, AVANT);
+		moteur_droit(0, AVANT);
+		while(sensor_state == 2 || sensor_state == 3)
+		{
+			moteur_gauche(vitesse_moteurs, AVANT);
+			HAL_Delay(10);
+		}
 		break;
 	}
+
+	moteur_droit(0, AVANT);
+	moteur_gauche(0, AVANT);
 }
 
 void follow_line()
 {
-	switch (sensor_state) // (sensor g;sensor d)
+	while (moving_state == 0)
 	{
-	case 0: // 00
-		moteur_droit(vitesse_moteurs, AVANT);
-		moteur_gauche(vitesse_moteurs, AVANT);
-		break;
-	case 1: // 01
-		moteur_droit(vitesse_moteurs, AVANT);
-		moteur_gauche(0, AVANT);
-		break;
-	case 2: // 10
-		moteur_droit(0, AVANT);
-		moteur_gauche(vitesse_moteurs, AVANT);
-		break;
-	case 3: // 11
-		moteur_droit(0, AVANT);
-		moteur_gauche(0, AVANT);
-		moving_state = 1;
-		break;
-	}
-	HAL_Delay(10);
+		switch (sensor_state) // (sensor g;sensor d)
+		{
+		case 0: // 00
+			moteur_droit(vitesse_moteurs, AVANT);
+			moteur_gauche(vitesse_moteurs, AVANT);
+			break;
+		case 1: // 01
+			moteur_gauche(vitesse_moteurs, ARRIERE);
+			HAL_Delay(20);
+			moteur_gauche(0, AVANT);
+			moteur_droit(vitesse_moteurs, AVANT);
+			break;
+		case 2: // 10
+			moteur_droit(vitesse_moteurs, ARRIERE);
+			HAL_Delay(20);
+			moteur_droit(0, AVANT);
+			moteur_gauche(vitesse_moteurs, AVANT);
+			break;
+		case 3: // 11
+			moteur_droit(0, AVANT);
+			moteur_gauche(0, AVANT);
+			moving_state = 1;
+			break;
+		default:
+			moteur_droit(vitesse_moteurs, ARRIERE);
+			moteur_gauche(vitesse_moteurs, ARRIERE);
+		}
+		HAL_Delay(10);
 
-	while (distance < 100)
-	{
-		moteur_droit(0, AVANT);
-		moteur_gauche(0, AVANT);
+		//if (sonar_launch)
+		//{
+		//	sonar_distance();
+		//	sonar_launch = 0;
+		//}
+
+		//while (distance < 100)
+		//{
+		//	moteur_droit(0, AVANT);
+		//	moteur_gauche(0, AVANT);
+		//}
 	}
 }
 
@@ -694,9 +751,12 @@ void sonar_distance()
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	int etat_gauche = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11);
+	int etat_droit = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12);
+
 	sensor_state = 0;
-	sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
-	sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
+	sensor_state += etat_gauche ? 1 : 0; // Sensor Gauche
+	sensor_state += etat_droit ? 2 : 0; // Sensor Droit
 
 	// if (GPIO_Pin != 1) return; // Condition si la pin du SONAR !
 
@@ -714,9 +774,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	}
 }
 
-HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	sonar_distance();
+	sonar_launch = 1;
 }
 
 void PWM_TIM3_SET_PULSE(uint16_t newPulse)
