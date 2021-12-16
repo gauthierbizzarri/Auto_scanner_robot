@@ -4,7 +4,7 @@
 ![N|Solid](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3D3aBeLr69N4cnxkqpVyEFExJ6czj-RqlIw&usqp=CAU)
 
 # *The Goal :*
-The main goal to this app is to responde to the following situation : 
+The main goal of this app is to responde to the following situation : 
 *"When a signal is received from a topic, you have to wait to scan a signal corresponding QrCode, and if it is correct , you must send a signal in response"*
 
 # 0/ Preliminaries
