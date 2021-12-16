@@ -18,7 +18,8 @@ username = "terrain1"
 password = "w87KNd2b"
 
 Signal_recu = None  # Global var used to store the
-
+rayon_perce = 90
+lum = 30
 """
 MQTT PART 
 """
@@ -73,19 +74,19 @@ def run(etat):
 
         # Set range for green color and
         # define mask
-        green_lower = np.array([55, 40, 40], np.uint8)
+        green_lower = np.array([40, 40+lum, 40], np.uint8)
         green_upper = np.array([70, 255, 255], np.uint8)
         green_mask = cv2.inRange(hsvFrame, green_lower, green_upper)
 
         # Set range for blue color and
         # define mask
-        blue_lower = np.array([100, 150, 0], np.uint8)
-        blue_upper = np.array([105, 255, 255], np.uint8)
+        blue_lower = np.array([100, 150+lum, 0], np.uint8)
+        blue_upper = np.array([138, 255, 255], np.uint8)
         blue_mask = cv2.inRange(hsvFrame, blue_lower, blue_upper)
 
         # Set range for yellow color and
         # define mask
-        yellow_lower = np.array([22, 170, 0], np.uint8)
+        yellow_lower = np.array([22, 93, 0], np.uint8)
         yellow_upper = np.array([45, 255, 255], np.uint8)
         yellow_mask = cv2.inRange(hsvFrame, yellow_lower, yellow_upper)
 
@@ -125,7 +126,7 @@ def run(etat):
             if (area > 300):
                 x, y, w, h = cv2.boundingRect(contour)
                 # Detect red if only size of w and h > 50
-                if w > 50 and h > 50:
+                if w > rayon_perce and h > rayon_perce:
                     imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                (x + w, y + h),
                                                (0, 0, 255), 2)
@@ -139,12 +140,12 @@ def run(etat):
                     result = client.publish(topic_to_write, json_dump)
                     status = result[0]
                     if status == 0:
-                        print(f"Send {json_dump}to topic `{topic_to_write}`")
+                        print("Send {}to topic {}".format(json_dump,topic_to_write))
                         # Going back to etat 0 awaiting a new order
                         etat = 0
 
                     else:
-                        print(f"Failed to send message to topic {topic_to_write}")
+                        print(" Failed to end {}to topic {}".format(json_dump,topic_to_write))
 
         # Creating contour to track green color
         contours, hierarchy = cv2.findContours(green_mask,
@@ -156,7 +157,7 @@ def run(etat):
             if (area > 300):
                 x, y, w, h = cv2.boundingRect(contour)
                 # Detect green if only size of w and h > 50
-                if w > 50 and h > 50:
+                if w > rayon_perce and h > rayon_perce:
                     imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                (x + w, y + h),
                                                (0, 255, 0), 2)
@@ -170,12 +171,12 @@ def run(etat):
                     result = client.publish(topic_to_write, json_dump)
                     status = result[0]
                     if status == 0:
-                        print(f"Send {json_dump}to topic `{topic_to_write}`")
+                        print("Send {}to topic {}".format(json_dump,topic_to_write))
                         # Going back to etat 0 awaiting a new order
                         etat = 0
 
                     else:
-                        print(f"Failed to send message to topic {topic_to_write}")
+                        print("Failed to send  {}to topic {}".format(json_dump,topic_to_write))
 
         # Creating contour to track blue color
         contours, hierarchy = cv2.findContours(blue_mask,
@@ -187,7 +188,7 @@ def run(etat):
             if (area > 300):
                 x, y, w, h = cv2.boundingRect(contour)
                 # Detect blue if only size of w and h > 50
-                if w > 50 and h > 50:
+                if w > rayon_perce and h > rayon_perce:
                     imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                (x + w, y + h),
                                                (255, 0, 0), 2)
@@ -202,12 +203,12 @@ def run(etat):
                     status = result[0]
                     # Going back to etat 0 awaiting a new order
                     if status == 0:
-                        print(f"Send {json_dump}to topic `{topic_to_write}`")
+                        print("Send {}to topic {}".format(json_dump,topic_to_write))
                         # Retrour à l'état  0
                         etat = 0
 
                     else:
-                        print(f"Failed to send message to topic {topic_to_write}")
+                        print("Failed to send  {}to topic {}".format(json_dump,topic_to_write))
         # Creating contour to track yellow color
         contours, hierarchy = cv2.findContours(yellow_mask,
                                                cv2.RETR_TREE,
@@ -218,7 +219,7 @@ def run(etat):
             if (area > 300):
                 x, y, w, h = cv2.boundingRect(contour)
                 # Detect blue if only size of w and h > 50
-                if w > 50 and h > 50:
+                if w > rayon_perce and h > rayon_perce:
                     imageFrame = cv2.rectangle(imageFrame, (x, y),
                                                (x + w, y + h),
                                                (0, 255, 255), 2)
@@ -232,12 +233,12 @@ def run(etat):
                     result = client.publish(topic_to_write, json_dump)
                     status = result[0]
                     if status == 0:
-                        print(f"Send {json_dump}to topic `{topic_to_write}`")
+                        print("Send {}to topic {}".format(json_dump, topic_to_write))
                         # Going back to etat 0 awaiting a new order
                         etat = 0
 
                     else:
-                        print(f"Failed to send message to topic {topic_to_write}")
+                        print("Failed to send  {}to topic {}".format(json_dump, topic_to_write))
         # Program Termination
         cv2.imshow("Color Detection", imageFrame)
         cv2.moveWindow("Color Detection", 800, -20)
