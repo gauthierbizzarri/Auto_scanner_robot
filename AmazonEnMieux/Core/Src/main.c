@@ -46,6 +46,9 @@ TIM_HandleTypeDef htim8;
 UART_HandleTypeDef huart4;
 
 /* USER CODE BEGIN PV */
+void nodemcu_send(char context, char data);
+char nodemcu_receive();
+
 void sonar_distance();
 
 uint16_t ecart_temps = 0;
@@ -84,6 +87,11 @@ int temps_pause = 1000;
 
 int moving_state = 0;
 int sensor_state = 0;
+
+int button = 1;
+
+char dataReceived = '\0';
+
 
 /* USER CODE END PV */
 
@@ -147,39 +155,6 @@ int main(void)
   sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
   sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
 
-  //uint16_t MDA = GPIO_PIN_3;
-  //uint16_t MDD = GPIO_PIN_8;
-
-  //uint16_t MGA = GPIO_PIN_2;
-  //uint16_t MGD = GPIO_PIN_9;
-
-  /* TEST FOLLOW PATH */
-
-  /* TEST FOLLOW PATH */
-
-  //sensor_state = 0;
-  //sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11) ? 1 : 0; // Sensor Gauche
-  //sensor_state += HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12) ? 2 : 0; // Sensor Droit
-
-
-  follow_path('L');
-  follow_path('R');
-  follow_path('R');
-  follow_path('L');
-  follow_path('R');
-  follow_path('R');
-  follow_path('L');
-  follow_path('R');
-  follow_path('L');
-  follow_path('L');
-  follow_path('L');
-  follow_path('R');
-
-
-  /* FIN TEST FOLLOW PATH */
-
-  /* FIN TEST FOLLOW PATH */
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -187,65 +162,33 @@ int main(void)
 
   while (1)
   {
-	  /* TRANSMISSION NODE MCU */
 
-	  /* Creation du message vide */
-	  //char *message = "Hello World";
-	  //char received[17];
-	  //uint16_t taille = 10;
-	  /* Reception du message avec un timeout de 2s */
-	  //HAL_UART_Receive(&huart4, received, 17, 2000);
-	  /* Envoi par UART avec un timeout de 100 ms */
-	  //HAL_UART_Transmit(&huart4, message, taille, 100);
-	  /* Attente */
-	  //HAL_Delay(100);
+	  if (!boutton())
+	  {
+		  button = button == 0 ? 1 : 0;
 
-	  /* FIN TRANSMISSION NODE MCU */
+		  char charButton = button == 0 ? '0' : '1';
 
-	  /* CONTROL DU SONAR */
+		  nodemcu_send('1', charButton);
+	  }
 
-	  //HAL_Delay(10);
+	  dataReceived = nodemcu_receive();
 
-	  //sonar_distance();
+	  if (dataReceived == 'P')
+	  {
+		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 
-	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	  //HAL_Delay(distance);
-	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+		  //fullPathSize = atoi(fullPath[1]);
 
-	  /* FIN CONTROL DU SONAR */
+		  //for (int i = 0; i < fullPathSize; i++)
+		  //{
+		  //	  path = nodemcu_receive();
+		  //}
 
-	  /* CONTROL DU ROBOT */
+		  HAL_Delay(100);
+	  }
 
-	  //moteur_gauche(0, AVANT);
-	  //moteur_droit(999, AVANT);
-	  //moteur_droit(0, AVANT);
-	  //moteur_gauche(999, AVANT);
-
-	  /* FIN CONTROL DU ROBOT */
-
-	  /* BOUTTON */
-
-	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, boutton());
-	  //HAL_Delay(100);
-
-	  /* FIN BOUTTON */
-
-	  /* LINE SENSOR */
-
-	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11));
-	  //HAL_Delay(500);
-	  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_12));
-	  //HAL_Delay(500);
-
-	  /* FIN LINE SENSOR */
-
-	  /* TEST FOLLOW LINE */
-
-	  //if (moving_state == 0) follow_line();
-	  //else HAL_Delay(100);
-
-	  /* FIN TEST FOLLOW LINE */
-
+	  HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -511,6 +454,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8|GPIO_PIN_9, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
@@ -531,6 +477,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA11 PA12 */
   GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
@@ -556,24 +509,26 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-char* nodemcu_receive()
+char nodemcu_receive()
 {
 	/* Creation du message vide */
-	char received[taille];
+	char received;
 	/* Reception du message avec un timeout de 2s */
-	HAL_UART_Receive(&huart4, received, taille, 2000);
+	HAL_UART_Receive(&huart4, received, 1, 2000);
 	/* Attente */
-	HAL_Delay(100);
+	return received;
 }
 
-void nodemcu_send()
+void nodemcu_send(char context, char data)
 {
-	/* Creation du message vide */
-	char *message = "Hello World";
+	char message[3];
+	message[0] = context;
+	message[1] = data;
+	message[2] = '.';
+
 	/* Envoi par UART avec un timeout de 100 ms */
-	HAL_UART_Transmit(&huart4, message, taille, 100);
+	HAL_UART_Transmit(&huart4, message, 3, 100);
 	/* Attente */
-	HAL_Delay(100);
 }
 
 int boutton()
