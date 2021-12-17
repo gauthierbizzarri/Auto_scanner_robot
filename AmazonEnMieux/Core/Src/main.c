@@ -82,7 +82,7 @@ int mode_depl = 0;
 int vitesse_moteurs = 550;
 
 int temps_rotation = 500;
-int temps_fix = 250;
+int temps_fix = 300;
 int temps_pause = 1000;
 
 int moving_state = 0;
@@ -567,7 +567,7 @@ void fix_path(int path)
 		HAL_Delay(temps_fix);
 		moteur_gauche(vitesse_moteurs, AVANT);
 		moteur_droit(vitesse_moteurs, AVANT);
-		HAL_Delay(temps_fix);
+		HAL_Delay(temps_fix * 1.5);
 		moteur_gauche(0, AVANT);
 		moteur_droit(0, AVANT);
 		while(sensor_state == 2 || sensor_state == 3)
@@ -581,7 +581,7 @@ void fix_path(int path)
 		HAL_Delay(temps_fix);
 		moteur_gauche(vitesse_moteurs, AVANT);
 		moteur_droit(vitesse_moteurs, AVANT);
-		HAL_Delay(temps_fix);
+		HAL_Delay(temps_fix * 1.5);
 		moteur_gauche(0, AVANT);
 		moteur_droit(0, AVANT);
 		while(sensor_state == 2 || sensor_state == 3)
