@@ -90,9 +90,6 @@ int sensor_state = 0;
 
 int button = 1;
 
-char dataReceived = '\0';
-
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -172,23 +169,40 @@ int main(void)
 		  nodemcu_send('1', charButton);
 	  }
 
-	  dataReceived = nodemcu_receive();
+      /* TRANSMISSION NODE MCU */
 
-	  if (dataReceived == 'P')
-	  {
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+      /* Creation du message vide */
+      char full_path[4];
+      full_path[0] = '\0';
+      /* Reception du message avec un timeout de 2s */
+      HAL_UART_Receive(&huart4, full_path, 4, 2000);
+      /* Attente */
+      //HAL_Delay(100);
 
-		  //fullPathSize = atoi(fullPath[1]);
+      if (full_path[0] == 'P')
+      {
+    	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 
-		  //for (int i = 0; i < fullPathSize; i++)
-		  //{
-		  //	  path = nodemcu_receive();
-		  //}
+    	  int path_length = full_path[1] - 48;
 
-		  HAL_Delay(100);
-	  }
+    	  for (int i = 0; i < path_length;)
+    	  {
+    		  char part_path[3];
+    		  part_path[0] = '\0';
 
-	  HAL_Delay(100);
+    		  HAL_UART_Receive(&huart4, part_path, 3, 2000);
+
+    		  if (part_path[0] == 'L' || part_path[0] == 'R')
+    		  {
+    			  follow_path(part_path[0]);
+    			  nodemcu_send('2', part_path[1]);
+    			  i++;
+    		  }
+    	  }
+      }
+
+      /* FIN TRANSMISSION NODE MCU */
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -509,15 +523,15 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-char nodemcu_receive()
-{
-	/* Creation du message vide */
-	char received;
-	/* Reception du message avec un timeout de 2s */
-	HAL_UART_Receive(&huart4, received, 1, 2000);
-	/* Attente */
-	return received;
-}
+//char nodemcu_receive()
+//{
+//	/* Creation du message vide */
+//	char received;
+//	/* Reception du message avec un timeout de 2s */
+//	HAL_UART_Receive(&huart4, received, 1, 2000);
+//	/* Attente */
+//	return received;
+//}
 
 void nodemcu_send(char context, char data)
 {
@@ -530,6 +544,11 @@ void nodemcu_send(char context, char data)
 	HAL_UART_Transmit(&huart4, message, 3, 100);
 	/* Attente */
 }
+
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//    HAL_UART_Receive_IT(huart, dataReceived, 100);
+//}
 
 int boutton()
 {
