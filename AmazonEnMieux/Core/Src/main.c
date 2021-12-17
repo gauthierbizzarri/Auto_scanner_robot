@@ -82,16 +82,13 @@ int mode_depl = 0;
 int vitesse_moteurs = 550;
 
 int temps_rotation = 500;
-int temps_fix = 250;
+int temps_fix = 300;
 int temps_pause = 1000;
 
 int moving_state = 0;
 int sensor_state = 0;
 
 int button = 1;
-
-char dataReceived = '\0';
-
 
 /* USER CODE END PV */
 
@@ -172,23 +169,44 @@ int main(void)
 		  nodemcu_send('1', charButton);
 	  }
 
-	  dataReceived = nodemcu_receive();
+      /* Creation du message vide */
+      char full_path[4];
+      full_path[0] = '\0';
+      /* Reception du message avec un timeout de 2s */
+      HAL_UART_Receive(&huart4, full_path, 4, 2000);
+      /* Attente */
+      //HAL_Delay(100);
 
-	  if (dataReceived == 'P')
-	  {
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+      if (full_path[0] == 'P')
+      {
+    	  int path_length = full_path[1] - 48;
+    	  char paths[path_length][4];
 
-		  //fullPathSize = atoi(fullPath[1]);
+    	  for (int i = 0; i < path_length;)
+    	  {
+    		  char part_path[4];
+    		  part_path[1] = '\0';
 
-		  //for (int i = 0; i < fullPathSize; i++)
-		  //{
-		  //	  path = nodemcu_receive();
-		  //}
+    		  HAL_UART_Receive(&huart4, part_path, 4, 2000);
 
-		  HAL_Delay(100);
-	  }
+    		  if (part_path[1] == 'L' || part_path[1] == 'R')
+    		  {
+    			  int path_id = part_path[0] - 48;
+    			  paths[path_id][0] = part_path[0];
+    			  paths[path_id][1] = part_path[1];
+    			  paths[path_id][2] = part_path[2];
+    			  paths[path_id][3] = part_path[3];
+    			  i++;
+    		  }
+    	  }
 
-	  HAL_Delay(100);
+    	  for (int i = 0; i < path_length; i++)
+    	  {
+    		  follow_path(paths[i][1]);
+			  nodemcu_send('2', paths[i][0]);
+    	  }
+      }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -509,16 +527,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-char nodemcu_receive()
-{
-	/* Creation du message vide */
-	char received;
-	/* Reception du message avec un timeout de 2s */
-	HAL_UART_Receive(&huart4, received, 1, 2000);
-	/* Attente */
-	return received;
-}
-
 void nodemcu_send(char context, char data)
 {
 	char message[3];
@@ -530,6 +538,11 @@ void nodemcu_send(char context, char data)
 	HAL_UART_Transmit(&huart4, message, 3, 100);
 	/* Attente */
 }
+
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//    HAL_UART_Receive_IT(huart, dataReceived, 100);
+//}
 
 int boutton()
 {
@@ -554,7 +567,7 @@ void fix_path(int path)
 		HAL_Delay(temps_fix);
 		moteur_gauche(vitesse_moteurs, AVANT);
 		moteur_droit(vitesse_moteurs, AVANT);
-		HAL_Delay(temps_fix);
+		HAL_Delay(temps_fix * 1.5);
 		moteur_gauche(0, AVANT);
 		moteur_droit(0, AVANT);
 		while(sensor_state == 2 || sensor_state == 3)
@@ -568,7 +581,7 @@ void fix_path(int path)
 		HAL_Delay(temps_fix);
 		moteur_gauche(vitesse_moteurs, AVANT);
 		moteur_droit(vitesse_moteurs, AVANT);
-		HAL_Delay(temps_fix);
+		HAL_Delay(temps_fix * 1.5);
 		moteur_gauche(0, AVANT);
 		moteur_droit(0, AVANT);
 		while(sensor_state == 2 || sensor_state == 3)
