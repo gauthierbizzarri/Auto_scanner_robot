@@ -10,8 +10,10 @@
  */
 class ColorChecker: public DataChecker
 {
+private:
+    QList<QString> colors;
 public:
-    ColorChecker(QString color);
+    ColorChecker(QString color, QList<QString> colors);
 
     // DataChecker interface
 public:

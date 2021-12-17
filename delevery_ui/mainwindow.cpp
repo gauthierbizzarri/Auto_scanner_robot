@@ -25,6 +25,8 @@
 #include <QAbstractItemModel>
 #include <QJsonArray>
 
+#include "ui_robotinfo.h"
+
 MainWindow::MainWindow(MQTTManager* manager, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -34,11 +36,6 @@ MainWindow::MainWindow(MQTTManager* manager, QWidget *parent)
     ui->colorSelector->addItem(" --- selectionner une couleur");
     ui->loadingZoneSelector->addItem(" --- selectionner une zone de chargement");
     ui->robotSelector->addItem(" --- selectionner un robot");
-    Q_FOREACH(QString c, colors.keys())
-    {
-        ui->colorSelector->addItem(c);
-    }
-    ui->robotSelector->addItem("ROBOT3");
 
     //disable send button until brocker connection
     ui->clbtSend->setDisabled(true);
@@ -63,22 +60,41 @@ MainWindow::MainWindow(MQTTManager* manager, QWidget *parent)
     {
         ui->loadingZoneSelector->addItem(QString::number(lz));
     }
+    Q_FOREACH(QString c, fieldModel->getColors().keys())
+    {
+        ui->colorSelector->addItem(c);
+    }
+    ui->twRobotInfos->removeTab(0);
+    ui->twRobotInfos->removeTab(0);
+    Q_FOREACH(QString r, fieldModel->getRobots().keys())
+    {
+        ui->robotSelector->addItem(r);
+        RobotInfo* info = new RobotInfo(r);
+        robotInfos.insert(r, info);
+        connect(info, SIGNAL(changeRobotPosition()), ui->widget_2, SLOT(redifineRobotPosition()));
+        ui->twRobotInfos->addTab(info, r);
+        int size = 20;
+        QPixmap rounded = QPixmap(size, size);
+        rounded.fill(Qt::transparent);
+
+        // creating circle clip area
+        QPainterPath path;
+        path.addEllipse(rounded.rect());
+
+        QPainter painter(&rounded);
+        painter.setClipPath(path);
+
+        // filling rounded area if needed
+        painter.fillRect(rounded.rect(), fieldModel->getRobots().value(r)->getColor());
+        ui->twRobotInfos->setTabIcon(ui->twRobotInfos->count()-1, QIcon(rounded));
+    }
 
     //set field drawer
     ui->widget_2->setModel(fieldModel);
 
     ui->toolBox->setCurrentIndex(0);
-
-    //set indicators init values
-    ui->PackageTransitState->setColor(StateColors::KO);
-    ui->orderState->setText("A l'arret");
-    ui->orderState->setColor(StateColors::KO);
-    ui->connectionState->setColor(StateColors::OK);
-    ui->packageColor->setColor(StateColors::UNKNOWN);
-    ui->pbRedifRobPos->setProperty("robot", "ROBOT3");
     ui->cbAutocomplete->setChecked(true);
 
-    connect(ui->pbRedifRobPos, SIGNAL(clicked(bool)), ui->widget_2, SLOT(redifineRobotPosition()));
     connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(appExit()));
 }
 
@@ -104,7 +120,7 @@ bool MainWindow::checkOrder()
         fieldInvalid("robot", "une valeur doit être définie");
         return false;
     }
-    OrderChecker checker(ui->colorSelector->currentText(), ui->robotSelector->currentText(), ui->loadingZoneSelector->currentText().toInt());
+    OrderChecker checker(ui->colorSelector->currentText(), fieldModel->getColors().keys(), ui->robotSelector->currentText(), ui->loadingZoneSelector->currentText().toInt());
     connect(&checker, SIGNAL(validate()), this, SLOT(sendOrder()));
     connect(&checker, SIGNAL(refute(QString,QString)), this, SLOT(fieldInvalid(QString,QString)));
     return checker.check();//check values
@@ -124,15 +140,16 @@ void MainWindow::sendOrder()
         if(start != nullptr)
         {
             robot->setReadyForOrder(false);//reserve this robot
-            ui->orderState->setText("En attente d'initialisation");
-            ui->orderState->setColor(StateColors::WAIT);
+            RobotInfo* info = robotInfos.value(ui->robotSelector->currentText());
+            info->ui->robotState->setText("En attente d'initialisation");
+            info->ui->robotState->setColor(StateColors::WAIT);
             if(fieldModel->getColorsFound().values().contains(ui->colorSelector->currentText()) && ui->cbAutocomplete->isChecked())//set the target accurding to knowledge about the field
             {
                 ui->loadingZoneSelector->setCurrentText(QString::number(fieldModel->getColorsFound().key(ui->colorSelector->currentText())));
             }
             robot->setStatus(RobotStatus::TOLOAD);
             robot->setColorToLookFor(ui->colorSelector->currentText());
-            fieldModel->setLastLoading(ui->loadingZoneSelector->currentText().toInt());
+            robot->setLastLoading(ui->loadingZoneSelector->currentText().toInt());
 
             //send order for history
             manager->publish(MqttTopic::uiOrder(3), new UiOrderMqttPayload(
@@ -140,8 +157,6 @@ void MainWindow::sendOrder()
                                  ui->loadingZoneSelector->currentText().toInt(),
                                  fieldModel->depositIndex(start),
                                  ui->robotSelector->currentText()));
-            ui->orderState->setText("En attente d'initialisation");
-            ui->orderState->setColor(StateColors::WAIT);
         }
     }
 }
@@ -157,15 +172,23 @@ void MainWindow::openFields()
     ui->clbtSend->setText("Envoyer");
     mqttEventManager = new MqttMessageEventManager(this->manager);
 
-    UiOrderModel* model = new UiOrderModel();//setting history model
+    UiOrderModel* model = new UiOrderModel(fieldModel->getColors());//setting history model
     ui->cvHistory->setModel(model);
 
     //setting up events
-    mqttEventManager->addEventListener(MqttTopic::uiOrderTemplate, new UiOrderHandler(model));
-    mqttEventManager->addEventListener(MqttTopic::robotButtonTemplate, new RobotButtonPressHandler(ui->orderState, ui->PackageTransitState, ui->packageColor, manager, fieldModel));
-    mqttEventManager->addEventListener(MqttTopic::cameraColorTemplate, new CameraColorHandler(ui->packageColor, manager, fieldModel));
-    mqttEventManager->addEventListener(MqttTopic::robotStepTemplate, new RobotStepHandler(ui->orderState, fieldModel, ui->widget_2));
-    mqttEventManager->addEventListener(MqttTopic::robotStepTemplate, new RobotStepHandler(ui->orderState, fieldModel, ui->widget_2));
+    Q_FOREACH(QString rob, robotInfos.keys())
+    {
+        RobotInfo* info = robotInfos.value(rob);
+        mqttEventManager->addEventListener(MqttTopic::uiOrderTemplate, new UiOrderHandler(model));
+        mqttEventManager->addEventListener(MqttTopic::robotButtonTemplate, new RobotButtonPressHandler(info->ui->robotState,
+                                                                                                       info->ui->packageState,
+                                                                                                       info->ui->colorState,
+                                                                                                       manager, fieldModel));
+        mqttEventManager->addEventListener(MqttTopic::cameraColorTemplate, new CameraColorHandler(info->ui->colorState, manager, fieldModel));
+        mqttEventManager->addEventListener(MqttTopic::robotStepTemplate, new RobotStepHandler(info->ui->robotState, fieldModel, ui->widget_2));
+        mqttEventManager->addEventListener(MqttTopic::robotStepTemplate, new RobotStepHandler(info->ui->robotState, fieldModel, ui->widget_2));
+    }
+
     mqttEventManager->addEventListener(MqttTopic::loadingAreaColorTemplate, new LoadinAreaColorHandler({
                                                                                                            ui->loader1,
                                                                                                            ui->loader2,
@@ -198,7 +221,7 @@ void MainWindow::sendPath(QString robotid, QList<FieldElement*> elements)
     {
        pstring+=path.value("data").toArray().at(i).toObject().value("direction").toString();
     }
-    ui->orderState->setText("Ordre envoyé");
+    robotInfos.value(robotid)->ui->robotState->setText("Ordre envoyé");
     if(!fieldModel->followSteps(ui->robotSelector->currentText(), new OrderFollower(ui->robotSelector->currentText(), robot, pstring, ObjectPathMaker(robot->pointing()).create(elements), elements)))
     {
         QMessageBox::warning(this, "Robot indisponible", "Le robot "+ui->robotSelector->currentText()+" suit déjà un order établi. réésayez lorqu'il sera prêt.");

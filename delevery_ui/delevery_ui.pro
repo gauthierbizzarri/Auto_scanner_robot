@@ -38,6 +38,7 @@ SOURCES += \
     robot.cpp \
     robotbuttonpresshandler.cpp \
     robotchecker.cpp \
+    robotinfo.cpp \
     robotpathmqttpayload.cpp \
     robotstephandler.cpp \
     startchecker.cpp \
@@ -65,10 +66,8 @@ HEADERS += \
     StateColors.h \
     appconfig.h \
     cameracolorhandler.h \
-    cameraids.h \
     camerascanmqttpayload.h \
     colorchecker.h \
-    colors.h \
     config.h \
     direction.h \
     downleftfieldelement.h \
@@ -95,6 +94,7 @@ HEADERS += \
     robot.h \
     robotbuttonpresshandler.h \
     robotchecker.h \
+    robotinfo.h \
     robotpathmqttpayload.h \
     robotstephandler.h \
     startchecker.h \
@@ -117,7 +117,8 @@ HEADERS += \
 
 FORMS += \
     config.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    robotinfo.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

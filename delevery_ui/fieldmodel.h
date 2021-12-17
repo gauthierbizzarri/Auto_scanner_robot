@@ -16,17 +16,16 @@ class FieldModel : public QObject
 {
     Q_OBJECT
 private:
-    QList<FieldElement*> drawn;
     QMap<int, FieldElement*> deposits;
     QMap<int, FieldElement*> loadings;
     QList<FieldElement*> analyse;
     QList<FieldElement*> elements;
     QMap<QString, OrderFollower*> orderFollowers;
+    QList<int> cameras;
+    QMap<QString, QColor> colors;
 
     QMap<QString, Robot*> robots;
     QMap<int, QString> colorsFound;
-
-    int lastLoading;
 public:
     FieldModel();
 
@@ -67,6 +66,26 @@ public:
      * @param index
      */
     void addLoading(FieldElement* e, int index);
+
+    /**
+     * @brief addColor
+     * Add a new packages color
+     * @param colot
+     * @param value
+     */
+    void addColor(QString colot, QColor value);
+
+    /**
+     * @brief getCameras
+     * @return A list of camera ids
+     */
+    const QList<int> getCameras();
+
+    /**
+     * @brief getColors
+     * @return The mqp of the package colors
+     */
+    const QMap<QString, QColor> getColors();
 
     /**
      * @brief getLoading
@@ -119,7 +138,7 @@ public:
      * @brief getAnalyses
      * @return all analyses elements
      */
-    QList<FieldElement*> getAnalyses();
+    const QList<FieldElement*> getAnalyses();
 
     /**
      * @brief at
@@ -141,7 +160,15 @@ public:
      * @brief getRobots
      * @return All robots
      */
-    QMap<QString, Robot*> getRobots();
+    const QMap<QString, Robot*> getRobots();
+
+    /**
+     * @brief addRobot
+     * Add a new robot
+     * @param id
+     * @param r
+     */
+    void addRobot(QString id, Robot* r);
 
     /**
      * @brief followSteps
@@ -166,32 +193,7 @@ public:
      * @return The path from the from element to the to element
      * Usage of A* algorithme
      */
-    QList<FieldElement*> getPath(FieldElement* from, FieldElement* to);
-
-    /**
-     * @brief setLastLoading
-     * Set the last loading element we passed on to v
-     * should be moved in robot class
-     * @see Robot
-     * @param v
-     */
-    void setLastLoading(int v);
-
-    /**
-     * @brief getLastLoading
-     * @return The last loading element index we passed on
-     * should be moved in robot class
-     * @see Robot
-     */
-    int getLastLoading();
-
-    /**
-     * @brief ColorFound
-     * Tag a color as found for the last loading area we visited
-     * Should be tweeked according to robot centered data
-     * @param color
-     */
-    void ColorFound(QString color);
+    const QList<FieldElement*> getPath(FieldElement* from, FieldElement* to);
 
     /**
      * @brief ColorFound
@@ -205,7 +207,7 @@ public:
      * @brief getColorsFound
      * @return A map of loading area index and colors name
      */
-    QMap<int, QString> getColorsFound();
+    const QMap<int, QString> getColorsFound();
 signals:
     void changed();
     void newPath(QString robotid, QList<FieldElement*> elements);

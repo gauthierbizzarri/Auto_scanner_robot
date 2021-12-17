@@ -30,6 +30,7 @@ private:
     bool readyForOrder;
     QString carryingColor;
     QString lookingForColor;
+    int lastLoading;
 public:
     Robot();
     Robot(QPoint ipos, QColor color, Direction dir);
@@ -47,6 +48,19 @@ public:
      * @return
      */
     QPoint startedOn();
+
+    /**
+     * @brief egtLastLoading
+     * @return the last loading area id this robot targeted
+     */
+    int getLastLoading();
+
+    /**
+     * @brief setLastLoading
+     * Set the last loading area of this robot
+     * @param v
+     */
+    void setLastLoading(int v);
 
     /**
      * @brief setStartPoint

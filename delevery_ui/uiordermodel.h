@@ -26,9 +26,10 @@ class UiOrderModel : public QAbstractTableModel
 private:
     QList<QList<QVariant>> m_data;
     QList<ColumnData> headerMap;
+    QMap<QString, QColor> colors;
     // QAbstractItemModel interface
 public:
-    UiOrderModel()
+    UiOrderModel(QMap<QString, QColor> colors)
     {
         headerMap = {
             {"date","date"},
@@ -38,6 +39,7 @@ public:
             {"color", "couleur du colis"},
             {"robotId", "robot"}
         };
+        this->colors=colors;
     };
     /**
      * @brief append

@@ -12,7 +12,7 @@ class OrderChecker : public DataChecker
 private:
     QList<DataChecker*> checkers;
 public:
-    OrderChecker(QString color, QString robot, int loadingZone);
+    OrderChecker(QString color, QList<QString> colors, QString robot, int loadingZone);
 
     // DataChecker interface
 public:

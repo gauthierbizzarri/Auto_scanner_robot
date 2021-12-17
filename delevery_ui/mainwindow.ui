@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1125</width>
-    <height>632</height>
+    <width>1054</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,15 +18,15 @@
     <item>
      <widget class="QToolBox" name="toolBox">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="order">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1107</width>
-         <height>477</height>
+         <width>905</width>
+         <height>561</height>
         </rect>
        </property>
        <attribute name="label">
@@ -211,8 +211,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1107</width>
-         <height>477</height>
+         <width>1036</width>
+         <height>563</height>
         </rect>
        </property>
        <attribute name="label">
@@ -240,154 +240,142 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QScrollArea" name="scrollArea">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
-                <width>300</width>
+                <width>500</width>
                 <height>0</height>
                </size>
               </property>
-              <property name="title">
-               <string>Informations du robot</string>
+              <property name="maximumSize">
+               <size>
+                <width>1600000</width>
+                <height>16777215</height>
+               </size>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_5">
-               <item>
-                <layout class="QFormLayout" name="formLayout">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_5">
-                   <property name="text">
-                    <string>Etat du robot :</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="IconLabel" name="orderState">
-                   <property name="text">
-                    <string>En attente d'ordre</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_7">
-                   <property name="text">
-                    <string>Etat de connection du robot :</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="IconLabel" name="connectionState">
-                   <property name="text">
-                    <string>Connecté</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_9">
-                   <property name="text">
-                    <string>Colis en transit :</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="IconLabel" name="PackageTransitState">
-                   <property name="text">
-                    <string>Non</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_11">
-                   <property name="text">
-                    <string>Couleur du colis :</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="IconLabel" name="packageColor">
-                   <property name="text">
-                    <string>inconnue</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbRedifRobPos">
-                 <property name="text">
-                  <string>Redéfinir position robot (annulera ordres en cours )</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_2">
-              <property name="title">
-               <string>Informations des étagères</string>
+              <property name="widgetResizable">
+               <bool>true</bool>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <item>
-                <layout class="QFormLayout" name="formLayout_2">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_4">
-                   <property name="text">
-                    <string>Etagere 1 :</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="IconLabel" name="loader1">
-                   <property name="text">
-                    <string>Inconnue</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_8">
-                   <property name="text">
-                    <string>Etagere 2:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="IconLabel" name="loader2">
-                   <property name="text">
-                    <string>Inconnue</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_12">
-                   <property name="text">
-                    <string>Etagere 3 :</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="IconLabel" name="loader3">
-                   <property name="text">
-                    <string>Inconnue</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_14">
-                   <property name="text">
-                    <string>Etagere 4 :</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="IconLabel" name="loader4">
-                   <property name="text">
-                    <string>Inconnue</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
+              <widget class="QWidget" name="scrollAreaWidgetContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>498</width>
+                 <height>539</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QGroupBox" name="groupBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>300</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="title">
+                   <string>Informations du robot</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                   <item>
+                    <widget class="QTabWidget" name="twRobotInfos">
+                     <property name="currentIndex">
+                      <number>1</number>
+                     </property>
+                     <widget class="QWidget" name="tab">
+                      <attribute name="title">
+                       <string>Tab 1</string>
+                      </attribute>
+                      <layout class="QVBoxLayout" name="verticalLayout_7"/>
+                     </widget>
+                     <widget class="QWidget" name="tab_2">
+                      <attribute name="title">
+                       <string>Tab 2</string>
+                      </attribute>
+                     </widget>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="groupBox_2">
+                  <property name="title">
+                   <string>Informations des étagères</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                   <item>
+                    <layout class="QFormLayout" name="formLayout_2">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_4">
+                       <property name="text">
+                        <string>Etagere 1 :</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="IconLabel" name="loader1">
+                       <property name="text">
+                        <string>Inconnue</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_8">
+                       <property name="text">
+                        <string>Etagere 2:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="IconLabel" name="loader2">
+                       <property name="text">
+                        <string>Inconnue</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_12">
+                       <property name="text">
+                        <string>Etagere 3 :</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="IconLabel" name="loader3">
+                       <property name="text">
+                        <string>Inconnue</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="label_14">
+                       <property name="text">
+                        <string>Etagere 4 :</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="IconLabel" name="loader4">
+                       <property name="text">
+                        <string>Inconnue</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </widget>
             </item>
            </layout>
@@ -401,8 +389,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1107</width>
-         <height>477</height>
+         <width>905</width>
+         <height>561</height>
         </rect>
        </property>
        <attribute name="label">
@@ -424,7 +412,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1125</width>
+     <width>1054</width>
      <height>22</height>
     </rect>
    </property>

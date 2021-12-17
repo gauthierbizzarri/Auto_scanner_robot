@@ -22,5 +22,7 @@ void StraightUpDownFieldElement::paint(QPainter *p)
 
 QString StraightUpDownFieldElement::letter(Direction from, Direction to)
 {
+    Q_UNUSED(from);
+    Q_UNUSED(to);
     return "";//not an intersection
 }

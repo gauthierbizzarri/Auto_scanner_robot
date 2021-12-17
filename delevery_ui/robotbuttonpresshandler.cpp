@@ -50,7 +50,7 @@ void RobotButtonPressHandler::handle(QJsonObject data, bool dataEmpty, QMap<QStr
             //activating camera
             manager->publish(MqttTopic::cameraScan(3), new CameraScanMqttPayload(meta.value("robotid").toString().toUpper()));
         }
-        else if(robot->getStatus() == RobotStatus::RELOAD && field->getLastLoading() != -1 && !data.value("package").toBool()) //if robot is going to reload its package and has no package
+        else if(robot->getStatus() == RobotStatus::RELOAD && robot->getLastLoading() != -1 && !data.value("package").toBool()) //if robot is going to reload its package and has no package
         {
             //inform user about this robot status
             package->setText("Non");
@@ -60,7 +60,7 @@ void RobotButtonPressHandler::handle(QJsonObject data, bool dataEmpty, QMap<QStr
             color->setText("Inconnue");
 
             //get the appropriate loading area (some may have been discovered)
-            int loadingid = field->getLastLoading();
+            int loadingid = robot->getLastLoading();
             if(field->getColorsFound().values().contains(robot->getColorToLookFor()))
             {
                 loadingid = field->getColorsFound().key(robot->getColorToLookFor());
@@ -80,7 +80,7 @@ void RobotButtonPressHandler::handle(QJsonObject data, bool dataEmpty, QMap<QStr
             //sending path to robot
             manager->publish(MqttTopic::robotPath(meta.value("robotid").toString().toUpper()), new RobotPathMqttPayload(LeftRightPathMaker(robot->pointing()).create(elements)));
         }
-        else if(robot->getStatus() == RobotStatus::TOLOAD && field->getLastLoading() != -1 && !data.value("package").toBool()) //if robot is going to a loading area, has its target set up and has no package
+        else if(robot->getStatus() == RobotStatus::TOLOAD && robot->getLastLoading() != -1 && !data.value("package").toBool()) //if robot is going to a loading area, has its target set up and has no package
         {
             //inform the user about this robot state
             package->setText("Non");
@@ -90,7 +90,7 @@ void RobotButtonPressHandler::handle(QJsonObject data, bool dataEmpty, QMap<QStr
             color->setText("Inconnue");
 
             //managing path
-            QList<FieldElement*> elements = field->getPath(field->at(robot->getPosition()), field->getLoading(field->getLastLoading()));
+            QList<FieldElement*> elements = field->getPath(field->at(robot->getPosition()), field->getLoading(robot->getLastLoading()));
             QJsonObject path = JsonPathMaker(robot->pointing()).create(elements);
             QString pstring = "";
             for(int i = 0; i<path.value("data").toArray().count(); i++)
@@ -104,7 +104,7 @@ void RobotButtonPressHandler::handle(QJsonObject data, bool dataEmpty, QMap<QStr
             //send path to robot
             manager->publish(MqttTopic::robotPath(meta.value("robotid").toString().toUpper()), new RobotPathMqttPayload(LeftRightPathMaker(robot->pointing()).create(elements)));
         }
-        else if(robot->getStatus() == RobotStatus::TOLOAD && field->getLastLoading() == -1 && !data.value("package").toBool()) //if robot is going to loading area, its target loading area has been reset and it has no package
+        else if(robot->getStatus() == RobotStatus::TOLOAD && robot->getLastLoading() == -1 && !data.value("package").toBool()) //if robot is going to loading area, its target loading area has been reset and it has no package
         {
             //reset the robot state to a new one
             package->setText("Non");
