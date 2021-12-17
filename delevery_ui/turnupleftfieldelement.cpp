@@ -24,5 +24,7 @@ void TurnUpLeftFieldElement::paint(QPainter *p)
 
 QString TurnUpLeftFieldElement::letter(Direction from, Direction to)
 {
+    Q_UNUSED(from);
+    Q_UNUSED(to);
     return "";
 }

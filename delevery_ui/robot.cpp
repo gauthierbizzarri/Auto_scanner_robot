@@ -12,6 +12,7 @@ Robot::Robot()
     readyForOrder = true;
     carryingColor = "";
     start=pos;
+    lastLoading = -1;
 }
 
 Robot::Robot(QPoint ipos, QColor color, Direction dir= UP)
@@ -23,6 +24,7 @@ Robot::Robot(QPoint ipos, QColor color, Direction dir= UP)
     readyForOrder = true;
     carryingColor = "";
     start = ipos;
+    lastLoading = -1;
 }
 
 void Robot::moveAt(QPoint p)
@@ -33,6 +35,16 @@ void Robot::moveAt(QPoint p)
 QPoint Robot::startedOn()
 {
     return start;
+}
+
+int Robot::getLastLoading()
+{
+    return lastLoading;
+}
+
+void Robot::setLastLoading(int v)
+{
+    lastLoading = v;
 }
 
 void Robot::setStartPoint(QPoint p)

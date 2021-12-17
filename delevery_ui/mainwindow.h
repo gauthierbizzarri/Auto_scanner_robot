@@ -5,6 +5,7 @@
 #include "fieldmodel.h"
 #include "mqttmanager.h"
 #include "pathmaker.h"
+#include "robotinfo.h"
 
 #include <QMainWindow>
 
@@ -30,6 +31,7 @@ private:
     EventManager* mqttEventManager;
     FieldModel* fieldModel;
     PathMaker<QList<FieldElement*>, QJsonObject>* pathMaker;
+    QMap<QString, RobotInfo*> robotInfos;
 
 private slots:
     /**

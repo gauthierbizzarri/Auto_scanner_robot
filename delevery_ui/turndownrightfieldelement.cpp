@@ -24,5 +24,7 @@ void TurnDownRightFieldElement::paint(QPainter *p)
 
 QString TurnDownRightFieldElement::letter(Direction from, Direction to)
 {
+    Q_UNUSED(from);
+    Q_UNUSED(to);
     return "";
 }

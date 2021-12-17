@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RobotInfo</class>
+ <widget class="QWidget" name="RobotInfo">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>377</width>
+    <height>290</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Etat du robot :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="IconLabel" name="robotState">
+       <property name="text">
+        <string>A l'arrêt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Etat de connection du robot :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="IconLabel" name="connectionState">
+       <property name="text">
+        <string>Connecté</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Colis en transit :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="IconLabel" name="packageState">
+       <property name="text">
+        <string>Non</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Couleur du colis :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="IconLabel" name="colorState">
+       <property name="text">
+        <string>Inconnue</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pbMoveRobot">
+     <property name="text">
+      <string>Déplacer le robot</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>IconLabel</class>
+   <extends>QLabel</extends>
+   <header>iconlabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

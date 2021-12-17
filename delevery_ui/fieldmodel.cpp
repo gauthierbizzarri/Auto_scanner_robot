@@ -61,7 +61,16 @@ FieldModel::FieldModel()
     //insert the only robot we have (yet)
     //might be moved to some addRobot method
     robots.insert("ROBOT3", new Robot(deposits.value(3)->getPosition(), QColor(rand()%150+100, rand()%150+100, rand()%150+100), UP));
-    lastLoading = -1;
+    robots.insert("ROBOT3_1", new Robot(deposits.value(1)->getPosition(), QColor(rand()%150+100, rand()%150+100, rand()%150+100), UP));
+
+    cameras.append(3);
+
+    colors = {
+        {"green", QColor(0, 255, 0)},
+        {"yellow", QColor(255, 255, 0)},
+        {"blue", QColor(0, 0, 255)},
+        {"red", QColor(255, 0, 0)}
+    };
 }
 
 void FieldModel::draw(QPainter *p, FieldElement *e)
@@ -210,6 +219,16 @@ void FieldModel::addLoading(FieldElement *e, int index)
     addElement(e);
 }
 
+void FieldModel::addColor(QString color, QColor value)
+{
+    colors.insert(color, value);
+}
+
+const QMap<QString, QColor> FieldModel::getColors()
+{
+    return colors;
+}
+
 FieldElement *FieldModel::getLoading(int index)
 {
     if(!loadings.contains(index))
@@ -263,7 +282,7 @@ void FieldModel::addAnalyse(FieldElement *e)
     addElement(e);
 }
 
-QList<FieldElement *> FieldModel::getAnalyses()
+const QList<FieldElement *> FieldModel::getAnalyses()
 {
     return analyse;
 }
@@ -327,7 +346,7 @@ FieldElementTracker* fromElement(FieldElement* element, QList<FieldElementTracke
     return nullptr;
 }
 
-QList<FieldElement*> FieldModel::getPath(FieldElement* from, FieldElement* to)
+const QList<FieldElement*> FieldModel::getPath(FieldElement* from, FieldElement* to)
 {
     QList<FieldElementTracker*> open{new FieldElementTracker(from, 0+distanceBetween(from->getPosition(), to->getPosition()))};
     QList<FieldElementTracker*> closed;
@@ -382,27 +401,6 @@ QList<FieldElement*> FieldModel::getPath(FieldElement* from, FieldElement* to)
     return QList<FieldElement*>();
 }
 
-void FieldModel::setLastLoading(int v)
-{
-    if(loadings.keys().contains(v))
-    {
-        lastLoading = v;
-    }
-}
-
-int FieldModel::getLastLoading()
-{
-    return lastLoading;
-}
-
-void FieldModel::ColorFound(QString color)
-{
-    if(loadings.keys().contains(lastLoading))
-    {
-        colorsFound.insert(lastLoading, color);
-    }
-}
-
 void FieldModel::ColorFound(int loading, QString color)
 {
     if(loadings.keys().contains(loading))
@@ -411,7 +409,7 @@ void FieldModel::ColorFound(int loading, QString color)
     }
 }
 
-QMap<int, QString> FieldModel::getColorsFound()
+const QMap<int, QString> FieldModel::getColorsFound()
 {
     return colorsFound;
 }
@@ -436,7 +434,7 @@ void FieldModel::setRobotAvailable(QString robot)
         {
             robots.value(robot)->setReadyForOrder(true);//set robot open to orders
             robots.value(robot)->setStatus(RobotStatus::TOLOAD);//robot goes on loading area
-            lastLoading = -1;//reset loading reference
+            robots.value(robot)->setLastLoading(-1);//reset loading reference
         }
         else if(robots.value(robot)->getStatus() == RobotStatus::TOANALYSE)//if robot arrived on analyse
         {
@@ -452,7 +450,7 @@ void FieldModel::setRobotAvailable(QString robot)
             else//else if color is wrong
             {
                 robots.value(robot)->setStatus(RobotStatus::BACKTOLOADING);//robot head back to loading area
-                QList<FieldElement*> path = getPath(at(robots.value(robot)->getPosition()), loadings.value(lastLoading));//where it took the whont item
+                QList<FieldElement*> path = getPath(at(robots.value(robot)->getPosition()), loadings.value(robots.value(robot)->getLastLoading()));//where it took the whont item
                 if(path.count() > 0)
                 {
                     emit newPath(robot, path);
@@ -461,19 +459,24 @@ void FieldModel::setRobotAvailable(QString robot)
         }
         else if(robots.value(robot)->getStatus() == RobotStatus::BACKTOLOADING)//if robot arrived back to loading area
         {
-            lastLoading = (lastLoading+1)%(loadings.count()+1);//heading to the next loading area
-            if(lastLoading == 0)
+            robots.value(robot)->setLastLoading((robots.value(robot)->getLastLoading()+1)%(loadings.count()+1));//heading to the next loading area
+            if(robots.value(robot)->getLastLoading() == 0)
             {
-                lastLoading = 1;
+                robots.value(robot)->setLastLoading(1);
             }
             robots.value(robot)->setStatus(RobotStatus::RELOAD);//robot goes take a new item
         }
     }
 }
 
-QMap<QString, Robot *> FieldModel::getRobots()
+const QMap<QString, Robot *> FieldModel::getRobots()
 {
     return robots;
+}
+
+void FieldModel::addRobot(QString id, Robot *r)
+{
+    robots.insert(id, r);
 }
 
 bool FieldModel::followSteps(QString robotid, OrderFollower *follower)
@@ -497,4 +500,9 @@ OrderFollower *FieldModel::follower(QString robotid)
     if(!orderFollowers.contains(robotid))
         return nullptr;
     return orderFollowers.value(robotid);
+}
+
+const QList<int> FieldModel::getCameras()
+{
+    return cameras;
 }

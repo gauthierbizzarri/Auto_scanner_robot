@@ -5,9 +5,9 @@
 
 #include <QComboBox>
 
-OrderChecker::OrderChecker(QString color, QString robot, int loadingZone) : DataChecker("")
+OrderChecker::OrderChecker(QString color, QList<QString> colors, QString robot, int loadingZone) : DataChecker("")
 {
-    checkers.append(new ColorChecker(color));
+    checkers.append(new ColorChecker(color, colors));
     checkers.append(new RobotChecker(robot));
     checkers.append(new LoadingZoneChecker(loadingZone));
 }

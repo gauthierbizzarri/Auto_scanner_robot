@@ -4,6 +4,8 @@
 
 #include "StateColors.h"
 
+#include <QPaintEvent>
+
 int IconLabel::iconSize = 15;
 
 IconLabel::IconLabel(QWidget* parent) : QLabel(parent)
@@ -52,4 +54,5 @@ void IconLabel::paintEvent(QPaintEvent *event)
 
     setFixedWidth(textPath.boundingRect().width()+spacing*5+iconSize);
     painter.end();
+    event->accept();
 }
