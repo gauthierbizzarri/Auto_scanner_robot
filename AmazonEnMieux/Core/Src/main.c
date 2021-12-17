@@ -169,8 +169,6 @@ int main(void)
 		  nodemcu_send('1', charButton);
 	  }
 
-      /* TRANSMISSION NODE MCU */
-
       /* Creation du message vide */
       char full_path[4];
       full_path[0] = '\0';
@@ -181,27 +179,33 @@ int main(void)
 
       if (full_path[0] == 'P')
       {
-    	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-
     	  int path_length = full_path[1] - 48;
+    	  char paths[path_length][4];
 
     	  for (int i = 0; i < path_length;)
     	  {
-    		  char part_path[3];
-    		  part_path[0] = '\0';
+    		  char part_path[4];
+    		  part_path[1] = '\0';
 
-    		  HAL_UART_Receive(&huart4, part_path, 3, 2000);
+    		  HAL_UART_Receive(&huart4, part_path, 4, 2000);
 
-    		  if (part_path[0] == 'L' || part_path[0] == 'R')
+    		  if (part_path[1] == 'L' || part_path[1] == 'R')
     		  {
-    			  follow_path(part_path[0]);
-    			  nodemcu_send('2', part_path[1]);
+    			  int path_id = part_path[0] - 48;
+    			  paths[path_id][0] = part_path[0];
+    			  paths[path_id][1] = part_path[1];
+    			  paths[path_id][2] = part_path[2];
+    			  paths[path_id][3] = part_path[3];
     			  i++;
     		  }
     	  }
-      }
 
-      /* FIN TRANSMISSION NODE MCU */
+    	  for (int i = 0; i < path_length; i++)
+    	  {
+    		  follow_path(paths[i][1]);
+			  nodemcu_send('2', paths[i][0]);
+    	  }
+      }
 
     /* USER CODE END WHILE */
 
@@ -522,16 +526,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-//char nodemcu_receive()
-//{
-//	/* Creation du message vide */
-//	char received;
-//	/* Reception du message avec un timeout de 2s */
-//	HAL_UART_Receive(&huart4, received, 1, 2000);
-//	/* Attente */
-//	return received;
-//}
 
 void nodemcu_send(char context, char data)
 {
